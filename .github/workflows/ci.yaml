@@ -27,3 +27,6 @@ jobs:
 
       - name: Build
         run: pnpm run build
+
+      - name: Code check
+        run: pnpm run lint && pnpm run format:check
