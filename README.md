@@ -17,6 +17,6 @@ Caramel は Pulsate の軽量化クライアントで, 最低限の機能のみ�
 
 ## License
 
-Copyright © 2024 Sho Sakuma & Pulsate Project Team (List of contributors)
+Copyright © 2024 Sho Sakuma & Pulsate Project Team.
 
 Caramel is open source software distributed under Apache License 2.0.
