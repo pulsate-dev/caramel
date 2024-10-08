@@ -59,9 +59,16 @@ export default function Login() {
           name="name"
           required
           placeholder="@hello@s.pulsate.dev"
+          autoComplete="username"
         />
         <label htmlFor="password">Passphrase [required]</label>
-        <input type="password" id="password" name="passphrase" required />
+        <input
+          type="password"
+          id="password"
+          name="passphrase"
+          required
+          autoComplete="current-password"
+        />
 
         <button type="submit">Log in</button>
       </Form>
