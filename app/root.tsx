@@ -1,4 +1,5 @@
 import { Links, Meta, Outlet, Scripts } from "@remix-run/react";
+import styles from "~/root.module.css";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,7 +10,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className={styles.root}>
         {children}
         <Scripts />
       </body>
