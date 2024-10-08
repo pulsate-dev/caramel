@@ -2,7 +2,7 @@ import { ActionFunctionArgs } from "@remix-run/node";
 import { Form, MetaFunction, useActionData } from "@remix-run/react";
 import { useEffect } from "react";
 import styles from "~/components/login.module.css";
-import { login } from "~/hooks/login";
+import { login } from "~/lib/login";
 
 export const meta: MetaFunction = () => {
   return [

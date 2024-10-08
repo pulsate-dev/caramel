@@ -1,9 +1,10 @@
 .root {
   width: 50svw;
-  min-width: 20rem;
+  max-width: 60rem;
   height: 100vh;
   margin: 0 auto;
+  box-sizing: border-box;
   padding: 0.5rem;
   border: solid;
-  border-width: 0 0.5px 0 0.5px;
+  border-width: 0 0.5px;
 }
