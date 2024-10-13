@@ -1,0 +1,9 @@
+.note {
+    border: solid #000;
+    border-width: 0 0 .5px 0;
+    padding: 0 0.5rem;
+}
+
+.accountNameContainer {
+    font-size: small;
+}
