@@ -26,12 +26,14 @@ export const useHomeTimeline = (): {
   const [error, setError] = useState<string>("loading...");
 
   useEffect(() => {
+    const abortController = new AbortController();
     const fetchTimeline = async () => {
       try {
         const timelineRes = await fetch("http://localhost:3000/timeline/home", {
           headers: {
             authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
+          signal: abortController.signal,
         });
         if (!timelineRes.ok) {
           const errorJSON = await timelineRes.json();
@@ -48,6 +50,9 @@ export const useHomeTimeline = (): {
       }
     };
     fetchTimeline();
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   return {
