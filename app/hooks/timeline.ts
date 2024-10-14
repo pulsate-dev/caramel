@@ -34,7 +34,8 @@ export const useHomeTimeline = () => {
           const errorJSON = await timelineRes.json();
           return setError(errorJSON.error);
         }
-        const timelineData = (await timelineRes.json()) as HomeTimelineResponse[];
+        const timelineData =
+          (await timelineRes.json()) as HomeTimelineResponse[];
         setNotes(timelineData);
       } catch (e) {
         if (e instanceof Error) {
@@ -49,5 +50,5 @@ export const useHomeTimeline = () => {
   return {
     notes: notes,
     error: error,
-  }
+  };
 };

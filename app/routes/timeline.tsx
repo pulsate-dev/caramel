@@ -1,7 +1,7 @@
 import { MetaFunction } from "@remix-run/react";
 import { Note } from "~/components/note";
-import styles from "~/styles/timeline.module.css";
 import { useHomeTimeline } from "~/hooks/timeline";
+import styles from "~/styles/timeline.module.css";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Timeline | Caramel" }, { content: "noindex" }];
