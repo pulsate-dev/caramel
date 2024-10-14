@@ -23,7 +23,7 @@ export const Note = ({
           <span>{author.name}</span>
         </h2>
       </div>
-      {[...contentsWarningComment].length !== 0 ? (
+      {contentsWarningComment.length !== 0 ? (
         <details>
           <summary>{contentsWarningComment}</summary>
           <p>{content}</p>
