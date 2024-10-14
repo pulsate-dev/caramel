@@ -22,7 +22,6 @@ export const login = async ({
     });
 
     if (!response.ok) {
-      console.error(response);
       if (response.status === 400) {
         throw new Error("Invalid credentials");
       }
