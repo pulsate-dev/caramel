@@ -18,7 +18,10 @@ interface HomeTimelineResponse {
   };
 }
 
-export const useHomeTimeline = () => {
+export const useHomeTimeline = (): {
+  notes: HomeTimelineResponse[] | undefined;
+  error: string;
+} => {
   const [notes, setNotes] = useState<HomeTimelineResponse[]>();
   const [error, setError] = useState<string>("loading...");
 
@@ -48,7 +51,7 @@ export const useHomeTimeline = () => {
   }, []);
 
   return {
-    notes: notes,
-    error: error,
+    notes,
+    error,
   };
 };
