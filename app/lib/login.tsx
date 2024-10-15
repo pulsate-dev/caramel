@@ -1,3 +1,22 @@
+
+export type LoggedInAccountData = {
+  /**
+   * Account ID
+   * @example "38477395"
+   */
+  id: string;
+  /**
+   * Account name
+   * @example "@test@example.com"
+   */
+  name: string;
+  /**
+   * Account Nickname (display name)
+   * @example "Test User"
+   */
+  nickname: string;
+};
+
 export type LoginArgs = {
   name: string;
   passphrase: string;

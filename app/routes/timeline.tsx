@@ -22,9 +22,14 @@ export default function Timeline() {
           return (
             <Note
               key={note.id}
+              id={note.id}
               author={author}
               content={note.content}
               contentsWarningComment={note.contents_warning_comment}
+              reactions={note.reactions.map((reaction) => ({
+                emoji: reaction.emoji,
+                reactedBy: reaction.reacted_by,
+              }))}
             />
           );
         })

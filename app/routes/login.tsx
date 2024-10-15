@@ -3,6 +3,9 @@ import { Form, MetaFunction, useActionData } from "@remix-run/react";
 import { useEffect } from "react";
 import styles from "~/components/login.module.css";
 import { login } from "~/lib/login";
+import { parseToken } from "~/lib/parseToken";
+import { getAccount } from "~/lib/account";
+import { useLoggedInAccount } from "~/hooks/accountData";
 
 export const meta: MetaFunction = () => {
   return [
@@ -31,24 +34,37 @@ export const action = async ({
 
 export default function Login() {
   const data = useActionData<typeof action>();
+  const {account, setAccount} = useLoggedInAccount();
 
   useEffect(() => {
     if (!data) return;
     if ("error" in data) return;
 
     localStorage.setItem("authToken", data.authorization_token);
-    // FIXME: Should use redirect() ?
-    window.location.href = "/";
+
+    getAccount(parseToken(data.authorization_token).id).then(accountRes => {
+      if ("error" in accountRes) {
+        console.log(accountRes.error);
+        return;
+      }
+
+      setAccount({
+        id: accountRes.id,
+        name: accountRes.name,
+        nickname: accountRes.nickname,
+      });
+      // FIXME: Should use redirect() ?
+      window.location.href = "/";
+    })
   }, [data]);
 
   return (
     <>
       <h1 className={styles.loginForm}>Welcome back</h1>
-
       {(() => {
         if (!data) return null;
         if ("error" in data) return <p>{data.error}</p>;
-        return <p>Logged in</p>;
+        return <p>Logged in {account?.name}</p>;
       })()}
 
       <Form method="post" className={styles.loginForm}>

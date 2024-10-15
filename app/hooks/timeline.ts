@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-
 interface HomeTimelineResponse {
   id: string;
   content: string;
   contents_warning_comment: string;
   visibility: "PUBLIC" | "HOME" | "FOLLOWERS";
   created_at: Date;
+  reactions: {emoji: string, reacted_by: string}[]
   author: {
     id: string;
     name: string;
