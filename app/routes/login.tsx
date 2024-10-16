@@ -1,4 +1,4 @@
-import { ActionFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs } from "@remix-run/cloudflare";
 import { Form, MetaFunction, useActionData } from "@remix-run/react";
 import { useEffect } from "react";
 import styles from "~/components/login.module.css";
