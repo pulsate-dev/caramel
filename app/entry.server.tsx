@@ -23,7 +23,7 @@ export default async function handleRequest(
 ) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), ABORT_DELAY);
-  let responseStatus = 200;
+  let responseStatus = responseStatusCode;
 
   const body = await renderToReadableStream(
     <RemixServer
