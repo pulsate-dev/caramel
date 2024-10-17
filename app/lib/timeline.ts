@@ -1,0 +1,38 @@
+interface HomeTimelineResponse {
+  id: string;
+  content: string;
+  contents_warning_comment: string;
+  visibility: "PUBLIC" | "HOME" | "FOLLOWERS";
+  created_at: Date;
+  author: {
+    id: string;
+    name: string;
+    display_name: string;
+    bio: string;
+    avatar: string;
+    header: string;
+    followed_count: number;
+    following_count: number;
+  };
+}
+
+export const fetchHomeTimeline = async (
+  token: string
+): Promise<{ notes: HomeTimelineResponse[] } | { error: string }> => {
+  const abortController = new AbortController();
+  try {
+    const timelineRes = await fetch("http://localhost:3000/timeline/home", {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+      signal: abortController.signal,
+    });
+    if (!timelineRes.ok) {
+      return (await timelineRes.json()) as { error: string };
+    }
+    const notes = (await timelineRes.json()) as HomeTimelineResponse[];
+    return { notes };
+  } catch {
+    return { error: "unknown error" };
+  }
+};
