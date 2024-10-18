@@ -30,7 +30,9 @@ export const login = async ({
       throw new Error("Unknown error");
     }
 
-    const res = await response.json() as {error: string} | {authorization_token: string};
+    const res = (await response.json()) as
+      | { error: string }
+      | { authorization_token: string };
 
     if ("authorization_token" in res) {
       return { authorization_token: res.authorization_token };
