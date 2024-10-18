@@ -1,19 +1,32 @@
-import { MetaFunction } from "@remix-run/react";
+import { LoaderFunctionArgs, redirect } from "@remix-run/cloudflare";
+import { MetaFunction, useLoaderData } from "@remix-run/react";
 import { Note } from "~/components/note";
-import { useHomeTimeline } from "~/hooks/timeline";
+import { accountCookie } from "~/lib/login";
+import { fetchHomeTimeline } from "~/lib/timeline";
 import styles from "~/styles/timeline.module.css";
-
 export const meta: MetaFunction = () => {
   return [{ title: "Timeline | Caramel" }, { content: "noindex" }];
 };
 
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const cookie = await accountCookie.parse(request.headers.get("Cookie"));
+  if (!cookie) {
+    return redirect("/login");
+  }
+
+  return await fetchHomeTimeline(cookie);
+};
+
 export default function Timeline() {
-  const { notes, error } = useHomeTimeline();
+  const loaderData = useLoaderData<typeof loader>();
+  if ("error" in loaderData) {
+    return <div>{loaderData.error}</div>;
+  }
 
   return (
     <div className={styles.noteContainer}>
-      {notes ? (
-        notes.map((note) => {
+      {loaderData ? (
+        loaderData.notes.map((note) => {
           const author = {
             avatar: note.author.avatar,
             name: note.author.name,
@@ -29,7 +42,7 @@ export default function Timeline() {
           );
         })
       ) : (
-        <div>{error}</div>
+        <div></div>
       )}
     </div>
   );

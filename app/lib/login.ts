@@ -1,3 +1,5 @@
+import { createCookie } from "@remix-run/cloudflare";
+
 export type LoginArgs = {
   name: string;
   passphrase: string;
@@ -27,9 +29,23 @@ export const login = async ({
       }
       throw new Error("Unknown error");
     }
-    const { authorization_token } = await response.json();
-    return { authorization_token };
+
+    const res = (await response.json()) as
+      | { error: string }
+      | { authorization_token: string };
+
+    if ("authorization_token" in res) {
+      return { authorization_token: res.authorization_token };
+    }
+    return { error: res.error };
   } catch (e) {
     return { error: (e as Error).message };
   }
 };
+
+export const accountCookie = createCookie("account", {
+  maxAge: 60 * 15,
+  httpOnly: true,
+  sameSite: "lax",
+  secure: true,
+});
