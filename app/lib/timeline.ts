@@ -19,13 +19,11 @@ interface HomeTimelineResponse {
 export const fetchHomeTimeline = async (
   token: string
 ): Promise<{ notes: HomeTimelineResponse[] } | { error: string }> => {
-  const abortController = new AbortController();
   try {
     const timelineRes = await fetch("http://localhost:3000/timeline/home", {
       headers: {
         authorization: `Bearer ${token}`,
       },
-      signal: abortController.signal,
     });
     if (!timelineRes.ok) {
       return (await timelineRes.json()) as { error: string };

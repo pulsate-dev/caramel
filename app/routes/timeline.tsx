@@ -18,15 +18,15 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export default function Timeline() {
-  const notes = useLoaderData<typeof loader>();
-  if ("error" in notes) {
-    return <div>{notes.error}</div>;
+  const loaderData = useLoaderData<typeof loader>();
+  if ("error" in loaderData) {
+    return <div>{loaderData.error}</div>;
   }
 
   return (
     <div className={styles.noteContainer}>
-      {notes ? (
-        notes.notes.map((note) => {
+      {loaderData ? (
+        loaderData.notes.map((note) => {
           const author = {
             avatar: note.author.avatar,
             name: note.author.name,
