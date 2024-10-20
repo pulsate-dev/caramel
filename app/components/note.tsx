@@ -1,4 +1,4 @@
-import { Link, useFetcher } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import { useState } from "react";
 import styles from "~/components/note.module.css";
 import { action } from "~/routes/api.reaction";
@@ -57,10 +57,8 @@ export const Note = ({
     <div className={styles.note}>
       <div className={styles.accountNameContainer}>
         <h2>
-          <Link to={`/${author.name}`}>
-            {author.nickname}
-            <span>{author.name}</span>
-          </Link>
+          {author.nickname}
+          <span>{author.name}</span>
         </h2>
       </div>
       {contentsWarningComment.length !== 0 ? (
