@@ -16,8 +16,8 @@ interface HomeTimelineResponse {
   };
   reactions: {
     emoji: string;
-    reacted_by: string
-  }[]
+    reacted_by: string;
+  }[];
 }
 
 export const fetchHomeTimeline = async (

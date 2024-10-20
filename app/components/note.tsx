@@ -51,7 +51,7 @@ export const Note = ({
       { method: "delete", action: "/api/reaction" }
     );
     return !fetcher.data;
-  }
+  };
 
   return (
     <div className={styles.note}>
@@ -69,13 +69,15 @@ export const Note = ({
       ) : (
         <p>{content}</p>
       )}
-      <button onClick={async () => {
-        if (isReacted) {
-          setIsReacted(!await handleUndoReaction());
-        } else {
-          setIsReacted(await handleReaction("👍"));
-        }
-      }}>
+      <button
+        onClick={async () => {
+          if (isReacted) {
+            setIsReacted(!(await handleUndoReaction()));
+          } else {
+            setIsReacted(await handleReaction("👍"));
+          }
+        }}
+      >
         👍 {reactions.length} {isReacted ? <span>✔️</span> : <span></span>}
       </button>
     </div>

@@ -1,4 +1,3 @@
-
 export type TokenPayload = {
   /**
    * User Name
@@ -9,8 +8,8 @@ export type TokenPayload = {
    * User ID
    * @example "1239478928734"
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * Parse Access token.
@@ -24,10 +23,10 @@ export const parseToken = (token: string): TokenPayload | Error => {
     const payload = JSON.parse(decodedPayload);
     return {
       name: payload.accountName,
-      id: payload.sub
-    }
+      id: payload.sub,
+    };
   } catch (e) {
     console.log(e);
-    return new Error("failed to parse", {cause: e})
+    return new Error("failed to parse", { cause: e });
   }
-}
+};

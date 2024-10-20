@@ -75,4 +75,4 @@ export const unDoReaction = async (noteID: string, token: string) => {
     }
     return { error: "unknown error" };
   }
-}
+};

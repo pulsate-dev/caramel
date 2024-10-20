@@ -2,9 +2,9 @@ import { LoaderFunctionArgs, redirect } from "@remix-run/cloudflare";
 import { MetaFunction, useLoaderData } from "@remix-run/react";
 import { Note } from "~/components/note";
 import { accountCookie } from "~/lib/login";
+import { parseToken, TokenPayload } from "~/lib/parseToken";
 import { fetchHomeTimeline } from "~/lib/timeline";
 import styles from "~/styles/timeline.module.css";
-import { parseToken, TokenPayload } from "~/lib/parseToken";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Timeline | Caramel" }, { content: "noindex" }];
@@ -57,7 +57,9 @@ export default function Timeline() {
               content={note.content}
               contentsWarningComment={note.contents_warning_comment}
               reactions={reactions}
-              loggedInAccountID={(loaderData.loggedInAccount as TokenPayload).id}
+              loggedInAccountID={
+                (loaderData.loggedInAccount as TokenPayload).id
+              }
             />
           );
         })
