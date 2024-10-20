@@ -1,4 +1,4 @@
-interface HomeTimelineResponse {
+export interface HomeTimelineResponse {
   id: string;
   content: string;
   contents_warning_comment: string;

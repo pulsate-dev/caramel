@@ -1,19 +1,36 @@
-import { LoaderFunctionArgs, redirect } from "@remix-run/cloudflare";
+import {
+  LoaderFunctionArgs,
+  redirect,
+  TypedResponse,
+} from "@remix-run/cloudflare";
 import { MetaFunction, useLoaderData } from "@remix-run/react";
 import { Note } from "~/components/note";
 import { accountCookie } from "~/lib/login";
 import { parseToken, TokenPayload } from "~/lib/parseToken";
-import { fetchHomeTimeline } from "~/lib/timeline";
+import { fetchHomeTimeline, HomeTimelineResponse } from "~/lib/timeline";
 import styles from "~/styles/timeline.module.css";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Timeline | Caramel" }, { content: "noindex" }];
 };
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({
+  request,
+}: LoaderFunctionArgs): Promise<
+  | { error: string }
+  | {
+      notes: HomeTimelineResponse[];
+      loggedInAccount: TokenPayload;
+    }
+  | TypedResponse<never>
+> => {
   const cookie = await accountCookie.parse(request.headers.get("Cookie"));
   if (!cookie) {
     return redirect("/login");
+  }
+  const parsedToken = parseToken(cookie);
+  if (parsedToken instanceof Error) {
+    return { error: parsedToken.message };
   }
 
   const res = await fetchHomeTimeline(cookie);
@@ -23,7 +40,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   return {
     notes: res.notes,
-    loggedInAccount: parseToken(cookie),
+    loggedInAccount: parsedToken,
   };
 };
 
@@ -57,9 +74,7 @@ export default function Timeline() {
               content={note.content}
               contentsWarningComment={note.contents_warning_comment}
               reactions={reactions}
-              loggedInAccountID={
-                (loaderData.loggedInAccount as TokenPayload).id
-              }
+              loggedInAccountID={loaderData.loggedInAccount.id}
             />
           );
         })

@@ -17,9 +17,9 @@ export type TokenPayload = {
  * @param token
  */
 export const parseToken = (token: string): TokenPayload | Error => {
-  const split = token.split(".");
-  const decodedPayload = atob(split[1]);
   try {
+    const split = token.split(".");
+    const decodedPayload = atob(split[1]);
     const payload = JSON.parse(decodedPayload);
     return {
       name: payload.accountName,

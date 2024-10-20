@@ -62,7 +62,6 @@ export const unDoReaction = async (noteID: string, token: string) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    // console.log(res);
 
     if (!res.ok) {
       throw new Error("Failed to undo reaction");
