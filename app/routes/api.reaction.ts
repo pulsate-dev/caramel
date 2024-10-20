@@ -19,7 +19,7 @@ export const action = async ({
         token
       );
     case "DELETE":
-      return await unDoReaction(formData.get("noteID") as string, token);
+      return await undoReaction(formData.get("noteID") as string, token);
     default:
       return { error: "method not allowed" };
   }
@@ -53,7 +53,7 @@ const reaction = async (
   }
 };
 
-const unDoReaction = async (
+const undoReaction = async (
   noteID: string,
   token: string
 ): Promise<{ status: string } | { error: string }> => {

@@ -53,7 +53,6 @@ export const Note = ({
       { emoji, noteID: id },
       { method: "post", action: "/api/reaction" }
     );
-    return !fetcher.data;
   };
 
   /**
@@ -65,7 +64,6 @@ export const Note = ({
       { noteID: id },
       { method: "delete", action: "/api/reaction" }
     );
-    return !fetcher.data;
   };
 
   return (
