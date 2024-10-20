@@ -80,7 +80,8 @@ export const Note = ({
           }
         }}
       >
-        👍 {reactions.length} {isReacted ? <span>(reacted)</span> : <span></span>}
+        👍 {reactions.length}{" "}
+        {isReacted ? <span>(reacted)</span> : <span></span>}
       </button>
     </div>
   );
