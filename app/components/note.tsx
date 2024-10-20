@@ -1,5 +1,5 @@
 import { useFetcher } from "@remix-run/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "~/components/note.module.css";
 import { action } from "~/routes/api.reaction";
 
@@ -32,12 +32,23 @@ export const Note = ({
     reactions.some((reaction) => reaction.reactedBy === loggedInAccountID)
   );
 
+  // NOTE: Reaction fetcher error handing here
+  useEffect(() => {
+    if (!fetcher.data) return;
+
+    if (fetcher.state === "loading") {
+      if ("error" in fetcher.data) {
+        if (fetcher.formMethod === "post") setIsReacted(false);
+        if (fetcher.formMethod === "delete") setIsReacted(true);
+      }
+    }
+  }, [fetcher.state]);
+
   /**
    * Handle reaction
-   * @return {boolean} if true, reaction is success.
-   * @param emoji
    */
-  const handleReaction = async (emoji: string): Promise<boolean> => {
+  const handleReaction = (emoji: string) => {
+    setIsReacted(true);
     fetcher.submit(
       { emoji, noteID: id },
       { method: "post", action: "/api/reaction" }
@@ -45,7 +56,11 @@ export const Note = ({
     return !fetcher.data;
   };
 
-  const handleUndoReaction = async (): Promise<boolean> => {
+  /**
+   * Handle undo reaction
+   */
+  const handleUndoReaction = () => {
+    setIsReacted(false);
     fetcher.submit(
       { noteID: id },
       { method: "delete", action: "/api/reaction" }
@@ -72,9 +87,9 @@ export const Note = ({
       <button
         onClick={async () => {
           if (isReacted) {
-            setIsReacted(!(await handleUndoReaction()));
+            handleUndoReaction();
           } else {
-            setIsReacted(await handleReaction("👍"));
+            handleReaction("👍");
           }
         }}
       >

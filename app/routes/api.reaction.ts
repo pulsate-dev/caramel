@@ -3,9 +3,9 @@ import { accountCookie } from "~/lib/login";
 
 export const action = async ({
   request,
-}: ActionFunctionArgs): Promise<{ error: string } | null> => {
-  const cookie = await accountCookie.parse(request.headers.get("Cookie"));
-  if (!cookie) {
+}: ActionFunctionArgs): Promise<{ error: string } | { status: string }> => {
+  const token = await accountCookie.parse(request.headers.get("Cookie"));
+  if (!token) {
     return { error: "unauthorized" };
   }
 
@@ -16,20 +16,20 @@ export const action = async ({
       return await reaction(
         formData.get("noteID") as string,
         formData.get("emoji") as string,
-        cookie
+        token
       );
     case "DELETE":
-      return await unDoReaction(formData.get("noteID") as string, cookie);
+      return await unDoReaction(formData.get("noteID") as string, token);
     default:
       return { error: "method not allowed" };
   }
 };
 
-export const reaction = async (
+const reaction = async (
   noteID: string,
   emoji: string,
   token: string
-) => {
+): Promise<{ status: string } | { error: string }> => {
   try {
     const res = await fetch(`http://localhost:3000/notes/${noteID}/reaction`, {
       method: "POST",
@@ -44,7 +44,7 @@ export const reaction = async (
       throw new Error("Failed to react");
     }
 
-    return null;
+    return { status: "ok" };
   } catch (e) {
     if (e instanceof Error) {
       return { error: e.message };
@@ -53,7 +53,10 @@ export const reaction = async (
   }
 };
 
-export const unDoReaction = async (noteID: string, token: string) => {
+const unDoReaction = async (
+  noteID: string,
+  token: string
+): Promise<{ status: string } | { error: string }> => {
   try {
     const res = await fetch(`http://localhost:3000/notes/${noteID}/reaction`, {
       method: "DELETE",
@@ -67,7 +70,7 @@ export const unDoReaction = async (noteID: string, token: string) => {
       throw new Error("Failed to undo reaction");
     }
 
-    return null;
+    return { status: "ok" };
   } catch (e) {
     if (e instanceof Error) {
       return { error: e.message };
