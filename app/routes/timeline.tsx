@@ -5,6 +5,7 @@ import {
 } from "@remix-run/cloudflare";
 import { MetaFunction, useLoaderData } from "@remix-run/react";
 import { Note } from "~/components/note";
+import { PostForm } from "~/components/postForm";
 import { accountCookie } from "~/lib/login";
 import { parseToken, TokenPayload } from "~/lib/parseToken";
 import { fetchHomeTimeline, HomeTimelineResponse } from "~/lib/timeline";
@@ -55,6 +56,7 @@ export default function Timeline() {
 
   return (
     <div className={styles.noteContainer}>
+      <PostForm />
       {loaderData ? (
         loaderData.notes.map((note) => {
           const author = {
