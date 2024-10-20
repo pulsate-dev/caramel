@@ -1,4 +1,4 @@
-interface HomeTimelineResponse {
+export interface HomeTimelineResponse {
   id: string;
   content: string;
   contents_warning_comment: string;
@@ -14,6 +14,10 @@ interface HomeTimelineResponse {
     followed_count: number;
     following_count: number;
   };
+  reactions: {
+    emoji: string;
+    reacted_by: string;
+  }[];
 }
 
 export const fetchHomeTimeline = async (
