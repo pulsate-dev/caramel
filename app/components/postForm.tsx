@@ -1,6 +1,6 @@
 import { useFetcher } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import { action } from "~/routes/api.notes.create";
+import { action } from "~/routes/api.notes";
 
 export const PostForm = () => {
   const [content, setContent] = useState<string>("");
@@ -12,14 +12,15 @@ export const PostForm = () => {
 
     if (fetcher.state === "loading") {
       if ("error" in fetcher.data) {
-        return setErrorMessage(fetcher.data.error);
+        setErrorMessage(fetcher.data.error);
+        return;
       }
       setContent("");
     }
   }, [fetcher.state]);
 
   return (
-    <fetcher.Form method="post" action="/api/notes/create">
+    <fetcher.Form method="post" action="/api/notes">
       <textarea
         required
         name="content"

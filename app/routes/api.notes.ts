@@ -9,7 +9,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   try {
     const formData = await request.formData();
-    console.log(formData);
     const res = await fetch("http://localhost:3000/notes", {
       method: "POST",
       headers: {
