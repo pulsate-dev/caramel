@@ -8,7 +8,7 @@ import { Note } from "~/components/note";
 import { PostForm } from "~/components/postForm";
 import { accountCookie } from "~/lib/login";
 import { parseToken, TokenPayload } from "~/lib/parseToken";
-import { fetchHomeTimeline, HomeTimelineResponse } from "~/lib/timeline";
+import { fetchHomeTimeline, TimelineResponse } from "~/lib/timeline";
 import styles from "~/styles/timeline.module.css";
 
 export const meta: MetaFunction = () => {
@@ -20,7 +20,7 @@ export const loader = async ({
 }: LoaderFunctionArgs): Promise<
   | { error: string }
   | {
-      notes: HomeTimelineResponse[];
+      notes: TimelineResponse[];
       loggedInAccount: TokenPayload;
     }
   | TypedResponse<never>

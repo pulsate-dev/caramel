@@ -1,0 +1,9 @@
+.avatarImage {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+}
+
+.accountData {
+  height: 15rem;
+}

@@ -1,4 +1,4 @@
-export interface HomeTimelineResponse {
+export interface TimelineResponse {
   id: string;
   content: string;
   contents_warning_comment: string;
@@ -22,7 +22,7 @@ export interface HomeTimelineResponse {
 
 export const fetchHomeTimeline = async (
   token: string
-): Promise<{ notes: HomeTimelineResponse[] } | { error: string }> => {
+): Promise<{ notes: TimelineResponse[] } | { error: string }> => {
   try {
     const timelineRes = await fetch("http://localhost:3000/timeline/home", {
       headers: {
@@ -32,7 +32,7 @@ export const fetchHomeTimeline = async (
     if (!timelineRes.ok) {
       return (await timelineRes.json()) as { error: string };
     }
-    const notes = (await timelineRes.json()) as HomeTimelineResponse[];
+    const notes = (await timelineRes.json()) as TimelineResponse[];
     return { notes };
   } catch {
     return { error: "unknown error" };
