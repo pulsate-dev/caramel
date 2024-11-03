@@ -102,7 +102,7 @@ interface AccountTimelineProps {
 
 const AccountTimeline = ({ notes }: AccountTimelineProps) => {
   return (
-    <div className={styles.accountTimelineContainer}>
+    <div>
       {notes.map((note) => {
         return <Note key={note.id} {...note} />;
       })}

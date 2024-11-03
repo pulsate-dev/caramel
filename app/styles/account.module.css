@@ -4,11 +4,6 @@
   border-radius: 9999px;
 }
 
-.accountTimelineContainer {
-  height: calc(100lvh - 16rem);
-  overflow-y: scroll;
-}
-
 .accountData {
   height: 15rem;
 }
