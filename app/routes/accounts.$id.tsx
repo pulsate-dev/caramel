@@ -97,10 +97,10 @@ export default function Account() {
 }
 
 interface AccountTimelineProps {
-  notes: NoteProps[];
+  notes: readonly NoteProps[];
 }
 
-export const AccountTimeline = ({ notes }: AccountTimelineProps) => {
+const AccountTimeline = ({ notes }: AccountTimelineProps) => {
   return (
     <div className={styles.accountTimelineContainer}>
       {notes.map((note) => {

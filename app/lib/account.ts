@@ -16,15 +16,19 @@ export const account = async (
   identifier: string,
   token: string | undefined
 ): Promise<AccountResponse | { error: string }> => {
-  const res = await fetch(`http://localhost:3000/accounts/${identifier}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  if (!res.ok) {
-    return { error: "failed to fetch" };
+  try {
+    const res = await fetch(`http://localhost:3000/accounts/${identifier}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) {
+      return { error: "failed to fetch" };
+    }
+    return (await res.json()) as AccountResponse;
+  } catch {
+    return { error: "unknown error" };
   }
-  return (await res.json()) as AccountResponse;
 };
 
 export const accountTimeline = async (
