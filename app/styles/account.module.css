@@ -1,13 +1,12 @@
 .avatarImage {
-    min-height: 3rem;
+  min-height: 3rem;
 }
 
 .accountTimelineContainer {
-    height: calc(100lvh - 16rem);
-    overflow-y: scroll;
+  height: calc(100lvh - 16rem);
+  overflow-y: scroll;
 }
 
 .accountData {
-    height: 15rem;
-
+  height: 15rem;
 }
