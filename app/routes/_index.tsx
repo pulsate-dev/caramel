@@ -3,19 +3,20 @@ import { Link, useLoaderData } from "@remix-run/react";
 import { accountCookie } from "~/lib/login";
 import { parseToken } from "~/lib/parseToken";
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  console.log("hi");
+export const loader = async ({
+  request,
+}: LoaderFunctionArgs): Promise<{ isLoggedIn: boolean }> => {
   const token = await accountCookie.parse(request.headers.get("Cookie"));
   if (!token) {
-    return { state: false };
+    return { isLoggedIn: false };
   }
 
   const parsedToken = parseToken(token);
   if (parsedToken instanceof Error) {
-    return { state: false };
+    return { isLoggedIn: false };
   }
 
-  return { state: true };
+  return { isLoggedIn: true };
 };
 
 export default function Index() {
@@ -31,7 +32,7 @@ export default function Index() {
             <Link to="/timeline">Timeline</Link>
           </li>
           <li>
-            {isLoggedIn.state ? (
+            {isLoggedIn.isLoggedIn ? (
               <Link to="/logout">Sign out</Link>
             ) : (
               <Link to="/login">Sign in</Link>
