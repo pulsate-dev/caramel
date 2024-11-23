@@ -72,8 +72,9 @@ export default function Account() {
   return (
     <>
       <div className={styles.accountData}>
-        <div className={styles.avatarImage}>
+        <div>
           <img
+            className={styles.avatarImage}
             src={data.account.avatar}
             alt={`${data.account.nickname}'s avatar image`}
             loading={"lazy"}

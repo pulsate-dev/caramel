@@ -6,7 +6,7 @@ import { accountCookie, login } from "~/lib/login";
 export const meta: MetaFunction = () => {
   return [
     {
-      title: "Log in | Caramel",
+      title: "Sign in | Caramel",
     },
     {
       content: "noindex",
@@ -25,7 +25,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const accountTokenCookie = await accountCookie.serialize(
-    res.authorization_token
+    res.authorization_token,
+    { httpOnly: true, sameSite: "strict" }
   );
 
   return redirect("/", {
