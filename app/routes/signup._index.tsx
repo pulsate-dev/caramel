@@ -18,18 +18,21 @@ export const action = async ({
   const turnstileToken = formData.get("cf-turnstile-response");
 
   try {
-    const response = await fetch("http://localhost:3000/accounts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: `@${name}@${context.cloudflare.env.INSTANCE_FQDN}`,
-        email,
-        passphrase,
-        captcha_token: turnstileToken,
-      }),
-    });
+    const response = await fetch(
+      new URL("/accounts", context.cloudflare.env.API_BASE_URL),
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: `@${name}@${context.cloudflare.env.INSTANCE_FQDN}`,
+          email,
+          passphrase,
+          captcha_token: turnstileToken,
+        }),
+      }
+    );
     if (!response.ok) {
       return { error: "Failed to create account" };
     }
@@ -46,9 +49,7 @@ export const loader = async ({
 }: LoaderFunctionArgs): Promise<
   { turnstileKey: string } | { error: string }
 > => {
-  const env = ((): Env => {
-    return context.cloudflare.env as Env;
-  })();
+  const env = context.cloudflare.env as Env;
 
   if (!env.TURNSTILE_KEY) {
     return { error: "TURNSTILE_TOKEN is not set" };
@@ -67,37 +68,46 @@ export default function Signup_index() {
       </p>
 
       <Form method="post" className={styles.form}>
-        <label htmlFor="name">Account Name [required]</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          required
-          placeholder="hello"
-          autoComplete="username"
-        />
+        <label>
+          Account Name [required]
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            placeholder="hello"
+            autoComplete="username"
+          />
+        </label>
 
-        <label htmlFor="email">Email Address [required]</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          required
-          placeholder="johndoe@example.com"
-          autoComplete="email"
-        />
+        <label>
+          Email Address [required]
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            placeholder="johndoe@example.com"
+            autoComplete="email"
+          />
+        </label>
 
-        <label htmlFor="passphrase">Passphrase [required]</label>
-        <input
-          type="password"
-          id="passphrase"
-          name="passphrase"
-          required
-          autoComplete="new-password"
-        />
+        <label>
+          Passphrase [required]
+          <input
+            type="password"
+            id="passphrase"
+            name="passphrase"
+            required
+            autoComplete="new-password"
+          />
+        </label>
 
         {"error" in loaderData ? (
-          <></>
+          <div>
+            <h2>Loading error</h2>
+            <p>Something went wrong. Try reloading the page.</p>
+          </div>
         ) : (
           <Turnstile siteKey={loaderData.turnstileKey} />
         )}

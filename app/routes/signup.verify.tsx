@@ -53,7 +53,7 @@ export default function EmailVerify() {
     return (
       <>
         <h2 color="red">Error: {loaderData.error}</h2>
-        <p>Check your EMail!</p>
+        {/*ToDo: Encourage them to contact the administrator*/}
         <Link to="/">back to home</Link>
       </>
     );

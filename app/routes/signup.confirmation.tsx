@@ -1,13 +1,13 @@
 import { Link, MetaFunction } from "@remix-run/react";
 
 export const meta: MetaFunction = () => [
-  { title: "Sign up success! | Caramel" },
+  { title: "Sent confirmation | Caramel" },
   {
     content: "noindex",
   },
 ];
 
-export default function SignupSuccess() {
+export default function SignupConfirmation() {
   return (
     <>
       <h1>You are almost there!</h1>
