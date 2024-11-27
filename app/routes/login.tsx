@@ -1,5 +1,5 @@
 import { ActionFunctionArgs } from "@remix-run/cloudflare";
-import { Form, MetaFunction, redirect } from "@remix-run/react";
+import { Form, Link, MetaFunction, redirect } from "@remix-run/react";
 import styles from "~/components/login.module.css";
 import { accountCookie, login } from "~/lib/login";
 
@@ -40,6 +40,9 @@ export default function Login() {
   return (
     <>
       <h1 className={styles.loginForm}>Welcome back</h1>
+      <p className={styles.loginForm}>
+        New to this instance? <Link to="/signup">Sign up</Link>
+      </p>
 
       <Form method="post" className={styles.loginForm}>
         <label htmlFor="name">Account name [required]</label>

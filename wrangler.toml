@@ -3,3 +3,7 @@
 name = "caramel"
 compatibility_date = "2024-10-11"
 pages_build_output_dir = "./build/client"
+
+[vars]
+API_BASE_URL = "http://localhost:3000"
+INSTANCE_FQDN = "example.com"
