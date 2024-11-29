@@ -1,4 +1,5 @@
 import { Links, Meta, Outlet, Scripts } from "@remix-run/react";
+import { SideBar } from "~/components/sideBar";
 import styles from "~/root.module.css";
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -10,9 +11,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className={styles.root}>
-        {children}
-        <Scripts />
+      <body className={styles.container}>
+        <SideBar />
+        <div className={styles.root}>
+          {children}
+          <Scripts />
+        </div>
       </body>
     </html>
   );
