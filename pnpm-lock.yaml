@@ -68,10 +68,10 @@ importers:
         version: 8.4.49
       prettier:
         specifier: ^3.3.3
-        version: 3.3.3
+        version: 3.4.1
       prettier-plugin-organize-imports:
         specifier: ^4.1.0
-        version: 4.1.0(prettier@3.3.3)(typescript@5.7.2)
+        version: 4.1.0(prettier@3.4.1)(typescript@5.7.2)
       tailwindcss:
         specifier: ^3.4.13
         version: 3.4.15
@@ -2865,8 +2865,8 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
 
-  prettier@3.3.3:
-    resolution: {integrity: sha512-i2tDNA0O5IrMO757lfrdQZCc2jPNDVntV0m/+4whiDfWaTKfMNgR7Qz0NAeGz/nRqF4m5/6CLzbP4/liHt12Ew==}
+  prettier@3.4.1:
+    resolution: {integrity: sha512-G+YdqtITVZmOJje6QkXQWzl3fSfMxFwm1tjTyo9exhkmWSqC4Yhd1+lug++IlR2mvRVAxEDDWYkQdeSztajqgg==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -4655,7 +4655,7 @@ snapshots:
       '@babel/plugin-syntax-typescript': 7.25.9(@babel/core@7.26.0)
       '@vanilla-extract/babel-plugin-debug-ids': 1.1.0
       '@vanilla-extract/css': 1.16.1
-      esbuild: 0.17.19
+      esbuild: 0.17.6
       eval: 0.1.8
       find-up: 5.0.0
       javascript-stringify: 2.1.0
@@ -6737,14 +6737,14 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier-plugin-organize-imports@4.1.0(prettier@3.3.3)(typescript@5.7.2):
+  prettier-plugin-organize-imports@4.1.0(prettier@3.4.1)(typescript@5.7.2):
     dependencies:
-      prettier: 3.3.3
+      prettier: 3.4.1
       typescript: 5.7.2
 
   prettier@2.8.8: {}
 
-  prettier@3.3.3: {}
+  prettier@3.4.1: {}
 
   pretty-ms@7.0.1:
     dependencies:
