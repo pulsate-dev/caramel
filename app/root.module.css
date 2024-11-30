@@ -2,10 +2,18 @@
   font-family: sans-serif;
 }
 
-.container {
+body {
+  margin: 0;
+}
+
+.center {
   display: flex;
   justify-content: center;
-  margin: 0 auto;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: min-content 1fr;
 }
 
 .root {

@@ -11,11 +11,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className={styles.container}>
-        <SideBar />
-        <div className={styles.root}>
-          {children}
-          <Scripts />
+      <body>
+        <div className={styles.center}>
+          <div className={styles.layout}>
+            <SideBar />
+            <div className={styles.root}>
+              {children}
+              <Scripts />
+            </div>
+          </div>
         </div>
       </body>
     </html>
