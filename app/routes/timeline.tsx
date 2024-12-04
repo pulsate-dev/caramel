@@ -4,6 +4,7 @@ import {
   TypedResponse,
 } from "@remix-run/cloudflare";
 import { MetaFunction, useLoaderData } from "@remix-run/react";
+import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import { Note } from "~/components/note";
 import { PostForm } from "~/components/postForm";
 import { accountCookie } from "~/lib/login";
@@ -34,7 +35,9 @@ export const loader = async ({
     return { error: parsedToken.message };
   }
 
-  const res = await fetchHomeTimeline(cookie);
+  const query = new URL(request.url).searchParams;
+  const beforeID = query.get("before_id") ?? undefined;
+  const res = await fetchHomeTimeline(cookie, beforeID);
   if ("error" in res) {
     return res;
   }
@@ -57,6 +60,9 @@ export default function Timeline() {
   return (
     <div className={styles.noteContainer}>
       <PostForm />
+
+      <LoadMoreNoteButton type="newer" noteID={loaderData.notes[0].id}/>
+
       {loaderData ? (
         loaderData.notes.map((note) => {
           const author = {
@@ -69,19 +75,27 @@ export default function Timeline() {
             reactedBy: reaction.reacted_by,
           }));
           return (
-            <Note
-              key={note.id}
-              id={note.id}
-              author={author}
-              content={note.content}
-              contentsWarningComment={note.contents_warning_comment}
-              reactions={reactions}
-              loggedInAccountID={loaderData.loggedInAccount.id}
-            />
+            <div key={note.id}>
+              <Note
+                key={note.id}
+                id={note.id}
+                author={author}
+                content={note.content}
+                contentsWarningComment={note.contents_warning_comment}
+                reactions={reactions}
+                loggedInAccountID={loaderData.loggedInAccount.id}
+              />
+            </div>
           );
         })
       ) : (
         <div></div>
+      )}
+
+      {loaderData.notes.length < 20 ? (
+        <></>
+      ) : (
+        <LoadMoreNoteButton type="older" noteID={loaderData.notes.at(-1)!.id}/>
       )}
     </div>
   );
