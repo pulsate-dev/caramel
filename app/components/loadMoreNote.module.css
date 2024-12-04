@@ -1,8 +1,8 @@
 .loadMoreNote {
-    text-align: center;
+  text-align: center;
 
-    div {
-        border: solid #000;
-        border-width: 0.5px 0 0.5px 0;
-    }
+  div {
+    border: solid #000;
+    border-width: 0.5px 0 0.5px 0;
+  }
 }

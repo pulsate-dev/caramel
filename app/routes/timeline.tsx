@@ -61,7 +61,7 @@ export default function Timeline() {
     <div className={styles.noteContainer}>
       <PostForm />
 
-      <LoadMoreNoteButton type="newer" noteID={loaderData.notes[0].id}/>
+      <LoadMoreNoteButton type="newer" noteID={loaderData.notes[0].id} />
 
       {loaderData ? (
         loaderData.notes.map((note) => {
@@ -95,7 +95,7 @@ export default function Timeline() {
       {loaderData.notes.length < 20 ? (
         <></>
       ) : (
-        <LoadMoreNoteButton type="older" noteID={loaderData.notes.at(-1)!.id}/>
+        <LoadMoreNoteButton type="older" noteID={loaderData.notes.at(-1)!.id} />
       )}
     </div>
   );

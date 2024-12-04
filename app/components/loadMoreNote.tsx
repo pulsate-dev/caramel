@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react";
-import style from "./loadMoreNote.module.css"
+import style from "./loadMoreNote.module.css";
 
 export interface LoadMoreNoteButtonProps {
   type: "newer" | "older";
@@ -20,7 +20,7 @@ export const LoadMoreNoteButton = (props: LoadMoreNoteButtonProps) => {
   } else {
     return (
       <>
-        <Link to={`?before_id=${props.noteID}#`}  className={style.loadMoreNote}>
+        <Link to={`?before_id=${props.noteID}#`} className={style.loadMoreNote}>
           <div>
             <p>Load older notes</p>
           </div>

@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs } from "@remix-run/cloudflare";
-import { Link, MetaFunction, useLoaderData } from "@remix-run/react";
+import { MetaFunction, useLoaderData } from "@remix-run/react";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import { Note, NoteProps } from "~/components/note";
 import { account, AccountResponse, accountTimeline } from "~/lib/account";
@@ -113,20 +113,18 @@ const AccountTimeline = ({ notes }: AccountTimelineProps) => {
   return (
     <div>
       <div>
-        <LoadMoreNoteButton type="newer" noteID={notes[0].id}/>
+        <LoadMoreNoteButton type="newer" noteID={notes[0].id} />
       </div>
 
       {notes.map((note) => {
-        return (
-            <Note key={note.id} {...note} />
-        );
+        return <Note key={note.id} {...note} />;
       })}
 
       <div>
         {notes.length < 20 ? (
           <></>
         ) : (
-          <LoadMoreNoteButton type="older" noteID={notes.at(-1)!.id}/>
+          <LoadMoreNoteButton type="older" noteID={notes.at(-1)!.id} />
         )}
       </div>
     </div>
