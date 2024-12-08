@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { TimelineButton } from "~/components/timelineButton";
 import style from "./loadMoreNote.module.css";
 
 export interface LoadMoreNoteButtonProps {
@@ -9,23 +9,21 @@ export interface LoadMoreNoteButtonProps {
 export const LoadMoreNoteButton = (props: LoadMoreNoteButtonProps) => {
   if (props.type === "newer") {
     return (
-      <>
-        <Link to={`?after_id=${props.noteID}#`} className={style.loadMoreNote}>
-          <div>
-            <p>Load newer notes</p>
-          </div>
-        </Link>
-      </>
+      <div className={style.loadMoreNote}>
+        <TimelineButton
+          link={`?after_id=${props.noteID}#`}
+          linkText="Load newer notes"
+        />
+      </div>
     );
   } else {
     return (
-      <>
-        <Link to={`?before_id=${props.noteID}#`} className={style.loadMoreNote}>
-          <div>
-            <p>Load older notes</p>
-          </div>
-        </Link>
-      </>
+      <div className={style.loadMoreNote}>
+        <TimelineButton
+          link={`?before_id=${props.noteID}#`}
+          linkText="Load older notes"
+        />
+      </div>
     );
   }
 };
