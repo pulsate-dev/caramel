@@ -26,6 +26,6 @@ export const LoadMoreNoteButton = (props: LoadMoreNoteButtonProps) => {
       </div>
     );
   } else {
-    <></>
+    <></>;
   }
 };
