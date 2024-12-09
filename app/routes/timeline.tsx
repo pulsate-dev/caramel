@@ -77,7 +77,6 @@ export default function Timeline() {
           return (
             <div key={note.id}>
               <Note
-                key={note.id}
                 id={note.id}
                 author={author}
                 content={note.content}

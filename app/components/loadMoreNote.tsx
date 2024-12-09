@@ -16,7 +16,7 @@ export const LoadMoreNoteButton = (props: LoadMoreNoteButtonProps) => {
         />
       </div>
     );
-  } else {
+  } else if (props.type === "older") {
     return (
       <div className={style.loadMoreNote}>
         <TimelineButton
@@ -25,5 +25,7 @@ export const LoadMoreNoteButton = (props: LoadMoreNoteButtonProps) => {
         />
       </div>
     );
+  } else {
+    <></>
   }
 };

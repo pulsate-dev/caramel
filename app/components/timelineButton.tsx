@@ -7,12 +7,10 @@ export interface TimelineButtonProps {
 
 export const TimelineButton = ({ link, linkText }: TimelineButtonProps) => {
   return (
-    <>
-      <Link to={link}>
-        <div>
-          <p>{linkText}</p>
-        </div>
-      </Link>
-    </>
+    <Link to={link}>
+      <div>
+        <p>{linkText}</p>
+      </div>
+    </Link>
   );
 };
