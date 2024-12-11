@@ -33,10 +33,16 @@ export const account = async (
 
 export const accountTimeline = async (
   id: string,
-  token: string | undefined
+  token: string | undefined,
+  beforeID?: string
 ): Promise<TimelineResponse[] | { error: string }> => {
   try {
-    const res = await fetch(`http://localhost:3000/timeline/accounts/${id}`, {
+    const url = new URL(`http://localhost:3000/timeline/accounts/${id}`);
+    if (beforeID) {
+      url.searchParams.append("before_id", beforeID);
+    }
+
+    const res = await fetch(url, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

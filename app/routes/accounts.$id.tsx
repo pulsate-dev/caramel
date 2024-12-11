@@ -1,5 +1,6 @@
 import { LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { MetaFunction, useLoaderData } from "@remix-run/react";
+import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import { Note, NoteProps } from "~/components/note";
 import { account, AccountResponse, accountTimeline } from "~/lib/account";
 import { accountCookie } from "~/lib/login";
@@ -23,7 +24,14 @@ export const loader = async ({
     return { error: accountRes.error };
   }
 
-  const timelineRes = await accountTimeline(accountRes.id, token);
+  const query = new URL(request.url).searchParams;
+  const beforeID = query.get("before_id") ?? undefined;
+  const afterID = query.get("after_id") ?? undefined;
+  if (beforeID && afterID) {
+    throw new Error("before_id and after_id cannot be used together");
+  }
+
+  const timelineRes = await accountTimeline(accountRes.id, token, beforeID);
   if ("error" in timelineRes) {
     return { error: timelineRes.error };
   }
@@ -104,9 +112,21 @@ interface AccountTimelineProps {
 const AccountTimeline = ({ notes }: AccountTimelineProps) => {
   return (
     <div>
+      <div>
+        <LoadMoreNoteButton type="newer" noteID={notes[0].id} />
+      </div>
+
       {notes.map((note) => {
         return <Note key={note.id} {...note} />;
       })}
+
+      <div>
+        {notes.length < 20 ? (
+          <></>
+        ) : (
+          <LoadMoreNoteButton type="older" noteID={notes.at(-1)!.id} />
+        )}
+      </div>
     </div>
   );
 };

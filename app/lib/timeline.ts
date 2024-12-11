@@ -21,10 +21,16 @@ export interface TimelineResponse {
 }
 
 export const fetchHomeTimeline = async (
-  token: string
+  token: string,
+  beforeID?: string
 ): Promise<{ notes: TimelineResponse[] } | { error: string }> => {
   try {
-    const timelineRes = await fetch("http://localhost:3000/timeline/home", {
+    const url = new URL("http://localhost:3000/timeline/home");
+    if (beforeID) {
+      url.searchParams.append("before_id", beforeID);
+    }
+
+    const timelineRes = await fetch(url, {
       headers: {
         authorization: `Bearer ${token}`,
       },
