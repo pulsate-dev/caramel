@@ -1,0 +1,12 @@
+.loadMoreNote {
+  text-align: center;
+
+  div {
+    border: solid #000;
+    border-width: 0.5px 0;
+  }
+
+  div:hover {
+    background-color: #f4f4f6;
+  }
+}
