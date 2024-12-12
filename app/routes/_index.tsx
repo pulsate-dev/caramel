@@ -24,6 +24,7 @@ export default function Index() {
 
   return (
     <div>
+      <img alt="Caramel logo" src="/caramel_logo.svg" />
       <h1>Caramel: Pulsate minimal web interface</h1>
       <p>Hello world</p>
       <nav>
