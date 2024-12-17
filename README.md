@@ -1,6 +1,8 @@
 # Caramel
 
-Caramel は Pulsate の軽量化クライアントで, 最低限の機能のみが実装されています.
+![Caramel logo](./public/caramel_logo.svg)
+
+Caramel は Pulsate の軽量クライアントで, 最低限の機能のみが実装されています.
 
 - アカウントへのログイン・ログアウト
 - タイムラインの取得・表示
