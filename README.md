@@ -50,6 +50,8 @@ TURNSTILE_KEY="0xAAAAAA......AAAA"
 API_BASE_URL = "http://localhost:3000"
 INSTANCE_FQDN = "example.com"
 ```
+`API_BASE_URL`: PulsateのAPIエンドポイントのベースURL.
+`INSTANCE_FQDN`: インスタンスのFQDN. プロダクション環境の場合は変更不可,`http://`や`/`は含めないでください.
 
 ## License
 
