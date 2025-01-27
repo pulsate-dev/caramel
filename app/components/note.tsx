@@ -68,14 +68,21 @@ export const Note = ({
 
   return (
     <div className={styles.note}>
-      <div className={styles.accountNameContainer}>
-        <h2>
-          <Link to={`/accounts/${author.name}`}>
-            {author.nickname}
-            <span>{author.name}</span>
-          </Link>
-        </h2>
-      </div>
+      <Link to={`/accounts/${author.name}`}>
+        <div className={styles.accountNameContainer}>
+          <div className={styles.avatarImageContainer}>
+            <img
+              src={author.avatar}
+              alt={`${author.nickname}'s avatar`}
+              loading="lazy"
+            />
+          </div>
+          <h2>
+            <bdi>{author.nickname}</bdi>
+            <span>@{author.name.split("@")[1]}</span>
+          </h2>
+        </div>
+      </Link>
       {contentsWarningComment.length !== 0 ? (
         <details>
           <summary>{contentsWarningComment}</summary>
