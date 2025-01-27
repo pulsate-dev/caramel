@@ -10,9 +10,12 @@
   align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+
   h2 {
     display: flex;
     flex-direction: column;
+
     span {
       font-weight: lighter;
       font-size: small;
@@ -24,6 +27,7 @@
   width: 3rem;
   height: 3rem;
   margin-right: 0.5rem;
+
   img {
     width: 3rem;
     height: 3rem;
