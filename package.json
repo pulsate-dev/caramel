@@ -46,7 +46,7 @@
     "@typescript-eslint/parser": "^8.8.0",
     "eslint-config-prettier": "^10.0.0",
     "eslint-plugin-react": "^7.37.1",
-    "globals": "^15.10.0",
+    "globals": "^16.0.0",
     "happy-css-modules": "^3.2.0",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.1.0",
