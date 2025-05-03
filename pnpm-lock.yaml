@@ -64,8 +64,8 @@ importers:
         specifier: ^16.0.0
         version: 16.0.0
       happy-css-modules:
-        specifier: ^3.2.0
-        version: 3.2.0(jiti@1.21.7)(postcss@8.5.3)
+        specifier: ^4.0.0
+        version: 4.0.0(jiti@1.21.7)(postcss@8.5.3)
       prettier:
         specifier: ^3.3.3
         version: 3.5.3
@@ -1502,12 +1502,12 @@ packages:
     resolution: {integrity: sha512-hsU18Ae8CDTR6Kgu9DYf0EbCr/a5iGL0rytQDobUcdpYOKokk8LEjVphnXkDkgpi0wYVsqrXuP0bZxJaTqdgoA==}
     engines: {node: '>= 0.4'}
 
+  async-mutex@0.5.0:
+    resolution: {integrity: sha512-1A94B18jkJ3DYq284ohPxoXbfTA5HsQ7/Mf4DEhcyLx3Bz27Rh59iScbB6EPiP+B+joue6YCxcMXSbFC1tZKwA==}
+
   available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
-
-  await-lock@2.2.2:
-    resolution: {integrity: sha512-aDczADvlvTGajTDjcjpJMqRkOF6Qdz3YbPZm/PyW6tKPkx2hlYBzxMhEywM/tU72HrVZjgl5VCdRuMlA7pZ8Gw==}
 
   bail@2.0.2:
     resolution: {integrity: sha512-0xO6mYd7JB2YesxDKplafRpsiOzPt9V02ddPCLbY1xYGPOX24NTyN50qnUxgCPcSoYMhKpAuBTjQoRZCAkUDRw==}
@@ -2229,14 +2229,14 @@ packages:
     resolution: {integrity: sha512-4haO1M4mLO91PW57BMsDFf75UmwoRX0GkdD+Faw+Lr+r/OZrOCS0pIBwOL1xCKQqnQzbNFGgK2V2CpBUPeFNTw==}
     hasBin: true
 
-  happy-css-modules@3.2.0:
-    resolution: {integrity: sha512-S5h6KRy+XLbHwA91lO9PWGJ8iXcgqdVSD4DeXxpeF3UlKrYIew+118J9/4oYLrcIrBNkZQMUFK05E7qBPUt7qQ==}
+  happy-css-modules@4.0.0:
+    resolution: {integrity: sha512-MTra2rMWE0AzSCRsAn7RB5fcSiCR7C0vR9/MBbGjP9Mj4S3y5sgwetIFGtsKPdc1jROFK9B8jBQu8Ro3Z/Y64A==}
     engines: {node: '>=18.0.0'}
     hasBin: true
     peerDependencies:
       less: ^3.0.0 || ^4.0.0
       postcss: ^8.0.0
-      sass: ^1.63.3
+      sass: ^1.68.0
     peerDependenciesMeta:
       less:
         optional: true
@@ -3990,11 +3990,6 @@ packages:
   yallist@4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
 
-  yaml@2.6.1:
-    resolution: {integrity: sha512-7r0XPzioN/Q9kXBro/XPnA6kznR73DHq+GXh5ON7ZozRO6aMjbmiBuKste2wslTFkC5d1dw0GooOCepZXJ2SAg==}
-    engines: {node: '>= 14'}
-    hasBin: true
-
   yaml@2.7.1:
     resolution: {integrity: sha512-10ULxpnOCQXxJvBgxsn9ptjq6uviG/htZKk9veJGhlqn3w/DxQ631zFF+nlQXLwmImeS5amR2dl2U8sg6U9jsQ==}
     engines: {node: '>= 14'}
@@ -5318,11 +5313,13 @@ snapshots:
 
   async-function@1.0.0: {}
 
+  async-mutex@0.5.0:
+    dependencies:
+      tslib: 2.8.1
+
   available-typed-arrays@1.0.7:
     dependencies:
       possible-typed-array-names: 1.1.0
-
-  await-lock@2.2.2: {}
 
   bail@2.0.2: {}
 
@@ -6266,11 +6263,11 @@ snapshots:
       pumpify: 1.5.1
       through2: 2.0.5
 
-  happy-css-modules@3.2.0(jiti@1.21.7)(postcss@8.5.3):
+  happy-css-modules@4.0.0(jiti@1.21.7)(postcss@8.5.3):
     dependencies:
       '@file-cache/core': 2.0.0
       '@file-cache/npm': 2.0.0
-      await-lock: 2.2.2
+      async-mutex: 0.5.0
       camelcase: 8.0.0
       chalk: 5.4.1
       chokidar: 3.6.0
@@ -7314,7 +7311,7 @@ snapshots:
   postcss-load-config@5.1.0(jiti@1.21.7)(postcss@8.5.3):
     dependencies:
       lilconfig: 3.1.3
-      yaml: 2.6.1
+      yaml: 2.7.1
     optionalDependencies:
       jiti: 1.21.7
       postcss: 8.5.3
@@ -7965,8 +7962,7 @@ snapshots:
       minimist: 1.2.8
       strip-bom: 3.0.0
 
-  tslib@2.8.1:
-    optional: true
+  tslib@2.8.1: {}
 
   turbo-stream@2.4.0: {}
 
@@ -8346,8 +8342,6 @@ snapshots:
   yallist@3.1.1: {}
 
   yallist@4.0.0: {}
-
-  yaml@2.6.1: {}
 
   yaml@2.7.1: {}
 
