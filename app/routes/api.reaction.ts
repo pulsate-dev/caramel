@@ -31,14 +31,17 @@ const reaction = async (
   token: string
 ): Promise<{ status: string } | { error: string }> => {
   try {
-    const res = await fetch(`http://localhost:3000/notes/${noteID}/reaction`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ emoji }),
-    });
+    const res = await fetch(
+      `http://localhost:3000/v0/notes/${noteID}/reaction`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ emoji }),
+      }
+    );
 
     if (!res.ok) {
       throw new Error("Failed to react");
@@ -58,13 +61,16 @@ const undoReaction = async (
   token: string
 ): Promise<{ status: string } | { error: string }> => {
   try {
-    const res = await fetch(`http://localhost:3000/notes/${noteID}/reaction`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await fetch(
+      `http://localhost:3000/v0/notes/${noteID}/reaction`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (!res.ok) {
       throw new Error("Failed to undo reaction");
