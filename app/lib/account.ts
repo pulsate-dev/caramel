@@ -17,7 +17,7 @@ export const account = async (
   token: string | undefined
 ): Promise<AccountResponse | { error: string }> => {
   try {
-    const res = await fetch(`http://localhost:3000/accounts/${identifier}`, {
+    const res = await fetch(`http://localhost:3000/v0/accounts/${identifier}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -37,7 +37,7 @@ export const accountTimeline = async (
   beforeID?: string
 ): Promise<TimelineResponse[] | { error: string }> => {
   try {
-    const url = new URL(`http://localhost:3000/timeline/accounts/${id}`);
+    const url = new URL(`http://localhost:3000/v0/timeline/accounts/${id}`);
     if (beforeID) {
       url.searchParams.append("before_id", beforeID);
     }

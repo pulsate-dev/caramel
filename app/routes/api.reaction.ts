@@ -31,7 +31,7 @@ const reaction = async (
   token: string
 ): Promise<{ status: string } | { error: string }> => {
   try {
-    const res = await fetch(`http://localhost:3000/notes/${noteID}/reaction`, {
+    const res = await fetch(`http://localhost:3000/v0/notes/${noteID}/reaction`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +58,7 @@ const undoReaction = async (
   token: string
 ): Promise<{ status: string } | { error: string }> => {
   try {
-    const res = await fetch(`http://localhost:3000/notes/${noteID}/reaction`, {
+    const res = await fetch(`http://localhost:3000/v0/notes/${noteID}/reaction`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

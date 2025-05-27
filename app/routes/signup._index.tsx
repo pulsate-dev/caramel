@@ -19,7 +19,7 @@ export const action = async ({
 
   try {
     const response = await fetch(
-      new URL("/accounts", context.cloudflare.env.API_BASE_URL),
+      new URL("/v0/accounts", context.cloudflare.env.API_BASE_URL),
       {
         method: "POST",
         headers: {

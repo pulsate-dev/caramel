@@ -15,7 +15,7 @@ export const loader = async ({
   }
   try {
     const res = await fetch(
-      `http://localhost:3000/accounts/${accountName}/verify_email`,
+      `http://localhost:3000/v0/accounts/${accountName}/verify_email`,
       {
         method: "POST",
         headers: {
