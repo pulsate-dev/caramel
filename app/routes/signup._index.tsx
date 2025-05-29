@@ -1,10 +1,10 @@
 import { Turnstile } from "@marsidev/react-turnstile";
+import { Form, Link, redirect, useLoaderData } from "react-router";
 import {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   TypedResponse,
-} from "@remix-run/cloudflare";
-import { Form, Link, redirect, useLoaderData } from "@remix-run/react";
+} from "react-router";
 import styles from "~/components/signup.module.css";
 
 export const action = async ({

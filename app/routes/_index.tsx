@@ -1,5 +1,5 @@
-import { LoaderFunctionArgs } from "@remix-run/cloudflare";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "react-router";
+import { LoaderFunctionArgs } from "react-router";
 import { accountCookie } from "~/lib/login";
 import { parseToken } from "~/lib/parseToken";
 

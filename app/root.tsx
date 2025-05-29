@@ -1,4 +1,4 @@
-import { Links, Meta, Outlet, Scripts } from "@remix-run/react";
+import { Links, Meta, Outlet, Scripts } from "react-router";
 import { SideBar } from "~/components/sideBar";
 import styles from "~/root.module.css";
 

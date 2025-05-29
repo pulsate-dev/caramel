@@ -1,4 +1,4 @@
-import { ActionFunctionArgs } from "@remix-run/cloudflare";
+import { ActionFunctionArgs } from "react-router";
 import { accountCookie } from "~/lib/login";
 
 export const action = async ({
