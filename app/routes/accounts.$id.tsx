@@ -1,5 +1,4 @@
-import { LoaderFunctionArgs } from "@remix-run/cloudflare";
-import { MetaFunction, useLoaderData } from "@remix-run/react";
+import { LoaderFunctionArgs, MetaFunction, useLoaderData } from "react-router";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import { Note, NoteProps } from "~/components/note";
 import { account, AccountResponse, accountTimeline } from "~/lib/account";

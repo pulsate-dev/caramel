@@ -1,5 +1,5 @@
-import { Link, useFetcher } from "@remix-run/react";
 import { useEffect, useState } from "react";
+import { Link, useFetcher } from "react-router";
 import styles from "~/components/note.module.css";
 import { action } from "~/routes/api.reaction";
 

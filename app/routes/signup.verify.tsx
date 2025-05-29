@@ -1,5 +1,4 @@
-import { LoaderFunctionArgs } from "@remix-run/cloudflare";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, LoaderFunctionArgs, useLoaderData } from "react-router";
 
 export const loader = async ({
   request,
