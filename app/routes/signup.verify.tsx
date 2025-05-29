@@ -1,5 +1,4 @@
-import { Link, useLoaderData } from "react-router";
-import { LoaderFunctionArgs } from "react-router";
+import { Link, LoaderFunctionArgs, useLoaderData } from "react-router";
 
 export const loader = async ({
   request,

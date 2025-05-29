@@ -1,9 +1,12 @@
 import { Turnstile } from "@marsidev/react-turnstile";
-import { Form, Link, redirect, useLoaderData } from "react-router";
 import {
   ActionFunctionArgs,
+  Form,
+  Link,
   LoaderFunctionArgs,
+  redirect,
   TypedResponse,
+  useLoaderData,
 } from "react-router";
 import styles from "~/components/signup.module.css";
 
