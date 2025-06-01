@@ -1,4 +1,5 @@
 import { useAtom } from "jotai/index";
+import { RESET } from "jotai/utils";
 import { Link, LoaderFunctionArgs, useLoaderData } from "react-router";
 import { account } from "~/lib/account";
 import { accountCookie } from "~/lib/login";
@@ -31,6 +32,10 @@ export const loader = async ({
   };
 };
 
+export function meta() {
+  return [{ title: "Caramel" }];
+}
+
 export default function Index() {
   const accountDatum = useLoaderData<typeof loader>();
   const [loggedInAccountDatum, setLoggedInAccount] =
@@ -38,14 +43,13 @@ export default function Index() {
   const ifDatumExists = loggedInAccountDatum !== undefined;
 
   const isLoggedIn = accountDatum !== undefined;
-  console.debug(loggedInAccountDatum, accountDatum);
-  // ログインしていてデータがないなら更新する
-  if (!ifDatumExists && isLoggedIn) {
-    setLoggedInAccount(accountDatum);
-  }
-  // ログアウトしていてデータがあるなら削除する
+
   if (ifDatumExists && !isLoggedIn) {
-    setLoggedInAccount(undefined);
+    // ログアウトしていてデータがあるなら削除する
+    setLoggedInAccount(RESET);
+  } else if (!ifDatumExists && isLoggedIn) {
+    // ログインしていてデータがないなら更新する
+    setLoggedInAccount(accountDatum);
   }
 
   return (

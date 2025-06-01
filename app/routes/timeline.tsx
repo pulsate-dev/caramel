@@ -1,16 +1,16 @@
+import { useAtom } from "jotai/index";
 import {
   LoaderFunctionArgs,
   MetaFunction,
   redirect,
-  TypedResponse,
   useLoaderData,
 } from "react-router";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import { Note } from "~/components/note";
 import { PostForm } from "~/components/postForm";
 import { accountCookie } from "~/lib/login";
-import { parseToken, TokenPayload } from "~/lib/parseToken";
 import { fetchHomeTimeline, TimelineResponse } from "~/lib/timeline";
+import { loggedInAccountAtom } from "~/root";
 import styles from "~/styles/timeline.module.css";
 
 export const meta: MetaFunction = () => {
@@ -23,17 +23,12 @@ export const loader = async ({
   | { error: string }
   | {
       notes: TimelineResponse[];
-      loggedInAccount: TokenPayload;
     }
-  | TypedResponse<never>
+  | Response
 > => {
   const cookie = await accountCookie.parse(request.headers.get("Cookie"));
   if (!cookie) {
     return redirect("/login");
-  }
-  const parsedToken = parseToken(cookie);
-  if (parsedToken instanceof Error) {
-    return { error: parsedToken.message };
   }
 
   const query = new URL(request.url).searchParams;
@@ -45,7 +40,6 @@ export const loader = async ({
 
   return {
     notes: res.notes,
-    loggedInAccount: parsedToken,
   };
 };
 
@@ -54,9 +48,9 @@ export default function Timeline() {
   if ("error" in loaderData) {
     return <div>{loaderData.error}</div>;
   }
-  if (!("name" in loaderData.loggedInAccount)) {
-    return <div>Invalid token</div>;
-  }
+
+  // NOTE: ログイン済みであることはloaderで確認済みなので、loggedInAccountAtomはundefinedにならない
+  const [loggedInAccount] = useAtom(loggedInAccountAtom);
 
   return (
     <div className={styles.noteContainer}>
@@ -83,7 +77,7 @@ export default function Timeline() {
                 content={note.content}
                 contentsWarningComment={note.contents_warning_comment}
                 reactions={reactions}
-                loggedInAccountID={loaderData.loggedInAccount.id}
+                loggedInAccountID={loggedInAccount!.id}
               />
             </div>
           );
