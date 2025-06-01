@@ -48,7 +48,7 @@ export const SideBar = () => {
       {isLoggedIn && (
         <div className={style.loggedInAccountContainer}>
           <img
-            src="https://github.com/laminne.png"
+            src={datum.avatarURL}
             alt={`${datum.nickname ?? datum.name}'s avatar`}
             className={style.avatar}
           />

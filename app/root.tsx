@@ -1,6 +1,17 @@
+import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
-import { Links, Meta, Outlet, Scripts } from "react-router";
+import {
+  Links,
+  LoaderFunctionArgs,
+  Meta,
+  Outlet,
+  Scripts,
+  useLoaderData,
+} from "react-router";
 import { SideBar } from "~/components/sideBar";
+import { account } from "~/lib/account";
+import { accountCookie } from "~/lib/login";
+import { parseToken } from "~/lib/parseToken";
 import styles from "~/root.module.css";
 
 export interface LoggedInAccountDatum {
@@ -14,7 +25,45 @@ export const loggedInAccountAtom = atomWithStorage<
   LoggedInAccountDatum | undefined
 >("loggedInAccount", undefined);
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export async function loader({
+  request,
+}: LoaderFunctionArgs): Promise<{ id: string; token: string } | false> {
+  const token = await accountCookie.parse(request.headers.get("Cookie"));
+  if (!token) {
+    return false;
+  }
+
+  const parsedToken = parseToken(token);
+  if (parsedToken instanceof Error) {
+    return false;
+  }
+  // ToDo: tokenを返すのはセキュリティー的にやめたほうが良いかもしれない
+  return { id: parsedToken.id, token: token };
+}
+
+export async function Layout({ children }: { children: React.ReactNode }) {
+  const loaderData = useLoaderData<typeof loader>();
+
+  if (loaderData !== false) {
+    const [loggedInAccount, setLoggedInAccount] = useAtom(loggedInAccountAtom);
+    if (!loggedInAccount) {
+      // update loggedInAccountAtom
+      const accountDatum = await account(loaderData.id, loaderData.token);
+      if (!("error" in accountDatum)) {
+        setLoggedInAccount({
+          id: accountDatum.id,
+          name: accountDatum.name,
+          nickname: accountDatum.nickname,
+          avatarURL: accountDatum.avatar,
+          headerURL: accountDatum.header,
+        });
+        console.info("OK");
+      } else {
+        throw new Error("failed to fetch logged in account data");
+      }
+    }
+  }
+
   return (
     <html lang="en">
       <head>
