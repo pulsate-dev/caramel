@@ -1,6 +1,18 @@
+import { atomWithStorage } from "jotai/utils";
 import { Links, Meta, Outlet, Scripts } from "react-router";
 import { SideBar } from "~/components/sideBar";
 import styles from "~/root.module.css";
+
+export interface LoggedInAccountDatum {
+  id: string;
+  name: string;
+  nickname: string;
+  avatarURL: string;
+  headerURL: string;
+}
+export const loggedInAccountAtom = atomWithStorage<
+  LoggedInAccountDatum | undefined
+>("loggedInAccount", undefined);
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (

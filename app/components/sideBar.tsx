@@ -1,5 +1,7 @@
+import { useAtom } from "jotai";
 import { Link } from "react-router";
 import style from "~/components/sideBar.module.css";
+import { loggedInAccountAtom } from "~/root";
 
 interface SideBarLink {
   name: string;
@@ -7,16 +9,29 @@ interface SideBarLink {
 }
 
 export const SideBar = () => {
-  const link: readonly SideBarLink[] = [
-    { name: "Home", to: "/" },
-    { name: "Timeline", to: "/timeline" },
-    { name: "Notification", to: "#" },
-    { name: "Search", to: "#" },
-    { name: "Bookmark", to: "#" },
-    { name: "List", to: "#" },
-    { name: "Settings", to: "#" },
-    { name: "About", to: "#" },
-  ];
+  const [datum] = useAtom(loggedInAccountAtom);
+
+  const isLoggedIn = datum !== undefined;
+
+  const link = isLoggedIn
+    ? [
+        { name: "Home", to: "/" },
+        { name: "Timeline", to: "/timeline" },
+        { name: "Notification", to: "#" },
+        { name: "Search", to: "#" },
+        { name: "Bookmark", to: "#" },
+        { name: "List", to: "#" },
+        { name: "Profile", to: `/accounts/${datum.name}` },
+        { name: "Settings", to: "#" },
+        { name: "About", to: "#" },
+      ]
+    : ([
+        { name: "Home", to: "/" },
+        { name: "Timeline", to: "/timeline" },
+        { name: "Search", to: "#" },
+        { name: "Settings", to: "#" },
+        { name: "About", to: "#" },
+      ] as const satisfies SideBarLink[]);
 
   return (
     <div className={style.sideBarContainer}>
@@ -29,6 +44,24 @@ export const SideBar = () => {
           );
         })}
       </nav>
+
+      {isLoggedIn && (
+        <div className={style.loggedInAccountContainer}>
+          <img
+            src="https://github.com/laminne.png"
+            alt={`${datum.nickname ?? datum.name}'s avatar`}
+            className={style.avatar}
+          />
+          <span>{datum.nickname ?? datum.name}</span>
+        </div>
+      )}
+      {!isLoggedIn && (
+        <div className={style.loginButton}>
+          <span>
+            <Link to="/login">Sign In</Link>
+          </span>
+        </div>
+      )}
     </div>
   );
 };
