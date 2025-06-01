@@ -12,7 +12,7 @@ export const PostForm = () => {
 
     if (fetcher.state === "loading") {
       if ("error" in fetcher.data) {
-        setErrorMessage(fetcher.data.error);
+        setErrorMessage(fetcher.data.error ?? "uncaught error");
         return;
       }
       setContent("");

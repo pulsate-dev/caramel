@@ -5,7 +5,6 @@ import {
   Link,
   LoaderFunctionArgs,
   redirect,
-  TypedResponse,
   useLoaderData,
 } from "react-router";
 import styles from "~/components/signup.module.css";
@@ -13,7 +12,7 @@ import styles from "~/components/signup.module.css";
 export const action = async ({
   request,
   context,
-}: ActionFunctionArgs): Promise<{ error: string } | TypedResponse<never>> => {
+}: ActionFunctionArgs): Promise<{ error: string } | Response> => {
   const formData = await request.formData();
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;

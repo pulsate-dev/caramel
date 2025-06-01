@@ -38,8 +38,8 @@ export const Note = ({
 
     if (fetcher.state === "loading") {
       if ("error" in fetcher.data) {
-        if (fetcher.formMethod === "post") setIsReacted(false);
-        if (fetcher.formMethod === "delete") setIsReacted(true);
+        if (fetcher.formMethod === "POST") setIsReacted(false);
+        if (fetcher.formMethod === "DELETE") setIsReacted(true);
       }
     }
   }, [fetcher.state]);
