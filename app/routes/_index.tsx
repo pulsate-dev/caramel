@@ -1,35 +1,23 @@
-import { useAtom } from "jotai/index";
-import { RESET } from "jotai/utils";
 import { Link, LoaderFunctionArgs, useLoaderData } from "react-router";
 import { account } from "~/lib/account";
 import { accountCookie } from "~/lib/login";
 import { parseToken } from "~/lib/parseToken";
-import { loggedInAccountAtom, LoggedInAccountDatum } from "~/root";
 
 export const loader = async ({
   request,
-}: LoaderFunctionArgs): Promise<LoggedInAccountDatum | undefined> => {
+}: LoaderFunctionArgs): Promise<boolean> => {
   const token = await accountCookie.parse(request.headers.get("Cookie"));
   if (!token) {
-    return undefined;
+    return false;
   }
 
   const parsedToken = parseToken(token);
   if (parsedToken instanceof Error) {
-    return undefined;
+    return false;
   }
 
   const accountDatum = await account(parsedToken.id, token);
-  if ("error" in accountDatum) {
-    return undefined;
-  }
-  return {
-    id: accountDatum.id,
-    name: accountDatum.name,
-    nickname: accountDatum.nickname,
-    avatarURL: accountDatum.avatar,
-    headerURL: accountDatum.header,
-  };
+  return !("error" in accountDatum);
 };
 
 export function meta() {
@@ -38,19 +26,7 @@ export function meta() {
 
 export default function Index() {
   const accountDatum = useLoaderData<typeof loader>();
-  const [loggedInAccountDatum, setLoggedInAccount] =
-    useAtom(loggedInAccountAtom);
-  const ifDatumExists = loggedInAccountDatum !== undefined;
-
   const isLoggedIn = accountDatum !== undefined;
-
-  if (ifDatumExists && !isLoggedIn) {
-    // ログアウトしていてデータがあるなら削除する
-    setLoggedInAccount(RESET);
-  } else if (!ifDatumExists && isLoggedIn) {
-    // ログインしていてデータがないなら更新する
-    setLoggedInAccount(accountDatum);
-  }
 
   return (
     <div>
