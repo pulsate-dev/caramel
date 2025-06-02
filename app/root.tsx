@@ -49,18 +49,17 @@ export async function Layout({ children }: { children: React.ReactNode }) {
     if (!loggedInAccount) {
       // update loggedInAccountAtom
       const accountDatum = await account(loaderData.id, loaderData.token);
-      if (!("error" in accountDatum)) {
-        setLoggedInAccount({
-          id: accountDatum.id,
-          name: accountDatum.name,
-          nickname: accountDatum.nickname,
-          avatarURL: accountDatum.avatar,
-          headerURL: accountDatum.header,
-        });
-        console.info("OK");
-      } else {
+      if ("error" in accountDatum) {
         throw new Error("failed to fetch logged in account data");
       }
+
+      setLoggedInAccount({
+        id: accountDatum.id,
+        name: accountDatum.name,
+        nickname: accountDatum.nickname,
+        avatarURL: accountDatum.avatar,
+        headerURL: accountDatum.header,
+      });
     }
   }
 

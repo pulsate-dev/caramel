@@ -49,8 +49,11 @@ export default function Timeline() {
     return <div>{loaderData.error}</div>;
   }
 
-  // NOTE: ログイン済みであることはloaderで確認済みなので、loggedInAccountAtomはundefinedにならない
+  // NOTE: ログイン済みであることはloaderで確認済み/情報はトップレベルで入れてあるので、loggedInAccountAtomはundefinedにならない
   const [loggedInAccount] = useAtom(loggedInAccountAtom);
+  if (!loggedInAccount) {
+    throw new Error("Not logged in");
+  }
 
   return (
     <div className={styles.noteContainer}>
@@ -77,7 +80,7 @@ export default function Timeline() {
                 content={note.content}
                 contentsWarningComment={note.contents_warning_comment}
                 reactions={reactions}
-                loggedInAccountID={loggedInAccount!.id}
+                loggedInAccountID={loggedInAccount.id}
               />
             </div>
           );

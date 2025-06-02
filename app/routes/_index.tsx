@@ -5,19 +5,19 @@ import { parseToken } from "~/lib/parseToken";
 
 export const loader = async ({
   request,
-}: LoaderFunctionArgs): Promise<boolean> => {
+}: LoaderFunctionArgs): Promise<{ isLoggedIn: boolean }> => {
   const token = await accountCookie.parse(request.headers.get("Cookie"));
   if (!token) {
-    return false;
+    return { isLoggedIn: false };
   }
 
   const parsedToken = parseToken(token);
   if (parsedToken instanceof Error) {
-    return false;
+    return { isLoggedIn: false };
   }
 
   const accountDatum = await account(parsedToken.id, token);
-  return !("error" in accountDatum);
+  return { isLoggedIn: !("error" in accountDatum) };
 };
 
 export function meta() {

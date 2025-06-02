@@ -13,7 +13,7 @@ export const SideBar = () => {
 
   const isLoggedIn = datum !== undefined;
 
-  const link = isLoggedIn
+  const link: readonly SideBarLink[] = isLoggedIn
     ? [
         { name: "Home", to: "/" },
         { name: "Timeline", to: "/timeline" },
@@ -25,13 +25,13 @@ export const SideBar = () => {
         { name: "Settings", to: "#" },
         { name: "About", to: "#" },
       ]
-    : ([
+    : [
         { name: "Home", to: "/" },
         { name: "Timeline", to: "/timeline" },
         { name: "Search", to: "#" },
         { name: "Settings", to: "#" },
         { name: "About", to: "#" },
-      ] as const satisfies SideBarLink[]);
+      ];
 
   return (
     <div className={style.sideBarContainer}>
