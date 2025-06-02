@@ -45,7 +45,7 @@ export const SideBar = () => {
         })}
       </nav>
 
-      {isLoggedIn && (
+      {isLoggedIn ? (
         <div className={style.loggedInAccountContainer}>
           <img
             src={datum.avatarURL}
@@ -54,8 +54,7 @@ export const SideBar = () => {
           />
           <span>{datum.nickname ?? datum.name}</span>
         </div>
-      )}
-      {!isLoggedIn && (
+      ) : (
         <div className={style.loginButton}>
           <span>
             <Link to="/login">Sign In</Link>

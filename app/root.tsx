@@ -44,8 +44,8 @@ export async function loader({
 export async function Layout({ children }: { children: React.ReactNode }) {
   const loaderData = useLoaderData<typeof loader>();
 
+  const [loggedInAccount, setLoggedInAccount] = useAtom(loggedInAccountAtom);
   if (loaderData !== false) {
-    const [loggedInAccount, setLoggedInAccount] = useAtom(loggedInAccountAtom);
     if (!loggedInAccount) {
       // update loggedInAccountAtom
       const accountDatum = await account(loaderData.id, loaderData.token);
