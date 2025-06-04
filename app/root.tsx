@@ -45,22 +45,20 @@ export async function Layout({ children }: { children: React.ReactNode }) {
   const loaderData = useLoaderData<typeof loader>();
 
   const [loggedInAccount, setLoggedInAccount] = useAtom(loggedInAccountAtom);
-  if (loaderData !== false) {
-    if (!loggedInAccount) {
-      // update loggedInAccountAtom
-      const accountDatum = await account(loaderData.id, loaderData.token);
-      if ("error" in accountDatum) {
-        throw new Error("failed to fetch logged in account data");
-      }
-
-      setLoggedInAccount({
-        id: accountDatum.id,
-        name: accountDatum.name,
-        nickname: accountDatum.nickname,
-        avatarURL: accountDatum.avatar,
-        headerURL: accountDatum.header,
-      });
+  if (loaderData !== false && !loggedInAccount) {
+    // update loggedInAccountAtom
+    const accountDatum = await account(loaderData.id, loaderData.token);
+    if ("error" in accountDatum) {
+      throw new Error("failed to fetch logged in account data");
     }
+
+    setLoggedInAccount({
+      id: accountDatum.id,
+      name: accountDatum.name,
+      nickname: accountDatum.nickname,
+      avatarURL: accountDatum.avatar,
+      headerURL: accountDatum.header,
+    });
   }
 
   return (
