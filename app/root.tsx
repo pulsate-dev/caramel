@@ -38,7 +38,7 @@ export async function loader({
   return { isSuccess: true, response: accountDatum };
 }
 
-export async function Layout({ children }: { children: React.ReactNode }) {
+export function Layout({ children }: { children: React.ReactNode }) {
   const loaderData = useLoaderData<typeof loader>();
 
   const setLoggedInAccount = useSetAtom(loggedInAccountAtom);

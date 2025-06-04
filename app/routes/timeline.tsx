@@ -1,9 +1,11 @@
 import { useAtom } from "jotai/index";
+import { useEffect } from "react";
 import {
   LoaderFunctionArgs,
   MetaFunction,
   redirect,
   useLoaderData,
+  useNavigate,
 } from "react-router";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import { Note } from "~/components/note";
@@ -50,10 +52,14 @@ export default function Timeline() {
   }
 
   const [loggedInAccount] = useAtom(readonlyLoggedInAccountAtom);
-  if (!loggedInAccount) {
-    // ToDo: ログイン後に/timelineに戻ってこれるようにする (cf. #300)
-    return redirect("/login");
-  }
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!loggedInAccount) {
+      // ToDo: ログイン後に/timelineに戻ってこれるようにする (cf. #300)
+      navigate("/login");
+    }
+  }, [loggedInAccount, navigate]);
 
   return (
     <div className={styles.noteContainer}>
@@ -61,7 +67,7 @@ export default function Timeline() {
 
       <LoadMoreNoteButton type="newer" noteID={loaderData.notes[0].id} />
 
-      {loaderData ? (
+      {loaderData && loggedInAccount ? (
         loaderData.notes.map((note) => {
           const author = {
             avatar: note.author.avatar,
