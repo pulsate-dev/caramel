@@ -1,4 +1,5 @@
 import { Link, LoaderFunctionArgs, useLoaderData } from "react-router";
+import { account } from "~/lib/account";
 import { accountCookie } from "~/lib/login";
 import { parseToken } from "~/lib/parseToken";
 
@@ -15,11 +16,16 @@ export const loader = async ({
     return { isLoggedIn: false };
   }
 
-  return { isLoggedIn: true };
+  const accountDatum = await account(parsedToken.id, token);
+  return { isLoggedIn: !("error" in accountDatum) };
 };
 
+export function meta() {
+  return [{ title: "Caramel" }];
+}
+
 export default function Index() {
-  const isLoggedIn = useLoaderData<typeof loader>();
+  const { isLoggedIn } = useLoaderData<typeof loader>();
 
   return (
     <div>
@@ -32,7 +38,7 @@ export default function Index() {
             <Link to="/timeline">Timeline</Link>
           </li>
           <li>
-            {isLoggedIn.isLoggedIn ? (
+            {isLoggedIn ? (
               <Link to="/logout">Sign out</Link>
             ) : (
               <Link to="/login">Sign in</Link>

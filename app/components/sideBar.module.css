@@ -5,6 +5,33 @@
   height: fit-content;
 }
 
+.loggedInAccountContainer {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+
+  span {
+    margin-left: 0.5rem;
+  }
+
+  .avatar {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+
+    img {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 9999px;
+    }
+  }
+}
+
+.loginButton {
+  width: 100%;
+  padding: 10px;
+}
+
 .sideBar {
   display: flex;
   flex-direction: column;

@@ -1,15 +1,17 @@
+import { useAtom } from "jotai/index";
+import { useEffect } from "react";
 import {
   LoaderFunctionArgs,
   MetaFunction,
   redirect,
-  TypedResponse,
   useLoaderData,
+  useNavigate,
 } from "react-router";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import { Note } from "~/components/note";
 import { PostForm } from "~/components/postForm";
+import { readonlyLoggedInAccountAtom } from "~/lib/atoms/loggedInAccount";
 import { accountCookie } from "~/lib/login";
-import { parseToken, TokenPayload } from "~/lib/parseToken";
 import { fetchHomeTimeline, TimelineResponse } from "~/lib/timeline";
 import styles from "~/styles/timeline.module.css";
 
@@ -23,17 +25,12 @@ export const loader = async ({
   | { error: string }
   | {
       notes: TimelineResponse[];
-      loggedInAccount: TokenPayload;
     }
-  | TypedResponse<never>
+  | Response
 > => {
   const cookie = await accountCookie.parse(request.headers.get("Cookie"));
   if (!cookie) {
     return redirect("/login");
-  }
-  const parsedToken = parseToken(cookie);
-  if (parsedToken instanceof Error) {
-    return { error: parsedToken.message };
   }
 
   const query = new URL(request.url).searchParams;
@@ -45,7 +42,6 @@ export const loader = async ({
 
   return {
     notes: res.notes,
-    loggedInAccount: parsedToken,
   };
 };
 
@@ -54,9 +50,16 @@ export default function Timeline() {
   if ("error" in loaderData) {
     return <div>{loaderData.error}</div>;
   }
-  if (!("name" in loaderData.loggedInAccount)) {
-    return <div>Invalid token</div>;
-  }
+
+  const [loggedInAccount] = useAtom(readonlyLoggedInAccountAtom);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!loggedInAccount) {
+      // ToDo: ログイン後に/timelineに戻ってこれるようにする (cf. #300)
+      navigate("/login");
+    }
+  }, [loggedInAccount, navigate]);
 
   return (
     <div className={styles.noteContainer}>
@@ -64,7 +67,7 @@ export default function Timeline() {
 
       <LoadMoreNoteButton type="newer" noteID={loaderData.notes[0].id} />
 
-      {loaderData ? (
+      {loaderData && loggedInAccount ? (
         loaderData.notes.map((note) => {
           const author = {
             avatar: note.author.avatar,
@@ -83,7 +86,7 @@ export default function Timeline() {
                 content={note.content}
                 contentsWarningComment={note.contents_warning_comment}
                 reactions={reactions}
-                loggedInAccountID={loaderData.loggedInAccount.id}
+                loggedInAccountID={loggedInAccount.id}
               />
             </div>
           );
@@ -92,9 +95,7 @@ export default function Timeline() {
         <div></div>
       )}
 
-      {loaderData.notes.length < 20 ? (
-        <></>
-      ) : (
+      {loaderData.notes.length > 20 && (
         <LoadMoreNoteButton type="older" noteID={loaderData.notes.at(-1)!.id} />
       )}
     </div>
