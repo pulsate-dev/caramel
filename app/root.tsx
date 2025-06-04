@@ -1,5 +1,5 @@
-import { useAtom } from "jotai";
-import { atomWithStorage } from "jotai/utils";
+import { useSetAtom } from "jotai";
+import { useEffect } from "react";
 import {
   Links,
   LoaderFunctionArgs,
@@ -9,57 +9,53 @@ import {
   useLoaderData,
 } from "react-router";
 import { SideBar } from "~/components/sideBar";
-import { account } from "~/lib/account";
+import { account, AccountResponse } from "~/lib/account";
 import { accountCookie } from "~/lib/login";
 import { parseToken } from "~/lib/parseToken";
 import styles from "~/root.module.css";
-
-export interface LoggedInAccountDatum {
-  id: string;
-  name: string;
-  nickname: string;
-  avatarURL: string;
-  headerURL: string;
-}
-export const loggedInAccountAtom = atomWithStorage<
-  LoggedInAccountDatum | undefined
->("loggedInAccount", undefined, undefined, { getOnInit: true });
+import { loggedInAccountAtom } from "./lib/atoms/loggedInAccount";
 
 export async function loader({
   request,
-}: LoaderFunctionArgs): Promise<{ id: string; token: string } | false> {
+}: LoaderFunctionArgs): Promise<
+  { isSuccess: true; response: AccountResponse } | { isSuccess: false }
+> {
   const token = await accountCookie.parse(request.headers.get("Cookie"));
   if (!token) {
-    return false;
+    return { isSuccess: false };
   }
 
   const parsedToken = parseToken(token);
   if (parsedToken instanceof Error) {
-    return false;
+    return { isSuccess: false };
   }
-  // ToDo: tokenを返すのはセキュリティー的にやめたほうが良いかもしれない
-  return { id: parsedToken.id, token: token };
+
+  const accountDatum = await account(parsedToken.id, token);
+  if ("error" in accountDatum) {
+    return { isSuccess: false };
+  }
+
+  return { isSuccess: true, response: accountDatum };
 }
 
 export async function Layout({ children }: { children: React.ReactNode }) {
   const loaderData = useLoaderData<typeof loader>();
 
-  const [loggedInAccount, setLoggedInAccount] = useAtom(loggedInAccountAtom);
-  if (loaderData !== false && !loggedInAccount) {
-    // update loggedInAccountAtom
-    const accountDatum = await account(loaderData.id, loaderData.token);
-    if ("error" in accountDatum) {
-      throw new Error("failed to fetch logged in account data");
-    }
+  const setLoggedInAccount = useSetAtom(loggedInAccountAtom);
 
-    setLoggedInAccount({
-      id: accountDatum.id,
-      name: accountDatum.name,
-      nickname: accountDatum.nickname,
-      avatarURL: accountDatum.avatar,
-      headerURL: accountDatum.header,
-    });
-  }
+  useEffect(() => {
+    setLoggedInAccount(
+      loaderData.isSuccess
+        ? {
+            id: loaderData.response.id,
+            name: loaderData.response.name,
+            nickname: loaderData.response.nickname,
+            avatarURL: loaderData.response.avatar,
+            headerURL: loaderData.response.header,
+          }
+        : undefined
+    );
+  }, [loaderData]);
 
   return (
     <html lang="en">

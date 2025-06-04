@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import { Link } from "react-router";
 import style from "~/components/sideBar.module.css";
-import { loggedInAccountAtom } from "~/root";
+import { readonlyLoggedInAccountAtom } from "~/lib/atoms/loggedInAccount";
 
 interface SideBarLink {
   name: string;
@@ -9,7 +9,7 @@ interface SideBarLink {
 }
 
 export const SideBar = () => {
-  const [datum] = useAtom(loggedInAccountAtom);
+  const [datum] = useAtom(readonlyLoggedInAccountAtom);
 
   const isLoggedIn = datum !== undefined;
 

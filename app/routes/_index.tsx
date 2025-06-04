@@ -25,7 +25,7 @@ export function meta() {
 }
 
 export default function Index() {
-  const {isLoggedIn} = useLoaderData<typeof loader>();
+  const { isLoggedIn } = useLoaderData<typeof loader>();
 
   return (
     <div>

@@ -8,9 +8,9 @@ import {
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import { Note } from "~/components/note";
 import { PostForm } from "~/components/postForm";
+import { readonlyLoggedInAccountAtom } from "~/lib/atoms/loggedInAccount";
 import { accountCookie } from "~/lib/login";
 import { fetchHomeTimeline, TimelineResponse } from "~/lib/timeline";
-import { loggedInAccountAtom } from "~/root";
 import styles from "~/styles/timeline.module.css";
 
 export const meta: MetaFunction = () => {
@@ -49,7 +49,7 @@ export default function Timeline() {
     return <div>{loaderData.error}</div>;
   }
 
-  const [loggedInAccount] = useAtom(loggedInAccountAtom);
+  const [loggedInAccount] = useAtom(readonlyLoggedInAccountAtom);
   if (!loggedInAccount) {
     // ToDo: ログイン後に/timelineに戻ってこれるようにする (cf. #300)
     return redirect("/login");
