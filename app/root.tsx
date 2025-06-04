@@ -23,7 +23,7 @@ export interface LoggedInAccountDatum {
 }
 export const loggedInAccountAtom = atomWithStorage<
   LoggedInAccountDatum | undefined
->("loggedInAccount", undefined, undefined, {getOnInit: true});
+>("loggedInAccount", undefined, undefined, { getOnInit: true });
 
 export async function loader({
   request,
