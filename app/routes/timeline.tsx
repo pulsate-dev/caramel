@@ -49,10 +49,10 @@ export default function Timeline() {
     return <div>{loaderData.error}</div>;
   }
 
-  // NOTE: ログイン済みであることはloaderで確認済み/情報はトップレベルで入れてあるので、loggedInAccountAtomはundefinedにならない
   const [loggedInAccount] = useAtom(loggedInAccountAtom);
   if (!loggedInAccount) {
-    throw new Error("Not logged in");
+    // ToDo: ログイン後に/timelineに戻ってこれるようにする (cf. #300)
+    return redirect("/login");
   }
 
   return (
@@ -89,9 +89,7 @@ export default function Timeline() {
         <div></div>
       )}
 
-      {loaderData.notes.length < 20 ? (
-        <></>
-      ) : (
+      {loaderData.notes.length > 20 && (
         <LoadMoreNoteButton type="older" noteID={loaderData.notes.at(-1)!.id} />
       )}
     </div>
