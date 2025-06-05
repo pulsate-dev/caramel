@@ -8,15 +8,12 @@ test("has account info", async ({ page }) => {
   await page.waitForURL("/");
 
   await page.goto("/accounts/@johndoe@example.com");
-  const accountDataQuery = "body > div > div > div:nth-child(2) > div";
-  expect(page.locator(`${accountDataQuery} > h1`)).toHaveText("test user 101");
-  expect(page.locator(`${accountDataQuery} > h1 > span`)).toHaveText(
-    "@john@example.com"
-  );
-  expect(page.locator(`${accountDataQuery} > p:nth-child(3)`)).toHaveText(
-    "this is test user"
-  );
+  await expect(page.getByText("test user 101")).toBeVisible();
+  await expect(
+    page.getByText("@johndoe@example.com", { exact: true })
+  ).toBeVisible();
+  await expect(page.getByText("this is test user")).toBeVisible();
 
   await page.goto("/logout");
-  await page.locator("form > button[type='submit']").click();
+  await page.locator("form button[type='submit']").click();
 });
