@@ -1,7 +1,16 @@
-import { LoaderFunctionArgs, MetaFunction, useLoaderData } from "react-router";
+import { useAtom } from "jotai";
+import { useEffect } from "react";
+import {
+  LoaderFunctionArgs,
+  MetaFunction,
+  useLoaderData,
+  useNavigate,
+  useParams,
+} from "react-router";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import { Note, NoteProps } from "~/components/note";
 import { account, AccountResponse, accountTimeline } from "~/lib/account";
+import { readonlyLoggedInAccountAtom } from "~/lib/atoms/loggedInAccount";
 import { accountCookie } from "~/lib/login";
 import { TimelineResponse } from "~/lib/timeline";
 import styles from "~/styles/account.module.css";
@@ -58,6 +67,16 @@ export default function Account() {
     return <div>{data.error}</div>;
   }
 
+  const [loggedInAccount] = useAtom(readonlyLoggedInAccountAtom);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!loggedInAccount) {
+      // ToDo: ログイン後に/timelineに戻ってこれるようにする (cf. #300)
+      navigate("/login");
+    }
+  }, [loggedInAccount, navigate]);
+
   const timelineNotes = data.timeline.map(
     (note): NoteProps => ({
       id: note.id,
@@ -72,9 +91,11 @@ export default function Account() {
         emoji: reaction.emoji,
         reactedBy: reaction.reacted_by,
       })),
-      loggedInAccountID: data.account.id,
+      loggedInAccountID: loggedInAccount?.id ?? "",
     })
   );
+  const params = useParams();
+  const isThisAccountSelf = !!params.id && params.id === loggedInAccount?.name;
 
   return (
     <>
@@ -99,7 +120,15 @@ export default function Account() {
         </div>
       </div>
 
-      <AccountTimeline notes={timelineNotes} />
+      {timelineNotes.length === 0 ? (
+        // NOTE: paramsで指定されたアカウントが空である場合は404が表示されるので，ここではnon-null assertionを使う
+        <EmptyAccountTimeline
+          accountName={params.id!}
+          isThisAccountSelf={isThisAccountSelf}
+        />
+      ) : (
+        <AccountTimeline notes={timelineNotes} />
+      )}
     </>
   );
 }
@@ -126,6 +155,26 @@ const AccountTimeline = ({ notes }: AccountTimelineProps) => {
           <LoadMoreNoteButton type="older" noteID={notes.at(-1)!.id} />
         )}
       </div>
+    </div>
+  );
+};
+
+const EmptyAccountTimeline = ({
+  accountName,
+  isThisAccountSelf,
+}: {
+  accountName: string;
+  isThisAccountSelf: boolean;
+}) => {
+  return (
+    <div className={styles.emptyState}>
+      <span>💭</span>
+      <h3>No notes yet</h3>
+      <p>
+        {isThisAccountSelf
+          ? "Your notes will appear here when you post them."
+          : `${accountName} hasn&#39;t made any notes yet.`}
+      </p>
     </div>
   );
 };
