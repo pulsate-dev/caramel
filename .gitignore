@@ -7,3 +7,5 @@ node_modules
 *.module.css.d.ts
 *.module.css.d.ts.map
 .react-router
+
+test-results/
