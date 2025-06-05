@@ -49,6 +49,7 @@ jobs:
       - name: Run E2E test
         run: |
           set -e
+          pnpm playwright install --with-deps
           cd backend && pnpm start & ids=( $! )
           pnpm start & ids=( $! )
           pnpm e2e
