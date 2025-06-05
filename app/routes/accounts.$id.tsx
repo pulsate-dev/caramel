@@ -169,17 +169,12 @@ const EmptyAccountTimeline = ({
   return (
     <div className={styles.emptyState}>
       <span>💭</span>
-      {isThisAccountSelf ? (
-        <>
-          <h3>No notes yet</h3>
-          <p>Your notes will appear here when you post them.</p>
-        </>
-      ) : (
-        <>
-          <h3>No notes yet</h3>
-          <p>{accountName} hasn&#39;t made any notes yet.</p>
-        </>
-      )}
+      <h3>No notes yet</h3>
+      <p>
+        {isThisAccountSelf
+          ? "Your notes will appear here when you post them."
+          : `${accountName} hasn&#39;t made any notes yet.`}
+      </p>
     </div>
   );
 };
