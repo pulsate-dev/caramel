@@ -7,6 +7,7 @@ import {
   useLoaderData,
   useNavigate,
 } from "react-router";
+import { EmptyState } from "~/components/emptyState";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import { Note } from "~/components/note";
 import { PostForm } from "~/components/postForm";
@@ -65,34 +66,26 @@ export default function Timeline() {
     <div className={styles.noteContainer}>
       <PostForm />
 
-      <LoadMoreNoteButton type="newer" noteID={loaderData.notes[0].id} />
-
-      {loaderData && loggedInAccount ? (
-        loaderData.notes.map((note) => {
-          const author = {
-            avatar: note.author.avatar,
-            name: note.author.name,
-            nickname: note.author.display_name,
-          };
-          const reactions = note.reactions.map((reaction) => ({
-            emoji: reaction.emoji,
-            reactedBy: reaction.reacted_by,
-          }));
-          return (
-            <div key={note.id}>
-              <Note
-                id={note.id}
-                author={author}
-                content={note.content}
-                contentsWarningComment={note.contents_warning_comment}
-                reactions={reactions}
-                loggedInAccountID={loggedInAccount.id}
-              />
-            </div>
-          );
-        })
+      {loaderData.notes.length === 0 ? (
+        <EmptyState emoji="💭">
+          <h3>No notes here</h3>
+          <p>
+            Notes from accounts you follow will appear here.
+            <wbr />
+            Your notes will also appear here.
+          </p>
+        </EmptyState>
       ) : (
-        <div></div>
+        <>
+          <LoadMoreNoteButton type="newer" noteID={loaderData.notes[0].id} />
+
+          {loaderData && loggedInAccount && (
+            <TimelineNotes
+              notes={loaderData.notes}
+              loggedInAccountID={loggedInAccount.id}
+            />
+          )}
+        </>
       )}
 
       {loaderData.notes.length > 20 && (
@@ -100,4 +93,36 @@ export default function Timeline() {
       )}
     </div>
   );
+}
+
+function TimelineNotes({
+  notes,
+  loggedInAccountID,
+}: {
+  notes: TimelineResponse[];
+  loggedInAccountID: string;
+}) {
+  return notes.map((note) => {
+    const author = {
+      avatar: note.author.avatar,
+      name: note.author.name,
+      nickname: note.author.display_name,
+    };
+    const reactions = note.reactions.map((reaction) => ({
+      emoji: reaction.emoji,
+      reactedBy: reaction.reacted_by,
+    }));
+    return (
+      <div key={note.id}>
+        <Note
+          id={note.id}
+          author={author}
+          content={note.content}
+          contentsWarningComment={note.contents_warning_comment}
+          reactions={reactions}
+          loggedInAccountID={loggedInAccountID}
+        />
+      </div>
+    );
+  });
 }
