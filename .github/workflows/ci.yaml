@@ -44,6 +44,7 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
           pnpm run build
+          touch .env
 
       - name: Run E2E test
         run: |
