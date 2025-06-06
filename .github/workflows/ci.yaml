@@ -32,3 +32,24 @@ jobs:
 
       - name: Code check
         run: pnpm run lint && pnpm run format:check
+
+      - name: Clone backend
+        uses: actions/checkout@v4
+        with:
+          repository: "pulsate-dev/pulsate"
+          path: "backend/"
+
+      - name: Build backend
+        working-directory: "./backend"
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm run build
+          touch .env
+
+      - name: Run E2E test
+        run: |
+          set -e
+          pnpm playwright install chromium --only-shell
+          cd backend && pnpm start & id=$!
+          pnpm e2e
+          kill "$id"
