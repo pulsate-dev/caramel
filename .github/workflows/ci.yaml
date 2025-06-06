@@ -44,13 +44,11 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
           pnpm run build
-          pnpm run
 
       - name: Run E2E test
         run: |
           set -e
           pnpm playwright install --with-deps
-          cd backend && pnpm start & ids=( $! )
-          pnpm start & ids=( $! )
+          cd backend && pnpm start & id=$!
           pnpm e2e
-          kill "${ids[@]}"
+          kill "$id"
