@@ -1,17 +1,18 @@
-import { useAtom } from "jotai";
 import { Link } from "react-router";
 import style from "~/components/sideBar.module.css";
-import { readonlyLoggedInAccountAtom } from "~/lib/atoms/loggedInAccount";
+import { LoggedInAccountDatum } from "~/lib/loggedInAccount";
 
 interface SideBarLink {
   name: string;
   to: string;
 }
 
-export const SideBar = () => {
-  const [datum] = useAtom(readonlyLoggedInAccountAtom);
-
-  const isLoggedIn = datum !== undefined;
+export const SideBar = ({
+  loggedInAccountDatum,
+}: {
+  loggedInAccountDatum?: LoggedInAccountDatum;
+}) => {
+  const isLoggedIn = loggedInAccountDatum !== undefined;
 
   const link: readonly SideBarLink[] = isLoggedIn
     ? [
@@ -21,7 +22,7 @@ export const SideBar = () => {
         { name: "Search", to: "#" },
         { name: "Bookmark", to: "#" },
         { name: "List", to: "#" },
-        { name: "Profile", to: `/accounts/${datum.name}` },
+        { name: "Profile", to: `/accounts/${loggedInAccountDatum.name}` },
         { name: "Settings", to: "#" },
         { name: "About", to: "#" },
       ]
@@ -48,11 +49,13 @@ export const SideBar = () => {
       {isLoggedIn ? (
         <div className={style.loggedInAccountContainer}>
           <img
-            src={datum.avatarURL}
-            alt={`${datum.nickname ?? datum.name}'s avatar`}
+            src={loggedInAccountDatum.avatarURL}
+            alt={`${loggedInAccountDatum.nickname ?? loggedInAccountDatum.name}'s avatar`}
             className={style.avatar}
           />
-          <span>{datum.nickname ?? datum.name}</span>
+          <span>
+            {loggedInAccountDatum.nickname ?? loggedInAccountDatum.name}
+          </span>
         </div>
       ) : (
         <div className={style.loginButton}>
