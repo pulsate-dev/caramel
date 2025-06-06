@@ -45,15 +45,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setLoggedInAccount(
-      loaderData.isSuccess
-        ? {
-            id: loaderData.response.id,
-            name: loaderData.response.name,
-            nickname: loaderData.response.nickname,
-            avatarURL: loaderData.response.avatar,
-            headerURL: loaderData.response.header,
-          }
-        : undefined
+      undefined
     );
   }, [loaderData]);
 
@@ -70,7 +62,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <div className={styles.center}>
           <div className={styles.layout}>
-            <SideBar />
+            <SideBar
+              loggedInAccountDatum={
+                loaderData.isSuccess
+                  ? {
+                      id: loaderData.response.id,
+                      name: loaderData.response.name,
+                      nickname: loaderData.response.nickname,
+                      avatarURL: loaderData.response.avatar,
+                      headerURL: loaderData.response.header,
+                    }
+                  : undefined
+              }
+            />
             <div className={styles.root}>
               {children}
               <Scripts />
