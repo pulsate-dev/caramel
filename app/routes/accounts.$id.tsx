@@ -1,16 +1,13 @@
-import { useAtom } from "jotai";
-import { useEffect } from "react";
 import {
   LoaderFunctionArgs,
   MetaFunction,
   useLoaderData,
-  useNavigate,
   useParams,
 } from "react-router";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import { Note, NoteProps } from "~/components/note";
 import { account, AccountResponse, accountTimeline } from "~/lib/account";
-import { readonlyLoggedInAccountAtom } from "~/lib/atoms/loggedInAccount";
+import { loggedInAccount } from "~/lib/loggedInAccount";
 import { accountCookie } from "~/lib/login";
 import { TimelineResponse } from "~/lib/timeline";
 import styles from "~/styles/account.module.css";
@@ -19,7 +16,13 @@ export const loader = async ({
   request,
   params,
 }: LoaderFunctionArgs): Promise<
-  { error: string } | { account: AccountResponse; timeline: TimelineResponse[] }
+  | { error: string }
+  | {
+      error: undefined;
+      account: AccountResponse;
+      timeline: TimelineResponse[];
+      loggedInAccountID: string;
+    }
 > => {
   const token = await accountCookie.parse(request.headers.get("Cookie"));
   if (!token) {
@@ -44,14 +47,24 @@ export const loader = async ({
     return { error: timelineRes.error };
   }
 
-  return { account: accountRes, timeline: timelineRes };
+  const loggedInAccountDatum = await loggedInAccount(request);
+  if (!loggedInAccountDatum.isSuccess) {
+    return { error: "not logged in" };
+  }
+
+  return {
+    error: undefined,
+    account: accountRes,
+    timeline: timelineRes,
+    loggedInAccountID: loggedInAccountDatum.response.id,
+  };
 };
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) {
     return [{ title: "Account | Caramel" }, { content: "noindex" }];
   }
-  if ("error" in data) {
+  if (data.error !== undefined) {
     return [{ title: "Account | Caramel" }, { content: "noindex" }];
   }
 
@@ -63,19 +76,9 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 export default function Account() {
   const data = useLoaderData<typeof loader>();
-  if ("error" in data) {
+  if (data.error !== undefined) {
     return <div>{data.error}</div>;
   }
-
-  const [loggedInAccount] = useAtom(readonlyLoggedInAccountAtom);
-
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!loggedInAccount) {
-      // ToDo: ログイン後に/timelineに戻ってこれるようにする (cf. #300)
-      navigate("/login");
-    }
-  }, [loggedInAccount, navigate]);
 
   const timelineNotes = data.timeline.map(
     (note): NoteProps => ({
@@ -91,7 +94,7 @@ export default function Account() {
         emoji: reaction.emoji,
         reactedBy: reaction.reacted_by,
       })),
-      loggedInAccountID: loggedInAccount?.id ?? "",
+      loggedInAccountID: data.loggedInAccountID ?? "",
     })
   );
   const params = useParams();

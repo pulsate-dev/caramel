@@ -20,9 +20,6 @@ importers:
       isbot:
         specifier: ^5.1.17
         version: 5.1.28
-      jotai:
-        specifier: ^2.12.5
-        version: 2.12.5(@types/react@19.1.6)(react@19.1.0)
       react:
         specifier: ^19.0.0
         version: 19.1.0
@@ -2112,18 +2109,6 @@ packages:
   jiti@1.21.7:
     resolution: {integrity: sha512-/imKNG4EbWNrVjoNC/1H5/9GFy+tqjGBHCaSsN+P2RnPqjsLmv6UD3Ej+Kj8nBWaRAwyk7kK5ZUc+OEatnTR3A==}
     hasBin: true
-
-  jotai@2.12.5:
-    resolution: {integrity: sha512-G8m32HW3lSmcz/4mbqx0hgJIQ0ekndKWiYP7kWVKi0p6saLXdSoye+FZiOFyonnd7Q482LCzm8sMDl7Ar1NWDw==}
-    engines: {node: '>=12.20.0'}
-    peerDependencies:
-      '@types/react': '>=17.0.0'
-      react: '>=17.0.0'
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      react:
-        optional: true
 
   joycon@3.1.1:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
@@ -5110,11 +5095,6 @@ snapshots:
 
   jiti@1.21.7:
     optional: true
-
-  jotai@2.12.5(@types/react@19.1.6)(react@19.1.0):
-    optionalDependencies:
-      '@types/react': 19.1.6
-      react: 19.1.0
 
   joycon@3.1.1: {}
 

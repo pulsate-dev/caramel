@@ -7,7 +7,11 @@ interface SideBarLink {
   to: string;
 }
 
-export const SideBar = ({loggedInAccountDatum}: {loggedInAccountDatum?: LoggedInAccountDatum}) => {
+export const SideBar = ({
+  loggedInAccountDatum,
+}: {
+  loggedInAccountDatum?: LoggedInAccountDatum;
+}) => {
   const isLoggedIn = loggedInAccountDatum !== undefined;
 
   const link: readonly SideBarLink[] = isLoggedIn
@@ -49,7 +53,9 @@ export const SideBar = ({loggedInAccountDatum}: {loggedInAccountDatum?: LoggedIn
             alt={`${loggedInAccountDatum.nickname ?? loggedInAccountDatum.name}'s avatar`}
             className={style.avatar}
           />
-          <span>{loggedInAccountDatum.nickname ?? loggedInAccountDatum.name}</span>
+          <span>
+            {loggedInAccountDatum.nickname ?? loggedInAccountDatum.name}
+          </span>
         </div>
       ) : (
         <div className={style.loginButton}>

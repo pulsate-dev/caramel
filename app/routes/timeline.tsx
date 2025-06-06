@@ -1,17 +1,14 @@
-import { useAtom } from "jotai/index";
-import { useEffect } from "react";
 import {
   LoaderFunctionArgs,
   MetaFunction,
   redirect,
   useLoaderData,
-  useNavigate,
 } from "react-router";
 import { EmptyState } from "~/components/emptyState";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import { Note } from "~/components/note";
 import { PostForm } from "~/components/postForm";
-import { readonlyLoggedInAccountAtom } from "~/lib/atoms/loggedInAccount";
+import { loggedInAccount } from "~/lib/loggedInAccount";
 import { accountCookie } from "~/lib/login";
 import { fetchHomeTimeline, TimelineResponse } from "~/lib/timeline";
 import styles from "~/styles/timeline.module.css";
@@ -26,6 +23,7 @@ export const loader = async ({
   | { error: string }
   | {
       notes: TimelineResponse[];
+      loggedInAccountID: string;
     }
   | Response
 > => {
@@ -41,8 +39,14 @@ export const loader = async ({
     return res;
   }
 
+  const loggedInAccountDatum = await loggedInAccount(request);
+  if (!loggedInAccountDatum.isSuccess) {
+    return { error: "not logged in" };
+  }
+
   return {
     notes: res.notes,
+    loggedInAccountID: loggedInAccountDatum.response.id,
   };
 };
 
@@ -51,16 +55,6 @@ export default function Timeline() {
   if ("error" in loaderData) {
     return <div>{loaderData.error}</div>;
   }
-
-  const [loggedInAccount] = useAtom(readonlyLoggedInAccountAtom);
-
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!loggedInAccount) {
-      // ToDo: ログイン後に/timelineに戻ってこれるようにする (cf. #300)
-      navigate("/login");
-    }
-  }, [loggedInAccount, navigate]);
 
   return (
     <div className={styles.noteContainer}>
@@ -79,10 +73,10 @@ export default function Timeline() {
         <>
           <LoadMoreNoteButton type="newer" noteID={loaderData.notes[0].id} />
 
-          {loaderData && loggedInAccount && (
+          {loaderData && (
             <TimelineNotes
               notes={loaderData.notes}
-              loggedInAccountID={loggedInAccount.id}
+              loggedInAccountID={loaderData.loggedInAccountID}
             />
           )}
         </>
