@@ -79,32 +79,11 @@ export default function Timeline() {
         <>
           <LoadMoreNoteButton type="newer" noteID={loaderData.notes[0].id} />
 
-          {loaderData && loggedInAccount ? (
-            loaderData.notes.map((note) => {
-              const author = {
-                avatar: note.author.avatar,
-                name: note.author.name,
-                nickname: note.author.display_name,
-              };
-              const reactions = note.reactions.map((reaction) => ({
-                emoji: reaction.emoji,
-                reactedBy: reaction.reacted_by,
-              }));
-              return (
-                <div key={note.id}>
-                  <Note
-                    id={note.id}
-                    author={author}
-                    content={note.content}
-                    contentsWarningComment={note.contents_warning_comment}
-                    reactions={reactions}
-                    loggedInAccountID={loggedInAccount.id}
-                  />
-                </div>
-              );
-            })
-          ) : (
-            <div></div>
+          {loaderData && loggedInAccount && (
+            <TimelineNotes
+              notes={loaderData.notes}
+              loggedInAccountID={loggedInAccount.id}
+            />
           )}
         </>
       )}
@@ -114,4 +93,36 @@ export default function Timeline() {
       )}
     </div>
   );
+}
+
+function TimelineNotes({
+  notes,
+  loggedInAccountID,
+}: {
+  notes: TimelineResponse[];
+  loggedInAccountID: string;
+}) {
+  return notes.map((note) => {
+    const author = {
+      avatar: note.author.avatar,
+      name: note.author.name,
+      nickname: note.author.display_name,
+    };
+    const reactions = note.reactions.map((reaction) => ({
+      emoji: reaction.emoji,
+      reactedBy: reaction.reacted_by,
+    }));
+    return (
+      <div key={note.id}>
+        <Note
+          id={note.id}
+          author={author}
+          content={note.content}
+          contentsWarningComment={note.contents_warning_comment}
+          reactions={reactions}
+          loggedInAccountID={loggedInAccountID}
+        />
+      </div>
+    );
+  });
 }
