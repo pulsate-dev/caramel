@@ -17,17 +17,18 @@
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
-    "start": "wrangler pages dev ./build/client",
-    "typecheck": "react-router typegen && tsc",
+    "deploy": "pnpm run build && wrangler deploy",
+    "typecheck": "pnpm run cf-typegen && react-router typegen && tsc",
     "lint": "eslint .",
     "format": "prettier --write ./app/**",
     "format:check": "prettier --check ./app/**",
-    "preview": "pnpm run build && wrangler pages dev",
+    "preview": "pnpm run build && vite preview",
     "cf-typegen": "wrangler types",
     "css-types-gen": "hcm 'app/**/*.module.css'",
     "e2e": "playwright test"
   },
   "dependencies": {
+    "@cloudflare/vite-plugin": "^1.5.0",
     "@marsidev/react-turnstile": "^1.1.0",
     "@react-router/cloudflare": "^7.6.1",
     "@react-router/fs-routes": "^7.6.1",
