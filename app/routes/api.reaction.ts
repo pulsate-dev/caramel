@@ -1,5 +1,5 @@
 import type { ActionFunctionArgs } from "react-router";
-import { accountCookie } from "~/lib/login";
+import { accountCookie } from "~/lib/api/login";
 
 export const action = async ({
   request,

@@ -22,10 +22,11 @@ export interface TimelineResponse {
 
 export const fetchHomeTimeline = async (
   token: string,
+  basePath: string,
   beforeID?: string
 ): Promise<{ notes: TimelineResponse[] } | { error: string }> => {
   try {
-    const url = new URL("http://localhost:3000/v0/timeline/home");
+    const url = new URL(`${basePath}/v0/timeline/home`);
     if (beforeID) {
       url.searchParams.append("before_id", beforeID);
     }

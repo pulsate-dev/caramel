@@ -1,3 +1,7 @@
+import {
+  PostV0LoginError,
+  PostV0LoginResponse,
+} from "@pulsate-dev/exp-api-types";
 import { createCookie } from "react-router";
 
 export type LoginArgs = {
@@ -8,14 +12,14 @@ export type LoginArgs = {
 export const login = async ({
   name,
   passphrase,
-}: LoginArgs): Promise<
+}: LoginArgs, basePath: string): Promise<
   | { error: string }
   | {
       authorization_token: string;
     }
 > => {
   try {
-    const response = await fetch("http://localhost:3000/v0/login", {
+    const response = await fetch(`${basePath}/v0/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,8 +35,8 @@ export const login = async ({
     }
 
     const res = (await response.json()) as
-      | { error: string }
-      | { authorization_token: string };
+      | PostV0LoginError
+      | PostV0LoginResponse;
 
     if ("authorization_token" in res) {
       return { authorization_token: res.authorization_token };

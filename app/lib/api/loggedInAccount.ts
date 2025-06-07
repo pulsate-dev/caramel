@@ -1,6 +1,6 @@
 import { account } from "./account";
 import { accountCookie } from "./login";
-import { parseToken } from "./parseToken";
+import { parseToken } from "../parseToken";
 
 export interface LoggedInAccountDatum {
   id: string;
@@ -18,7 +18,8 @@ export type LoggedInAccountResponse =
   | { isSuccess: false };
 
 export async function loggedInAccount(
-  request: Request<unknown, CfProperties<unknown>>
+  request: Request<unknown, CfProperties<unknown>>,
+  basePath: string
 ): Promise<LoggedInAccountResponse> {
   const token = await accountCookie.parse(request.headers.get("Cookie"));
   if (!token) {
@@ -30,7 +31,7 @@ export async function loggedInAccount(
     return { isSuccess: false };
   }
 
-  const accountDatum = await account(parsedToken.id, token);
+  const accountDatum = await account(parsedToken.id, token, basePath);
   if ("error" in accountDatum) {
     return { isSuccess: false };
   }
