@@ -1,6 +1,7 @@
-import {
+import type {
   LoaderFunctionArgs,
-  MetaFunction,
+  MetaFunction} from "react-router";
+import {
   redirect,
   useLoaderData,
 } from "react-router";
@@ -10,7 +11,8 @@ import { Note } from "~/components/note";
 import { PostForm } from "~/components/postForm";
 import { loggedInAccount } from "~/lib/loggedInAccount";
 import { accountCookie } from "~/lib/login";
-import { fetchHomeTimeline, TimelineResponse } from "~/lib/timeline";
+import type { TimelineResponse } from "~/lib/timeline";
+import { fetchHomeTimeline } from "~/lib/timeline";
 import styles from "~/styles/timeline.module.css";
 
 export const meta: MetaFunction = () => {

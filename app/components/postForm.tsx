@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useFetcher } from "react-router";
-import { action } from "~/routes/api.notes";
+import type { action } from "~/routes/api.notes";
 
 export const PostForm = () => {
   const [content, setContent] = useState<string>("");

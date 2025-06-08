@@ -1,8 +1,9 @@
-import {
+import type {
   ActionFunctionArgs,
+  MetaFunction} from "react-router";
+import {
   Form,
   Link,
-  MetaFunction,
   redirect,
 } from "react-router";
 

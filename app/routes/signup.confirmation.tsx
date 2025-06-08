@@ -1,4 +1,5 @@
-import { Link, MetaFunction } from "react-router";
+import type { MetaFunction } from "react-router";
+import { Link } from "react-router";
 
 export const meta: MetaFunction = () => [
   { title: "Sent confirmation | Caramel" },

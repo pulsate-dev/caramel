@@ -1,9 +1,10 @@
 import { Turnstile } from "@marsidev/react-turnstile";
-import {
+import type {
   ActionFunctionArgs,
+  LoaderFunctionArgs} from "react-router";
+import {
   Form,
   Link,
-  LoaderFunctionArgs,
   redirect,
   useLoaderData,
 } from "react-router";

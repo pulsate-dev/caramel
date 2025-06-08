@@ -1,4 +1,4 @@
-import { TimelineResponse } from "~/lib/timeline";
+import type { TimelineResponse } from "~/lib/timeline";
 
 export interface AccountResponse {
   id: string;
