@@ -1,13 +1,6 @@
 import { Turnstile } from "@marsidev/react-turnstile";
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs} from "react-router";
-import {
-  Form,
-  Link,
-  redirect,
-  useLoaderData,
-} from "react-router";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
+import { Form, Link, redirect, useLoaderData } from "react-router";
 import styles from "~/components/signup.module.css";
 
 export const action = async ({

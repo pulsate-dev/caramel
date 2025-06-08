@@ -1,14 +1,9 @@
-import type {
-  LoaderFunctionArgs,
-  MetaFunction} from "react-router";
-import {
-  useLoaderData,
-  useParams,
-} from "react-router";
+import type { LoaderFunctionArgs, MetaFunction } from "react-router";
+import { useLoaderData, useParams } from "react-router";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import type { NoteProps } from "~/components/note";
 import { Note } from "~/components/note";
-import type { AccountResponse} from "~/lib/account";
+import type { AccountResponse } from "~/lib/account";
 import { account, accountTimeline } from "~/lib/account";
 import { loggedInAccount } from "~/lib/loggedInAccount";
 import { accountCookie } from "~/lib/login";
