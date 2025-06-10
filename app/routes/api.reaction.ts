@@ -1,14 +1,15 @@
 import type { ActionFunctionArgs } from "react-router";
-import { accountCookie } from "~/lib/api/login";
+import { getToken } from "~/lib/api/getToken";
 
 export const action = async ({
   request,
   context,
 }: ActionFunctionArgs): Promise<{ error: string } | { status: string }> => {
-  const token = await accountCookie.parse(request.headers.get("Cookie"));
-  if (!token) {
+  const isLoggedIn = await getToken(request);
+  if (!isLoggedIn.isLoggedIn) {
     return { error: "unauthorized" };
   }
+  const token = isLoggedIn.token;
 
   const formData = await request.formData();
   const basePath = (context.cloudflare.env as Env).API_BASE_URL;

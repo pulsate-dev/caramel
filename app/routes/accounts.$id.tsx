@@ -5,8 +5,8 @@ import type { NoteProps } from "~/components/note";
 import { Note } from "~/components/note";
 import type { AccountResponse } from "~/lib/account";
 import { account, accountTimeline } from "~/lib/account";
+import { getToken } from "~/lib/api/getToken";
 import { loggedInAccount } from "~/lib/api/loggedInAccount";
-import { accountCookie } from "~/lib/api/login";
 import type { TimelineResponse } from "~/lib/api/timeline";
 import styles from "~/styles/account.module.css";
 
@@ -25,10 +25,12 @@ export const loader = async ({
 > => {
   const basePath = (context.cloudflare.env as Env).API_BASE_URL;
 
-  const token = await accountCookie.parse(request.headers.get("Cookie"));
-  if (!token) {
+  const isLoggedIn = await getToken(request);
+  if (!isLoggedIn.isLoggedIn) {
     return { error: "not logged in" };
   }
+  const token = isLoggedIn.token;
+
   if (!params.id) return { error: "invalid id" };
 
   const accountRes = await account(params.id, token, basePath);
