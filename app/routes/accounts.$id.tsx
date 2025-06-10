@@ -5,14 +5,15 @@ import type { NoteProps } from "~/components/note";
 import { Note } from "~/components/note";
 import type { AccountResponse } from "~/lib/account";
 import { account, accountTimeline } from "~/lib/account";
-import { loggedInAccount } from "~/lib/loggedInAccount";
-import { accountCookie } from "~/lib/login";
-import type { TimelineResponse } from "~/lib/timeline";
+import { getToken } from "~/lib/api/getToken";
+import { loggedInAccount } from "~/lib/api/loggedInAccount";
+import type { TimelineResponse } from "~/lib/api/timeline";
 import styles from "~/styles/account.module.css";
 
 export const loader = async ({
   request,
   params,
+  context,
 }: LoaderFunctionArgs): Promise<
   | { error: string }
   | {
@@ -22,13 +23,17 @@ export const loader = async ({
       loggedInAccountID: string;
     }
 > => {
-  const token = await accountCookie.parse(request.headers.get("Cookie"));
-  if (!token) {
+  const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+
+  const isLoggedIn = await getToken(request);
+  if (!isLoggedIn.isLoggedIn) {
     return { error: "not logged in" };
   }
+  const token = isLoggedIn.token;
+
   if (!params.id) return { error: "invalid id" };
 
-  const accountRes = await account(params.id, token);
+  const accountRes = await account(params.id, token, basePath);
   if ("error" in accountRes) {
     return { error: accountRes.error };
   }
@@ -40,12 +45,17 @@ export const loader = async ({
     throw new Error("before_id and after_id cannot be used together");
   }
 
-  const timelineRes = await accountTimeline(accountRes.id, token, beforeID);
+  const timelineRes = await accountTimeline(
+    accountRes.id,
+    token,
+    basePath,
+    beforeID
+  );
   if ("error" in timelineRes) {
     return { error: timelineRes.error };
   }
 
-  const loggedInAccountDatum = await loggedInAccount(request);
+  const loggedInAccountDatum = await loggedInAccount(request, basePath);
   if (!loggedInAccountDatum.isSuccess) {
     return { error: "not logged in" };
   }

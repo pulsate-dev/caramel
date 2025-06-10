@@ -14,6 +14,9 @@ importers:
       '@marsidev/react-turnstile':
         specifier: ^1.1.0
         version: 1.1.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@pulsate-dev/exp-api-types':
+        specifier: ^0.0.1
+        version: 0.0.1
       '@react-router/cloudflare':
         specifier: ^7.6.1
         version: 7.6.2(@cloudflare/workers-types@4.20250610.0)(react-router@7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(tsup@8.5.0(postcss@8.5.4)(typescript@5.8.3)(yaml@2.8.0))(typescript@5.8.3)
@@ -837,6 +840,9 @@ packages:
     resolution: {integrity: sha512-uh6W7sb55hl7D6vsAeA+V2p5JnlAqzhqFyF0VcJkKZXkgnFcVG9PziERRHQfPLfNGx1C292a4JqbWzhR8L4R1g==}
     engines: {node: '>=18'}
     hasBin: true
+
+  '@pulsate-dev/exp-api-types@0.0.1':
+    resolution: {integrity: sha512-i4vlPyfKOXvKqrZnmVvPPrl3Bos2FlIEPaPInFCOPu7qQsc9fS9pCy3WPJiKr/s/KpIDfqT92Rchpe+g/gfRXQ==}
 
   '@react-router/cloudflare@7.6.2':
     resolution: {integrity: sha512-nA3PLrm9UG4G+jOzr34DeByA04Mxwkgmq4cV7YnHXqeKK90odYOMnd+XJp+NbTVcmvBXq+CatytL5JP+1goGYw==}
@@ -3498,6 +3504,8 @@ snapshots:
   '@playwright/test@1.52.0':
     dependencies:
       playwright: 1.52.0
+
+  '@pulsate-dev/exp-api-types@0.0.1': {}
 
   '@react-router/cloudflare@7.6.2(@cloudflare/workers-types@4.20250610.0)(react-router@7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(tsup@8.5.0(postcss@8.5.4)(typescript@5.8.3)(yaml@2.8.0))(typescript@5.8.3)':
     dependencies:

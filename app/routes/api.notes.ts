@@ -1,15 +1,17 @@
 import type { ActionFunctionArgs } from "react-router";
-import { accountCookie } from "~/lib/login";
+import { getToken } from "~/lib/api/getToken";
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-  const token = await accountCookie.parse(request.headers.get("Cookie"));
-  if (!token) {
+export const action = async ({ request, context }: ActionFunctionArgs) => {
+  const isLoggedIn = await getToken(request);
+  if (!isLoggedIn.isLoggedIn) {
     return { error: "unauthorized" };
   }
+  const token = isLoggedIn.token;
 
   try {
     const formData = await request.formData();
-    const res = await fetch("http://localhost:3000/v0/notes", {
+    const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+    const res = await fetch(new URL("/v0/notes", basePath), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

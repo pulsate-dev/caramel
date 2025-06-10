@@ -4,10 +4,10 @@ import { EmptyState } from "~/components/emptyState";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import { Note } from "~/components/note";
 import { PostForm } from "~/components/postForm";
-import { loggedInAccount } from "~/lib/loggedInAccount";
-import { accountCookie } from "~/lib/login";
-import type { TimelineResponse } from "~/lib/timeline";
-import { fetchHomeTimeline } from "~/lib/timeline";
+import { loggedInAccount } from "~/lib/api/loggedInAccount";
+import { accountCookie } from "~/lib/api/login";
+import type { TimelineResponse } from "~/lib/api/timeline";
+import { fetchHomeTimeline } from "~/lib/api/timeline";
 import styles from "~/styles/timeline.module.css";
 
 export const meta: MetaFunction = () => {
@@ -16,6 +16,7 @@ export const meta: MetaFunction = () => {
 
 export const loader = async ({
   request,
+  context,
 }: LoaderFunctionArgs): Promise<
   | { error: string }
   | {
@@ -24,6 +25,8 @@ export const loader = async ({
     }
   | Response
 > => {
+  const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+
   const cookie = await accountCookie.parse(request.headers.get("Cookie"));
   if (!cookie) {
     return redirect("/login");
@@ -31,12 +34,12 @@ export const loader = async ({
 
   const query = new URL(request.url).searchParams;
   const beforeID = query.get("before_id") ?? undefined;
-  const res = await fetchHomeTimeline(cookie, beforeID);
+  const res = await fetchHomeTimeline(cookie, basePath, beforeID);
   if ("error" in res) {
     return res;
   }
 
-  const loggedInAccountDatum = await loggedInAccount(request);
+  const loggedInAccountDatum = await loggedInAccount(request, basePath);
   if (!loggedInAccountDatum.isSuccess) {
     return { error: "not logged in" };
   }

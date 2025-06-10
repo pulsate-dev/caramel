@@ -2,7 +2,7 @@ import type { ActionFunctionArgs, MetaFunction } from "react-router";
 import { Form, Link, redirect } from "react-router";
 
 import styles from "~/components/login.module.css";
-import { accountCookie, login } from "~/lib/login";
+import { accountCookie, login } from "~/lib/api/login";
 
 export const meta: MetaFunction = () => {
   return [
@@ -15,12 +15,13 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request, context }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const name = formData.get("name") as string;
   const passphrase = formData.get("passphrase") as string;
 
-  const res = await login({ name, passphrase });
+  const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+  const res = await login({ name, passphrase }, basePath);
   if ("error" in res) {
     return res.error;
   }
