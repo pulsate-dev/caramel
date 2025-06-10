@@ -1,10 +1,5 @@
-import {
-  ActionFunctionArgs,
-  Form,
-  Link,
-  MetaFunction,
-  redirect,
-} from "react-router";
+import type { ActionFunctionArgs, MetaFunction } from "react-router";
+import { Form, Link, redirect } from "react-router";
 
 import styles from "~/components/login.module.css";
 import { accountCookie, login } from "~/lib/login";

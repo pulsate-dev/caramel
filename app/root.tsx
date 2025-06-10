@@ -1,6 +1,6 @@
 import {
   Links,
-  LoaderFunctionArgs,
+  type LoaderFunctionArgs,
   Meta,
   Outlet,
   Scripts,
@@ -10,7 +10,7 @@ import { SideBar } from "~/components/sideBar";
 import styles from "~/root.module.css";
 import {
   loggedInAccount,
-  LoggedInAccountResponse,
+  type LoggedInAccountResponse,
 } from "./lib/loggedInAccount";
 
 export async function loader({

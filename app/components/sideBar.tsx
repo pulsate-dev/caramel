@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import style from "~/components/sideBar.module.css";
-import { LoggedInAccountDatum } from "~/lib/loggedInAccount";
+import type { LoggedInAccountDatum } from "~/lib/loggedInAccount";
 
 interface SideBarLink {
   name: string;

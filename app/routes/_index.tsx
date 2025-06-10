@@ -1,4 +1,5 @@
-import { Link, LoaderFunctionArgs, useLoaderData } from "react-router";
+import type { LoaderFunctionArgs } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import { account } from "~/lib/account";
 import { accountCookie } from "~/lib/login";
 import { parseToken } from "~/lib/parseToken";

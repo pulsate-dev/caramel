@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useFetcher } from "react-router";
 import styles from "~/components/note.module.css";
-import { action } from "~/routes/api.reaction";
+import type { action } from "~/routes/api.reaction";
 
 export interface NoteProps {
   id: string;
