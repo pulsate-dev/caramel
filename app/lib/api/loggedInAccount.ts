@@ -1,6 +1,6 @@
+import { parseToken } from "../parseToken";
 import { account } from "./account";
 import { accountCookie } from "./login";
-import { parseToken } from "../parseToken";
 
 export interface LoggedInAccountDatum {
   id: string;

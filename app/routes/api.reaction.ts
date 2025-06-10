@@ -22,7 +22,11 @@ export const action = async ({
         basePath
       );
     case "DELETE":
-      return await undoReaction(formData.get("noteID") as string, token, basePath);
+      return await undoReaction(
+        formData.get("noteID") as string,
+        token,
+        basePath
+      );
     default:
       return { error: "method not allowed" };
   }
@@ -63,16 +67,13 @@ const undoReaction = async (
   basePath: string
 ): Promise<{ status: string } | { error: string }> => {
   try {
-    const res = await fetch(
-      `${basePath}/v0/notes/${noteID}/reaction`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await fetch(`${basePath}/v0/notes/${noteID}/reaction`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (!res.ok) {
       throw new Error("Failed to undo reaction");

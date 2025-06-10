@@ -43,7 +43,12 @@ export const loader = async ({
     throw new Error("before_id and after_id cannot be used together");
   }
 
-  const timelineRes = await accountTimeline(accountRes.id, token, basePath, beforeID);
+  const timelineRes = await accountTimeline(
+    accountRes.id,
+    token,
+    basePath,
+    beforeID
+  );
   if ("error" in timelineRes) {
     return { error: timelineRes.error };
   }

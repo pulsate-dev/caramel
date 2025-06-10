@@ -16,7 +16,7 @@ export const meta: MetaFunction = () => {
 
 export const loader = async ({
   request,
-  context
+  context,
 }: LoaderFunctionArgs): Promise<
   | { error: string }
   | {
@@ -34,7 +34,7 @@ export const loader = async ({
 
   const query = new URL(request.url).searchParams;
   const beforeID = query.get("before_id") ?? undefined;
-  const res = await fetchHomeTimeline(cookie, basePath,beforeID);
+  const res = await fetchHomeTimeline(cookie, basePath, beforeID);
   if ("error" in res) {
     return res;
   }

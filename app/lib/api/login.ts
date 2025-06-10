@@ -9,10 +9,10 @@ export type LoginArgs = {
   passphrase: string;
 };
 
-export const login = async ({
-  name,
-  passphrase,
-}: LoginArgs, basePath: string): Promise<
+export const login = async (
+  { name, passphrase }: LoginArgs,
+  basePath: string
+): Promise<
   | { error: string }
   | {
       authorization_token: string;

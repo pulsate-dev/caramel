@@ -9,7 +9,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
 
   try {
     const formData = await request.formData();
-      const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+    const basePath = (context.cloudflare.env as Env).API_BASE_URL;
     const res = await fetch(`${basePath}/v0/notes`, {
       method: "POST",
       headers: {

@@ -7,17 +7,17 @@ import {
   useLoaderData,
 } from "react-router";
 import { SideBar } from "~/components/sideBar";
-import styles from "~/root.module.css";
 import {
   loggedInAccount,
   type LoggedInAccountResponse,
 } from "~/lib/api/loggedInAccount";
+import styles from "~/root.module.css";
 
 export async function loader({
   request,
   context,
 }: LoaderFunctionArgs): Promise<LoggedInAccountResponse> {
-    const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+  const basePath = (context.cloudflare.env as Env).API_BASE_URL;
   return loggedInAccount(request, basePath);
 }
 
