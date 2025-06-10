@@ -16,6 +16,7 @@ export const meta: MetaFunction = () => {
 
 export const loader = async ({
   request,
+  context
 }: LoaderFunctionArgs): Promise<
   | { error: string }
   | {
@@ -24,6 +25,8 @@ export const loader = async ({
     }
   | Response
 > => {
+  const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+
   const cookie = await accountCookie.parse(request.headers.get("Cookie"));
   if (!cookie) {
     return redirect("/login");
@@ -31,12 +34,12 @@ export const loader = async ({
 
   const query = new URL(request.url).searchParams;
   const beforeID = query.get("before_id") ?? undefined;
-  const res = await fetchHomeTimeline(cookie, beforeID);
+  const res = await fetchHomeTimeline(cookie, basePath,beforeID);
   if ("error" in res) {
     return res;
   }
 
-  const loggedInAccountDatum = await loggedInAccount(request);
+  const loggedInAccountDatum = await loggedInAccount(request, basePath);
   if (!loggedInAccountDatum.isSuccess) {
     return { error: "not logged in" };
   }

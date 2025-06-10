@@ -13,6 +13,7 @@ import styles from "~/styles/account.module.css";
 export const loader = async ({
   request,
   params,
+  context,
 }: LoaderFunctionArgs): Promise<
   | { error: string }
   | {
@@ -22,13 +23,15 @@ export const loader = async ({
       loggedInAccountID: string;
     }
 > => {
+  const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+
   const token = await accountCookie.parse(request.headers.get("Cookie"));
   if (!token) {
     return { error: "not logged in" };
   }
   if (!params.id) return { error: "invalid id" };
 
-  const accountRes = await account(params.id, token);
+  const accountRes = await account(params.id, token, basePath);
   if ("error" in accountRes) {
     return { error: accountRes.error };
   }
@@ -40,12 +43,12 @@ export const loader = async ({
     throw new Error("before_id and after_id cannot be used together");
   }
 
-  const timelineRes = await accountTimeline(accountRes.id, token, beforeID);
+  const timelineRes = await accountTimeline(accountRes.id, token, basePath, beforeID);
   if ("error" in timelineRes) {
     return { error: timelineRes.error };
   }
 
-  const loggedInAccountDatum = await loggedInAccount(request);
+  const loggedInAccountDatum = await loggedInAccount(request, basePath);
   if (!loggedInAccountDatum.isSuccess) {
     return { error: "not logged in" };
   }

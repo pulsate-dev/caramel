@@ -1,8 +1,8 @@
-import {
+import type {
   GetV0AccountsIdentifierResponse,
   GetV0TimelineAccountsIdResponse,
 } from "@pulsate-dev/exp-api-types";
-import { TimelineResponse } from "~/lib/api/timeline";
+import type { TimelineResponse } from "~/lib/api/timeline";
 
 export interface AccountResponse {
   id: string;

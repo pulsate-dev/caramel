@@ -15,8 +15,10 @@ import {
 
 export async function loader({
   request,
+  context,
 }: LoaderFunctionArgs): Promise<LoggedInAccountResponse> {
-  return loggedInAccount(request, "");
+    const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+  return loggedInAccount(request, basePath);
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {

@@ -1,4 +1,4 @@
-import {
+import type {
   PostV0LoginError,
   PostV0LoginResponse,
 } from "@pulsate-dev/exp-api-types";

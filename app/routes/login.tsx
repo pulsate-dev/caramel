@@ -20,7 +20,8 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
   const name = formData.get("name") as string;
   const passphrase = formData.get("passphrase") as string;
 
-  const res = await login({ name, passphrase }, context);
+  const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+  const res = await login({ name, passphrase }, basePath);
   if ("error" in res) {
     return res.error;
   }
