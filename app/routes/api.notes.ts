@@ -11,7 +11,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
   try {
     const formData = await request.formData();
     const basePath = (context.cloudflare.env as Env).API_BASE_URL;
-    const res = await fetch(new URL(`/v0/notes`, basePath), {
+    const res = await fetch(new URL("/v0/notes", basePath), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -19,7 +19,7 @@ export const login = async (
     }
 > => {
   try {
-    const response = await fetch(new URL(`/v0/login`, basePath), {
+    const response = await fetch(new URL("/v0/login", basePath), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
