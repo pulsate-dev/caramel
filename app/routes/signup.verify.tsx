@@ -17,7 +17,7 @@ export const loader = async ({
   try {
     const basePath = (context.cloudflare.env as Env).API_BASE_URL;
     const res = await fetch(
-      `${basePath}/v0/accounts/${accountName}/verify_email`,
+      new URL(`/v0/accounts/${accountName}/verify_email`, basePath),
       {
         method: "POST",
         headers: {

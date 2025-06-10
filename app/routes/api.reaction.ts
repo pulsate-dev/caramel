@@ -39,7 +39,7 @@ const reaction = async (
   basePath: string
 ): Promise<{ status: string } | { error: string }> => {
   try {
-    const res = await fetch(`${basePath}/v0/notes/${noteID}/reaction`, {
+    const res = await fetch(new URL(`/v0/notes/${noteID}/reaction`, basePath), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -67,7 +67,7 @@ const undoReaction = async (
   basePath: string
 ): Promise<{ status: string } | { error: string }> => {
   try {
-    const res = await fetch(`${basePath}/v0/notes/${noteID}/reaction`, {
+    const res = await fetch(new URL(`/v0/notes/${noteID}/reaction`, basePath), {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
