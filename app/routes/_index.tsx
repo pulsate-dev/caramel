@@ -1,13 +1,7 @@
-<<<<<<< HEAD
 import type { LoaderFunctionArgs } from "react-router";
 import { Link, useLoaderData } from "react-router";
 import { account } from "~/lib/account";
-import { accountCookie } from "~/lib/login";
-=======
-import { Link, LoaderFunctionArgs, useLoaderData } from "react-router";
-import { account } from "~/lib/api/account";
 import { accountCookie } from "~/lib/api/login";
->>>>>>> 317cc0a (wip: app/libにAPI関連のコードを移動)
 import { parseToken } from "~/lib/parseToken";
 
 export const loader = async ({

@@ -4,10 +4,10 @@ import { EmptyState } from "~/components/emptyState";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import { Note } from "~/components/note";
 import { PostForm } from "~/components/postForm";
-import { loggedInAccount } from "~/lib/loggedInAccount";
-import { accountCookie } from "~/lib/login";
-import type { TimelineResponse } from "~/lib/timeline";
-import { fetchHomeTimeline } from "~/lib/timeline";
+import { loggedInAccount } from "~/lib/api/loggedInAccount";
+import { accountCookie } from "~/lib/api/login";
+import type { TimelineResponse } from "~/lib/api/timeline";
+import { fetchHomeTimeline } from "~/lib/api/timeline";
 import styles from "~/styles/timeline.module.css";
 
 export const meta: MetaFunction = () => {

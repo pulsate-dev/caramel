@@ -11,12 +11,12 @@ import styles from "~/root.module.css";
 import {
   loggedInAccount,
   type LoggedInAccountResponse,
-} from "./lib/loggedInAccount";
+} from "~/lib/api/loggedInAccount";
 
 export async function loader({
   request,
 }: LoaderFunctionArgs): Promise<LoggedInAccountResponse> {
-  return loggedInAccount(request);
+  return loggedInAccount(request, "");
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {

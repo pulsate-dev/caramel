@@ -5,9 +5,9 @@ import type { NoteProps } from "~/components/note";
 import { Note } from "~/components/note";
 import type { AccountResponse } from "~/lib/account";
 import { account, accountTimeline } from "~/lib/account";
-import { loggedInAccount } from "~/lib/loggedInAccount";
-import { accountCookie } from "~/lib/login";
-import type { TimelineResponse } from "~/lib/timeline";
+import { loggedInAccount } from "~/lib/api/loggedInAccount";
+import { accountCookie } from "~/lib/api/login";
+import type { TimelineResponse } from "~/lib/api/timeline";
 import styles from "~/styles/account.module.css";
 
 export const loader = async ({
