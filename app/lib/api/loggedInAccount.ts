@@ -1,7 +1,6 @@
 import { parseToken } from "../parseToken";
 import { account } from "./account";
 import { getToken } from "./getToken";
-import { accountCookie } from "./login";
 
 export interface LoggedInAccountDatum {
   id: string;
@@ -22,7 +21,7 @@ export async function loggedInAccount(
   request: Request<unknown, CfProperties<unknown>>,
   basePath: string
 ): Promise<LoggedInAccountResponse> {
-  const isLoggedIn = await getToken(request)
+  const isLoggedIn = await getToken(request);
   if (!isLoggedIn.isLoggedIn) {
     return { isSuccess: false };
   }
