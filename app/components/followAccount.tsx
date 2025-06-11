@@ -6,7 +6,7 @@ export function FollowAccount(data: FollowerResponse | FollowingResponse) {
   return (
     <div className={styles.followAccount}>
       <Link to={`/accounts/${data.name}`}>
-        <div>
+        <div className={styles.avatarNameContainer}>
           <img
             src={data.avatarURL}
             alt={`${data.nickname || data.name}'s avatar`}

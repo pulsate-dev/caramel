@@ -1,6 +1,6 @@
 .followAccount {
   border: solid #000;
-  border-width: 0 0 0.5px 0;
+  border-width: 0 0 0.5px;
 
   .avatar {
     width: 3rem;
@@ -11,7 +11,7 @@
     border-radius: 50%;
   }
 
-  div {
+  .avatarNameContainer {
     display: flex;
     align-items: center;
 
