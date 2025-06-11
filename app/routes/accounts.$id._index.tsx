@@ -125,8 +125,12 @@ export default function Account() {
         <p>{data.account.bio}</p>
         <div>
           <p>
-            <a href={`/accounts/${data.account.name}/following`}>{data.account.following_count} following</a>
-            <a href={`/accounts/${data.account.name}/follower`}>{data.account.followed_count} followers</a>
+            <a href={`/accounts/${data.account.name}/following`}>
+              {data.account.following_count} following
+            </a>
+            <a href={`/accounts/${data.account.name}/follower`}>
+              {data.account.followed_count} followers
+            </a>
           </p>
         </div>
       </div>

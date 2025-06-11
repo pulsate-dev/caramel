@@ -1,4 +1,7 @@
-import type { GetV0AccountsIdFollowerResponse, GetV0AccountsIdFollowingResponse } from "@pulsate-dev/exp-api-types";
+import type {
+  GetV0AccountsIdFollowerResponse,
+  GetV0AccountsIdFollowingResponse,
+} from "@pulsate-dev/exp-api-types";
 
 interface FollowResponseBase {
   id: string;
@@ -42,7 +45,7 @@ export async function getFollowingList(
         avatarURL: account.avatar,
       })),
     };
-  } catch{
+  } catch {
     return { isSuccess: false };
   }
 }
@@ -54,7 +57,7 @@ export async function getFollowersList(
 ): Promise<
   { isSuccess: true; response: FollowerResponse[] } | { isSuccess: false }
 > {
-try {
+  try {
     const followerRes = await fetch(
       new URL(`/v0/accounts/${accountID}/follower`, basePath),
       {
