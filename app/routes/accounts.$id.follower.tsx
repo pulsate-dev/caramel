@@ -30,7 +30,7 @@ export async function loader({
 export default function Followers() {
   const loaderData = useLoaderData<typeof loader>();
   if (!loaderData.isSuccess) {
-    return <>Failed to load Followerss</>;
+    return <>Failed to load Followers</>;
   }
 
   return (
