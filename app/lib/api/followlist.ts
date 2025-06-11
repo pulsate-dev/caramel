@@ -42,7 +42,7 @@ export async function getFollowingList(
         avatarURL: account.avatar,
       })),
     };
-  } catch {
+  } catch{
     return { isSuccess: false };
   }
 }
