@@ -1,5 +1,6 @@
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { useLoaderData, useParams } from "react-router";
+import { EmptyState } from "~/components/emptyState";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import type { NoteProps } from "~/components/note";
 import { Note } from "~/components/note";
@@ -76,9 +77,9 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     return [{ title: "Account | Caramel" }, { content: "noindex" }];
   }
 
+  // ToDo: アカウントが外部アカウントである場合はnoindexを設定する (v0.1.0以降に対応する)
   return [
     { title: `${data.account.nickname} (${data.account.name}) | Caramel` },
-    { content: "noindex" },
   ];
 };
 
@@ -137,10 +138,14 @@ export default function Account() {
 
       {timelineNotes.length === 0 ? (
         // NOTE: paramsで指定されたアカウントが空である場合は404が表示されるので，ここではnon-null assertionを使う
-        <EmptyAccountTimeline
-          accountName={params.id!}
-          isThisAccountSelf={isThisAccountSelf}
-        />
+        <EmptyState emoji="💭">
+          <h3>No notes yet</h3>
+          <p>
+            {isThisAccountSelf
+              ? "Your notes will appear here when you post them."
+              : `${data.account.name} hasn&#39;t made any notes yet.`}
+          </p>
+        </EmptyState>
       ) : (
         <AccountTimeline notes={timelineNotes} />
       )}
@@ -164,32 +169,10 @@ const AccountTimeline = ({ notes }: AccountTimelineProps) => {
       })}
 
       <div>
-        {notes.length < 20 ? (
-          <></>
-        ) : (
+        {notes.length >= 20 && (
           <LoadMoreNoteButton type="older" noteID={notes.at(-1)!.id} />
         )}
       </div>
-    </div>
-  );
-};
-
-const EmptyAccountTimeline = ({
-  accountName,
-  isThisAccountSelf,
-}: {
-  accountName: string;
-  isThisAccountSelf: boolean;
-}) => {
-  return (
-    <div className={styles.emptyState}>
-      <span>💭</span>
-      <h3>No notes yet</h3>
-      <p>
-        {isThisAccountSelf
-          ? "Your notes will appear here when you post them."
-          : `${accountName} hasn&#39;t made any notes yet.`}
-      </p>
     </div>
   );
 };
