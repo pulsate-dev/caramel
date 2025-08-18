@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@cloudflare/vite-plugin':
         specifier: ^1.5.0
-        version: 1.11.4(rollup@4.46.2)(vite@7.1.2(yaml@2.8.0))(workerd@1.20250803.0)(wrangler@4.28.1(@cloudflare/workers-types@4.20250813.0))
+        version: 1.11.5(rollup@4.46.2)(vite@7.1.2(yaml@2.8.0))(workerd@1.20250803.0)(wrangler@4.28.1(@cloudflare/workers-types@4.20250813.0))
       '@marsidev/react-turnstile':
         specifier: ^1.1.0
         version: 1.3.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -257,11 +257,11 @@ packages:
       workerd:
         optional: true
 
-  '@cloudflare/vite-plugin@1.11.4':
-    resolution: {integrity: sha512-nkSPxLZWM67fez08Zb0oU//mk1NGk4RDt6MCwtxDysBfqSg4UMsnOQOaYzuSYfAE4IQLAZtMfVl8tGdcsAJ+hg==}
+  '@cloudflare/vite-plugin@1.11.5':
+    resolution: {integrity: sha512-un5CFooAJhnoOQVX98a90m2fmeqp1UOZF0619yOZvkm4E/9xTrO9Qq72f8bG7jxiliF7kuy/VzY0ixjRhZaZYw==}
     peerDependencies:
       vite: ^6.1.0 || ^7.0.0
-      wrangler: ^4.29.1
+      wrangler: ^4.30.0
 
   '@cloudflare/workerd-darwin-64@1.20250803.0':
     resolution: {integrity: sha512-6QciMnJp1p3F1qUiN0LaLfmw7SuZA/gfUBOe8Ft81pw16JYZ3CyiqIKPJvc1SV8jgDx8r+gz/PRi1NwOMt329A==}
@@ -1990,8 +1990,8 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  miniflare@4.20250813.0:
-    resolution: {integrity: sha512-PsAGaNpdKXZvnaOvw2dpWWszhHtOX5ZwHLf7fEtW/g6QBSzdS707vFFbBBaew63hcpgo33CbuXZc0Z0P/5jNWQ==}
+  miniflare@4.20250813.1:
+    resolution: {integrity: sha512-6PyXwR4pZmH9ukO0jR5LmhlFVMktsVVGVcUjD9Lpev5QwnqjTRPEv73cnXCe0+oTbIm5TYnvXsAklaWxQuxstA==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -2486,8 +2486,8 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
 
-  supports-color@10.1.0:
-    resolution: {integrity: sha512-GBuewsPrhJPftT+fqDa9oI/zc5HNsG9nREqwzoSFDOIqf0NggOZbHQj2TE1P1CDJK8ZogFnlZY9hWoUiur7I/A==}
+  supports-color@10.2.0:
+    resolution: {integrity: sha512-5eG9FQjEjDbAlI5+kdpdyPIBMRH4GfTVDGREVupaZHmVoppknhM29b/S9BkQz7cathp85BVgRi/As3Siln7e0Q==}
     engines: {node: '>=18'}
 
   supports-color@7.2.0:
@@ -2570,6 +2570,10 @@ packages:
 
   undici@7.13.0:
     resolution: {integrity: sha512-l+zSMssRqrzDcb3fjMkjjLGmuiiK2pMIcV++mJaAc9vhjSGpvM7h43QgP+OAMb1GImHmbPyG2tBXeuyG5iY4gA==}
+    engines: {node: '>=20.18.1'}
+
+  undici@7.14.0:
+    resolution: {integrity: sha512-Vqs8HTzjpQXZeXdpsfChQTlafcMQaaIwnGwLam1wudSSjlJeQ3bw1j+TLPePgrCnCpUXx7Ba5Pdpf5OBih62NQ==}
     engines: {node: '>=20.18.1'}
 
   unenv@2.0.0-rc.19:
@@ -2971,13 +2975,13 @@ snapshots:
     optionalDependencies:
       workerd: 1.20250803.0
 
-  '@cloudflare/vite-plugin@1.11.4(rollup@4.46.2)(vite@7.1.2(yaml@2.8.0))(workerd@1.20250803.0)(wrangler@4.28.1(@cloudflare/workers-types@4.20250813.0))':
+  '@cloudflare/vite-plugin@1.11.5(rollup@4.46.2)(vite@7.1.2(yaml@2.8.0))(workerd@1.20250803.0)(wrangler@4.28.1(@cloudflare/workers-types@4.20250813.0))':
     dependencies:
       '@cloudflare/unenv-preset': 2.6.1(unenv@2.0.0-rc.19)(workerd@1.20250803.0)
       '@mjackson/node-fetch-server': 0.6.1
       '@rollup/plugin-replace': 6.0.2(rollup@4.46.2)
       get-port: 7.1.0
-      miniflare: 4.20250813.0
+      miniflare: 4.20250813.1
       picocolors: 1.1.1
       tinyglobby: 0.2.14
       unenv: 2.0.0-rc.19
@@ -3419,7 +3423,7 @@ snapshots:
     dependencies:
       '@poppinss/colors': 4.1.5
       '@sindresorhus/is': 7.0.2
-      supports-color: 10.1.0
+      supports-color: 10.2.0
 
   '@poppinss/exception@1.2.2': {}
 
@@ -4695,7 +4699,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  miniflare@4.20250813.0:
+  miniflare@4.20250813.1:
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       acorn: 8.14.0
@@ -4704,7 +4708,7 @@ snapshots:
       glob-to-regexp: 0.4.1
       sharp: 0.33.5
       stoppable: 1.1.0
-      undici: 7.13.0
+      undici: 7.14.0
       workerd: 1.20250813.0
       ws: 8.18.0
       youch: 4.1.0-beta.10
@@ -5263,7 +5267,7 @@ snapshots:
 
   strip-json-comments@3.1.1: {}
 
-  supports-color@10.1.0: {}
+  supports-color@10.2.0: {}
 
   supports-color@7.2.0:
     dependencies:
@@ -5352,6 +5356,8 @@ snapshots:
       which-boxed-primitive: 1.1.1
 
   undici@7.13.0: {}
+
+  undici@7.14.0: {}
 
   unenv@2.0.0-rc.19:
     dependencies:
