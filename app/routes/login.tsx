@@ -33,7 +33,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
   const res = await login({ name, passphrase }, basePath);
   if ("error" in res) {
     const errorMessage =
-      res.error === "Invalid credentials"
+      res.error === "INVALID_CREDENTIALS"
         ? ERROR_MESSAGES.invalidCredentials
         : ERROR_MESSAGES.connectionFailed;
     return { error: errorMessage } satisfies ActionData;

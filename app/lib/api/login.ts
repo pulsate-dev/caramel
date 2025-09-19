@@ -9,11 +9,14 @@ export type LoginArgs = {
   passphrase: string;
 };
 
+export type ERROR_MESSAGES = "INVALID_CREDENTIALS" | "CONNECTION_FAILED";
+
+
 export const login = async (
   { name, passphrase }: LoginArgs,
   basePath: string
 ): Promise<
-  | { error: string }
+  | { error: ERROR_MESSAGES }
   | {
       authorization_token: string;
     }
@@ -29,21 +32,23 @@ export const login = async (
 
     if (!response.ok) {
       if (response.status === 400) {
-        throw new Error("Invalid credentials");
+        return { error: "INVALID_CREDENTIALS" };
       }
-      throw new Error("Unknown error");
+      return { error: "CONNECTION_FAILED" };
     }
 
     const res = (await response.json()) as
       | PostV0LoginError
       | PostV0LoginResponse;
 
-    if ("authorization_token" in res) {
-      return { authorization_token: res.authorization_token };
+    if (!("authorization_token" in res)) {
+      console.error("Unexpected response: response does not contains authorization_token.", res)
+      return {error: "CONNECTION_FAILED"};
     }
-    return { error: res.error };
+    return { authorization_token: res.authorization_token };
   } catch (e) {
-    return { error: (e as Error).message };
+    console.error("Unexpected Error:", e);
+    return { error: "CONNECTION_FAILED" };
   }
 };
 
