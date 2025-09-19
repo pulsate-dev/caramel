@@ -11,7 +11,6 @@ export type LoginArgs = {
 
 export type ERROR_MESSAGES = "INVALID_CREDENTIALS" | "CONNECTION_FAILED";
 
-
 export const login = async (
   { name, passphrase }: LoginArgs,
   basePath: string
@@ -42,8 +41,11 @@ export const login = async (
       | PostV0LoginResponse;
 
     if (!("authorization_token" in res)) {
-      console.error("Unexpected response: response does not contains authorization_token.", res)
-      return {error: "CONNECTION_FAILED"};
+      console.error(
+        "Unexpected response: response does not contains authorization_token.",
+        res
+      );
+      return { error: "CONNECTION_FAILED" };
     }
     return { authorization_token: res.authorization_token };
   } catch (e) {
