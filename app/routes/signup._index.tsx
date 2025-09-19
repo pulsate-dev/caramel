@@ -33,7 +33,7 @@ export const action = async ({
       return { error: "Failed to create account" };
     }
 
-    return redirect("/signup/success");
+    return redirect("/signup/confirmation");
   } catch (e) {
     console.error(e);
     return { error: "Something went wrong" };
