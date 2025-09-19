@@ -7,3 +7,9 @@
     text-align: center;
   }
 }
+
+.errorMessage {
+  color: var(--color-destructive-500, #d92d20);
+  margin-bottom: 1rem;
+  text-align: center;
+}
