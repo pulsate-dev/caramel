@@ -26,11 +26,11 @@ export const meta: MetaFunction = () => {
 
 export const action = async ({ request, context }: ActionFunctionArgs) => {
   const formData = await request.formData();
-  const name = formData.get("name") as string;
+  const email = formData.get("email") as string;
   const passphrase = formData.get("passphrase") as string;
 
   const basePath = (context.cloudflare.env as Env).API_BASE_URL;
-  const res = await login({ name, passphrase }, basePath);
+  const res = await login({ email, passphrase }, basePath);
   if ("error" in res) {
     const errorMessage =
       res.error === "INVALID_CREDENTIALS"
@@ -63,14 +63,14 @@ export default function Login() {
       </p>
 
       <Form method="post" className={styles.loginForm}>
-        <label htmlFor="name">Account name [required]</label>
+        <label htmlFor="email">Email address [required]</label>
         <input
-          type="text"
-          id="name"
-          name="name"
+          type="email"
+          id="email"
+          name="email"
           required
-          placeholder="@hello@s.pulsate.dev"
-          autoComplete="username"
+          placeholder="name@example.com"
+          autoComplete="email"
         />
         <label htmlFor="password">Passphrase [required]</label>
         <input
