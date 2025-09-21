@@ -13,13 +13,13 @@ jobs:
       CI: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
 
       - name: Setup Node.js 22
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: "pnpm"
@@ -34,7 +34,7 @@ jobs:
         run: pnpm run lint && pnpm run format:check
 
       - name: Clone backend
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: "pulsate-dev/pulsate"
           path: "backend/"
