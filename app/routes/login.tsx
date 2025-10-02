@@ -70,7 +70,7 @@ export default function Login() {
           name="email"
           required
           placeholder="name@example.com"
-          autoComplete="email"
+          autoComplete="username"
         />
         <label htmlFor="password">Passphrase [required]</label>
         <input
