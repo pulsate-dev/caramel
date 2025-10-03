@@ -5,14 +5,14 @@ import type {
 import { createCookie } from "react-router";
 
 export type LoginArgs = {
-  name: string;
+  email: string;
   passphrase: string;
 };
 
 export type ERROR_MESSAGES = "INVALID_CREDENTIALS" | "CONNECTION_FAILED";
 
 export const login = async (
-  { name, passphrase }: LoginArgs,
+  { email, passphrase }: LoginArgs,
   basePath: string
 ): Promise<
   | { error: ERROR_MESSAGES }
@@ -26,7 +26,7 @@ export const login = async (
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name, passphrase, captcha_token: "" }),
+      body: JSON.stringify({ email, passphrase, captcha_token: "" }),
     });
 
     if (!response.ok) {
