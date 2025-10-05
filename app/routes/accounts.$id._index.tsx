@@ -123,8 +123,7 @@ export default function Account() {
     })
   );
   const params = useParams();
-  const isThisAccountSelf = !!params.id && params.id === loggedInAccount?.name;
-
+  const isThisAccountSelf = data.account.id === data.loggedInAccountID;
   return (
     <>
       <div className={styles.accountData}>
