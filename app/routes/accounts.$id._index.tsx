@@ -1,6 +1,7 @@
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { useLoaderData, useParams } from "react-router";
 import { EmptyState } from "~/components/emptyState";
+import { FollowButton } from "~/components/followButton";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import type { NoteProps } from "~/components/note";
 import { Note } from "~/components/note";
@@ -8,6 +9,10 @@ import type { AccountResponse } from "~/lib/account";
 import { account, accountTimeline } from "~/lib/account";
 import { getToken } from "~/lib/api/getToken";
 import { loggedInAccount } from "~/lib/api/loggedInAccount";
+import {
+  accountRelationship,
+  type AccountRelationshipResponse,
+} from "~/lib/api/relationship";
 import type { TimelineResponse } from "~/lib/api/timeline";
 import styles from "~/styles/account.module.css";
 
@@ -22,6 +27,7 @@ export const loader = async ({
       account: AccountResponse;
       timeline: TimelineResponse[];
       loggedInAccountID: string;
+      relationships: AccountRelationshipResponse;
     }
 > => {
   const basePath = (context.cloudflare.env as Env).API_BASE_URL;
@@ -61,11 +67,21 @@ export const loader = async ({
     return { error: "not logged in" };
   }
 
+  const relationshipRes = await accountRelationship(
+    basePath,
+    token,
+    accountRes.id
+  );
+  if (!relationshipRes.isSuccess) {
+    return { error: "failed to fetch relationship" };
+  }
+
   return {
     error: undefined,
     account: accountRes,
     timeline: timelineRes,
     loggedInAccountID: loggedInAccountDatum.response.id,
+    relationships: relationshipRes.response,
   };
 };
 
@@ -123,6 +139,14 @@ export default function Account() {
         <h1>
           {data.account.nickname} <span>{data.account.name}</span>
         </h1>
+
+        {!isThisAccountSelf && (
+          <FollowButton
+            accountName={data.account.name}
+            relationship={data.relationships}
+          />
+        )}
+
         <p>{data.account.bio}</p>
         <div>
           <p>
