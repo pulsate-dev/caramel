@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
-import { useLoaderData, useParams } from "react-router";
+import { useLoaderData } from "react-router";
 import { EmptyState } from "~/components/emptyState";
 import { FollowButton } from "~/components/followButton";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
@@ -122,7 +122,7 @@ export default function Account() {
       loggedInAccountID: data.loggedInAccountID ?? "",
     })
   );
-  const params = useParams();
+
   const isThisAccountSelf = data.account.id === data.loggedInAccountID;
   return (
     <>

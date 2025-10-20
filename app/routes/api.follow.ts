@@ -29,7 +29,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
         );
       }
       default: {
-        return { error: "method not allowed"}
+        return { error: "method not allowed" };
       }
     }
   } catch (e) {
