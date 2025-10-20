@@ -26,18 +26,18 @@ export function FollowButton({
   }, [fetcher.state, fetcher.data, fetcher.formMethod]);
 
   const handleFollow = async () => {
-    setIsFollowing(true);
     await fetcher.submit(
       { accountName: accountName },
       { method: "post", action: "/api/follow" }
     );
+    setIsFollowing(true);
   };
   const handleUnfollow = async () => {
-    setIsFollowing(false);
     await fetcher.submit(
       { accountName: accountName },
       { method: "delete", action: "/api/follow" }
     );
+    setIsFollowing(false);
   };
 
   /**
@@ -60,11 +60,11 @@ export function FollowButton({
 
   return (
     <button
-      onClick={async () => {
+      onClick={() => {
         if (isFollowing) {
-          await handleUnfollow();
+          handleUnfollow();
         } else {
-          await handleFollow();
+          handleFollow();
         }
       }}
     >
