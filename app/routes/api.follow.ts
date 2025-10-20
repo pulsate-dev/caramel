@@ -3,11 +3,11 @@ import { followAccount, unfollowAccount } from "~/lib/api/follow";
 import { getToken } from "~/lib/api/getToken";
 
 export const action = async ({ request, context }: ActionFunctionArgs) => {
-  const isLoggedIn = await getToken(request);
-  if (!isLoggedIn.isLoggedIn) {
+  const auth = await getToken(request);
+  if (!auth.isLoggedIn) {
     return { error: "unauthorized" };
   }
-  const token = isLoggedIn.token;
+  const token = auth.token;
 
   try {
     const formData = await request.formData();
