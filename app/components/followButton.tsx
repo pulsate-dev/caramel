@@ -19,7 +19,8 @@ export function FollowButton({
     if (fetcher.state === "loading") {
       if ("error" in fetcher.data) {
         if (fetcher.formMethod === "POST") setIsFollowing(false);
-        if (fetcher.formMethod === "DELETE") setIsFollowing(true);
+        if (fetcher.formMethod === "DELETE")
+          setIsFollowing(relationship.isFollowing);
       }
     }
   }, [fetcher.state]);

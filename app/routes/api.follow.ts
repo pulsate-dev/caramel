@@ -28,6 +28,9 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
           formData.get("accountName") as string
         );
       }
+      default: {
+        return { error: "method not allowed"}
+      }
     }
   } catch (e) {
     console.error(e);

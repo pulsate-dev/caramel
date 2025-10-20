@@ -39,7 +39,7 @@ export async function unfollowAccount(
         },
       }
     );
-    if (followRes.status != 204) {
+    if (followRes.status !== 204) {
       return { isSuccess: false };
     }
   } catch (e) {
