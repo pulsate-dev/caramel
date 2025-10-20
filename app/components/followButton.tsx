@@ -23,7 +23,7 @@ export function FollowButton({
           setIsFollowing(relationship.isFollowing);
       }
     }
-  }, [fetcher.state]);
+  }, [fetcher.state, fetcher.data, fetcher.formMethod]);
 
   const handleFollow = async () => {
     setIsFollowing(true);
