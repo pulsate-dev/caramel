@@ -146,6 +146,12 @@ export default function Account() {
           />
         )}
 
+        {isThisAccountSelf && (
+          <a href={`/accounts/${data.account.name}/edit`}>
+            <button type="button">Edit Profile</button>
+          </a>
+        )}
+
         <p>{data.account.bio}</p>
         <div>
           <p>
