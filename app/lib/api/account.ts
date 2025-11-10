@@ -117,7 +117,7 @@ export const updateAccount = async (
   name: string,
   bio: string,
   nickname: string | undefined,
-  token: string,
+  token: string
 ): Promise<UpdateAccountResponse | { error: string }> => {
   try {
     const body: UpdateAccountRequest = {

@@ -34,8 +34,8 @@ type LoaderData =
     };
 
 export const meta: MetaFunction<typeof loader> = () => [
-    { title: "Edit Account | Caramel" },
-    { content: "noindex" },
+  { title: "Edit Account | Caramel" },
+  { content: "noindex" },
 ];
 
 export const loader = async ({
@@ -78,7 +78,11 @@ export const loader = async ({
   };
 };
 
-export const action = async ({ request, params, context }: ActionFunctionArgs) => {
+export const action = async ({
+  request,
+  params,
+  context,
+}: ActionFunctionArgs) => {
   const basePath = (context.cloudflare.env as Env).API_BASE_URL;
 
   const tokenData = await getToken(request);
@@ -117,8 +121,10 @@ export const action = async ({ request, params, context }: ActionFunctionArgs) =
     token
   );
 
-if ("error" in res) {
-    const errorMessage = ERROR_MESSAGES[res.error as keyof typeof ERROR_MESSAGES] ?? ERROR_MESSAGES.unknownError;
+  if ("error" in res) {
+    const errorMessage =
+      ERROR_MESSAGES[res.error as keyof typeof ERROR_MESSAGES] ??
+      ERROR_MESSAGES.unknownError;
     return { error: errorMessage } satisfies ActionData;
   }
 
@@ -145,8 +151,18 @@ export default function AccountEdit() {
         {loaderData.account.nickname} ({loaderData.account.name})
       </p>
 
-      <Form method="post" style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: "600px" }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+      <Form
+        method="post"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+          maxWidth: "600px",
+        }}
+      >
+        <div
+          style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
+        >
           <label htmlFor="nickname">Nickname</label>
           <input
             type="text"
@@ -157,7 +173,9 @@ export default function AccountEdit() {
           />
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+        <div
+          style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
+        >
           <label htmlFor="bio">Bio</label>
           <textarea
             id="bio"
