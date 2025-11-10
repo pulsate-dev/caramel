@@ -1,6 +1,8 @@
 import type {
   GetV0AccountsIdentifierResponse,
   GetV0TimelineAccountsIdResponse,
+  UpdateAccountRequest,
+  UpdateAccountResponse,
 } from "@pulsate-dev/exp-api-types";
 import type { TimelineResponse } from "~/lib/api/timeline";
 
@@ -105,6 +107,47 @@ export const accountTimeline = async (
           ),
         }) satisfies TimelineResponse
     );
+  } catch {
+    return { error: "unknown error" };
+  }
+};
+
+export const updateAccount = async (
+  basePath: string,
+  name: string,
+  bio: string,
+  nickname: string | undefined,
+  token: string,
+): Promise<UpdateAccountResponse | { error: string }> => {
+  try {
+    const body: UpdateAccountRequest = {
+      bio,
+      ...(nickname !== undefined && { nickname }),
+    };
+
+    const res = await fetch(new URL(`/v0/accounts/${name}`, basePath), {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) {
+      switch (res.status) {
+        case 400:
+          return { error: "invalid request" };
+        case 404:
+          return { error: "account not found" };
+        case 500:
+          return { error: "internal server error" };
+        default:
+          return { error: "unknown error" };
+      }
+    }
+
+    return (await res.json()) as UpdateAccountResponse;
   } catch {
     return { error: "unknown error" };
   }
