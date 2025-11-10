@@ -122,10 +122,14 @@ export const action = async ({
   );
 
   if ("error" in res) {
-    const errorMessage =
-      ERROR_MESSAGES[res.error as keyof typeof ERROR_MESSAGES] ??
-      ERROR_MESSAGES.unknownError;
-    return { error: errorMessage } satisfies ActionData;
+    const errorKeyMap: Record<string, keyof typeof ERROR_MESSAGES> = {
+      "invalid request": "invalidRequest",
+      "account not found": "accountNotFound",
+      "internal server error": "internalServerError",
+      "unknown error": "unknownError",
+    };
+    const errorKey = errorKeyMap[res.error] ?? "unknownError";
+    return { error: ERROR_MESSAGES[errorKey] } satisfies ActionData;
   }
 
   return redirect(`/accounts/${accountRes.name}`);
