@@ -35,7 +35,7 @@ type LoaderData =
 
 export const meta: MetaFunction<typeof loader> = () => [
   { title: "Edit Account | Caramel" },
-  { content: "noindex" },
+  { name: "robots", content: "noindex" },
 ];
 
 export const loader = async ({
@@ -82,7 +82,7 @@ export const action = async ({
   request,
   params,
   context,
-}: ActionFunctionArgs) => {
+}: ActionFunctionArgs): Promise<ActionData | Response> => {
   const basePath = (context.cloudflare.env as Env).API_BASE_URL;
 
   const tokenData = await getToken(request);
@@ -117,7 +117,7 @@ export const action = async ({
     basePath,
     accountRes.name,
     bio,
-    nickname || undefined,
+    nickname,
     token
   );
 

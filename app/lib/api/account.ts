@@ -116,13 +116,13 @@ export const updateAccount = async (
   basePath: string,
   name: string,
   bio: string,
-  nickname: string | undefined,
+  nickname: string,
   token: string
 ): Promise<UpdateAccountResponse | { error: string }> => {
   try {
     const body: UpdateAccountRequest = {
       bio,
-      ...(nickname !== undefined && { nickname }),
+      nickname,
     };
 
     const res = await fetch(new URL(`/v0/accounts/${name}`, basePath), {
