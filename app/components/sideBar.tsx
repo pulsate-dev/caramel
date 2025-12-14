@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import style from "~/components/sideBar.module.css";
 import type { LoggedInAccountDatum } from "~/lib/api/loggedInAccount";
+import { defaultAccountAvatar } from "~/lib/defaultAccountImage";
 
 interface SideBarLink {
   name: string;
@@ -49,7 +50,7 @@ export const SideBar = ({
       {isLoggedIn ? (
         <div className={style.loggedInAccountContainer}>
           <img
-            src={loggedInAccountDatum.avatarURL}
+            src={defaultAccountAvatar(loggedInAccountDatum.avatarURL)}
             alt={`${loggedInAccountDatum.nickname ?? loggedInAccountDatum.name}'s avatar`}
             className={style.avatar}
           />

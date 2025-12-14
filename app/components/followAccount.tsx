@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import styles from "~/components/followAccount.module.css";
 import type { FollowerResponse, FollowingResponse } from "~/lib/api/followlist";
+import { defaultAccountAvatar } from "~/lib/defaultAccountImage";
 
 export function FollowAccount(data: FollowerResponse | FollowingResponse) {
   return (
@@ -8,7 +9,7 @@ export function FollowAccount(data: FollowerResponse | FollowingResponse) {
       <Link to={`/accounts/${data.name}`}>
         <div className={styles.avatarNameContainer}>
           <img
-            src={data.avatarURL}
+            src={defaultAccountAvatar(data.avatarURL)}
             alt={`${data.nickname || data.name}'s avatar`}
             loading="lazy"
             className={styles.avatar}
