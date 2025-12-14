@@ -14,6 +14,7 @@ import {
   type AccountRelationshipResponse,
 } from "~/lib/api/relationship";
 import type { TimelineResponse } from "~/lib/api/timeline";
+import { defaultAccountAvatar } from "~/lib/defaultAccountImage";
 import styles from "~/styles/account.module.css";
 
 export const loader = async ({
@@ -130,7 +131,7 @@ export default function Account() {
         <div>
           <img
             className={styles.avatarImage}
-            src={data.account.avatar}
+            src={defaultAccountAvatar(data.account.avatar)}
             alt={`${data.account.nickname}'s avatar image`}
             loading={"lazy"}
           />
