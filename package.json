@@ -4,7 +4,7 @@
   "description": "Minimal Pulsate Web Client",
   "type": "module",
   "license": "Apache-2.0",
-  "packageManager": "pnpm@10.26.1",
+  "packageManager": "pnpm@10.26.2",
   "private": true,
   "sideEffects": false,
   "author": {
