@@ -16,7 +16,7 @@ test("has latest timeline info", async ({ page }) => {
   const content = `テスト投稿: ${rand}`;
   await page.locator("#content").fill(content);
   await page.locator("#visibility").selectOption("PUBLIC");
-  await page.locator("#content + [type='submit']").click();
+  await page.locator("#visibility + [type='submit']").click();
 
   // 4. test expectation about showing the latest note I just posted
   await page.reload();
