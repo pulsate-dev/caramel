@@ -19,7 +19,7 @@ test("has latest timeline info", async ({ page }) => {
   await page.locator("#visibility + [type='submit']").click();
 
   // 4. test expectation about showing the latest note I just posted
-  await page.reload();
+  await page.goto("/accounts/@john@example.com");
   await expect(page.getByText(content)).toBeVisible();
 
   // 5. logout
