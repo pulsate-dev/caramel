@@ -1,9 +1,8 @@
+import type { GetV0NotesIdResponse } from "@pulsate-dev/exp-api-types";
 import type { LoaderFunctionArgs } from "react-router";
 import { redirect, useLoaderData } from "react-router";
 import { Note } from "~/components/note";
-import { ReplyForm } from "~/components/replyForm";
 import { getToken } from "~/lib/api/getToken";
-import type { GetV0NotesIdResponse } from "@pulsate-dev/exp-api-types";
 
 export const loader = async ({
   params,
@@ -37,7 +36,7 @@ export default function RenotePage() {
 
   return (
     <div>
-      <h1>引用リノート</h1>
+      <h1>Quote</h1>
       <Note
         id={note.id}
         content={note.content}
@@ -50,7 +49,6 @@ export default function RenotePage() {
         reactions={note.reactions}
         loggedInAccountID=""
       />
-      <ReplyForm noteID={note.id} action="/api/renote" />
     </div>
   );
 }
