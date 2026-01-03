@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useFetcher } from "react-router";
 import styles from "~/components/note.module.css";
 import { defaultAccountAvatar } from "~/lib/defaultAccountImage";
+import { RenoteMenu } from "~/components/renoteMenu";
 import type { action } from "~/routes/api.reaction";
 
 export interface NoteProps {
@@ -18,6 +19,7 @@ export interface NoteProps {
     reactedBy: string;
   }[];
   loggedInAccountID: string;
+  renoteCount?: number;
 }
 
 export const Note = ({
@@ -27,6 +29,7 @@ export const Note = ({
   author,
   reactions,
   loggedInAccountID,
+  renoteCount = 0,
 }: NoteProps) => {
   const fetcher = useFetcher<typeof action>();
   const [isReacted, setIsReacted] = useState(
@@ -92,18 +95,22 @@ export const Note = ({
       ) : (
         <p>{content}</p>
       )}
-      <button
-        onClick={async () => {
-          if (isReacted) {
-            handleUndoReaction();
-          } else {
-            handleReaction("👍");
-          }
-        }}
-      >
-        👍 {reactions.length}{" "}
-        {isReacted ? <span>(reacted)</span> : <span></span>}
-      </button>
+      <div className={styles.actionButtons}>
+        <Link to={`/notes/${id}/reply`}>返信</Link>
+        <RenoteMenu noteID={id} initialRenoteCount={renoteCount} />
+        <button
+          onClick={async () => {
+            if (isReacted) {
+              handleUndoReaction();
+            } else {
+              handleReaction("👍");
+            }
+          }}
+        >
+          👍 {reactions.length}{" "}
+          {isReacted ? <span>(reacted)</span> : <span></span>}
+        </button>
+      </div>
     </div>
   );
 };
