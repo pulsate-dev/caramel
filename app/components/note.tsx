@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useFetcher } from "react-router";
 import styles from "~/components/note.module.css";
+import { RenoteHeader } from "~/components/renoteHeader";
 import { RenoteMenu } from "~/components/renoteMenu";
 import { defaultAccountAvatar } from "~/lib/defaultAccountImage";
 import type { action } from "~/routes/api.reaction";
@@ -19,6 +20,14 @@ export interface NoteProps {
     reactedBy: string;
   }[];
   loggedInAccountID: string;
+  renoteInfo?: {
+    renoteBy: {
+      avatar: string;
+      name: string;
+      nickname: string;
+    };
+    quoteComment?: string;
+  };
 }
 
 export const Note = ({
@@ -28,6 +37,7 @@ export const Note = ({
   author,
   reactions,
   loggedInAccountID,
+  renoteInfo,
 }: NoteProps) => {
   const fetcher = useFetcher<typeof action>();
   const [isReacted, setIsReacted] = useState(
@@ -70,6 +80,17 @@ export const Note = ({
 
   return (
     <div className={styles.note}>
+      {renoteInfo && (
+        <RenoteHeader
+          renoteBy={renoteInfo.renoteBy}
+          isQuote={
+            !!renoteInfo.quoteComment && renoteInfo.quoteComment.length > 0
+          }
+        />
+      )}
+      {renoteInfo?.quoteComment && renoteInfo.quoteComment.length > 0 && (
+        <p className={styles.quoteComment}>{renoteInfo.quoteComment}</p>
+      )}
       <Link to={`/accounts/${author.name}`}>
         <div className={styles.accountNameContainer}>
           <div className={styles.avatarImageContainer}>

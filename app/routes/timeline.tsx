@@ -6,6 +6,7 @@ import { Note } from "~/components/note";
 import { PostForm } from "~/components/postForm";
 import { loggedInAccount } from "~/lib/api/loggedInAccount";
 import { accountCookie } from "~/lib/api/login";
+import { fetchNoteById } from "~/lib/api/note";
 import type { TimelineResponse } from "~/lib/api/timeline";
 import { fetchHomeTimeline } from "~/lib/api/timeline";
 import styles from "~/styles/timeline.module.css";
@@ -44,8 +45,40 @@ export const loader = async ({
     return { error: "not logged in" };
   }
 
+  // リノートの元ノート情報を取得
+  const notesWithOriginal = await Promise.all(
+    res.notes.map(async (note) => {
+      if (note.original_note_id) {
+        const originalNote = await fetchNoteById(
+          note.original_note_id,
+          cookie,
+          basePath
+        );
+        if ("error" in originalNote) {
+          return note;
+        }
+        return {
+          ...note,
+          originalNote: {
+            id: originalNote.id,
+            content: originalNote.content,
+            contents_warning_comment: originalNote.contents_warning_comment,
+            author: {
+              id: originalNote.author.id,
+              name: originalNote.author.name,
+              display_name: originalNote.author.display_name,
+              avatar: originalNote.author.avatar,
+            },
+            reactions: originalNote.reactions,
+          },
+        };
+      }
+      return note;
+    })
+  );
+
   return {
-    notes: res.notes,
+    notes: notesWithOriginal,
     loggedInAccountID: loggedInAccountDatum.response.id,
   };
 };
@@ -97,23 +130,53 @@ function TimelineNotes({
   loggedInAccountID: string;
 }) {
   return notes.map((note) => {
-    const author = {
-      avatar: note.author.avatar,
-      name: note.author.name,
-      nickname: note.author.display_name,
-    };
-    const reactions = note.reactions.map((reaction) => ({
-      emoji: reaction.emoji,
-      reactedBy: reaction.reacted_by,
-    }));
+    const isRenote = !!note.original_note_id && !!note.originalNote;
+
+    if (isRenote) {
+      return (
+        <div key={note.id}>
+          <Note
+            id={note.id}
+            author={{
+              avatar: note.originalNote.author.avatar,
+              name: note.originalNote.author.name,
+              nickname: note.originalNote.author.display_name,
+            }}
+            content={note.originalNote.content}
+            contentsWarningComment={note.originalNote.contents_warning_comment}
+            reactions={note.reactions.map((reaction) => ({
+              emoji: reaction.emoji,
+              reactedBy: reaction.reacted_by,
+            }))}
+            loggedInAccountID={loggedInAccountID}
+            renoteInfo={{
+              renoteBy: {
+                avatar: note.author.avatar,
+                name: note.author.name,
+                nickname: note.author.display_name,
+              },
+              quoteComment: note.content,
+            }}
+          />
+        </div>
+      );
+    }
+
     return (
       <div key={note.id}>
         <Note
           id={note.id}
-          author={author}
+          author={{
+            avatar: note.author.avatar,
+            name: note.author.name,
+            nickname: note.author.display_name,
+          }}
           content={note.content}
           contentsWarningComment={note.contents_warning_comment}
-          reactions={reactions}
+          reactions={note.reactions.map((reaction) => ({
+            emoji: reaction.emoji,
+            reactedBy: reaction.reacted_by,
+          }))}
           loggedInAccountID={loggedInAccountID}
         />
       </div>

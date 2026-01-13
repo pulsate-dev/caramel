@@ -18,6 +18,24 @@ export interface TimelineResponse {
     emoji: string;
     reacted_by: string;
   }[];
+  // リノート関連フィールド
+  original_note_id?: string;
+  // 元ノート情報（サーバーサイドで取得して追加）
+  originalNote?: {
+    id: string;
+    content: string;
+    contents_warning_comment: string;
+    author: {
+      id: string;
+      name: string;
+      display_name: string;
+      avatar: string;
+    };
+    reactions: {
+      emoji: string;
+      reacted_by: string;
+    }[];
+  };
 }
 
 export const fetchHomeTimeline = async (
