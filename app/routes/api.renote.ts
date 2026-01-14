@@ -17,6 +17,10 @@ export const action = async ({
     const content = formData.get("content") as string | null;
     const visibility = formData.get("visibility") as string | null;
 
+    if (!noteID) {
+      return { error: "noteID is required" };
+    }
+
     const basePath = (context.cloudflare.env as Env).API_BASE_URL;
     const res = await fetch(new URL(`/v0/notes/${noteID}/renote`, basePath), {
       method: "POST",

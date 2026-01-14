@@ -19,6 +19,10 @@ export const loader = async ({
   }
 
   const noteID = params.id;
+  if (!noteID) {
+    throw new Error("Note ID is required");
+  }
+
   const basePath = (context.cloudflare.env as Env).API_BASE_URL;
 
   const res = await fetch(new URL(`/v0/notes/${noteID}`, basePath), {
@@ -54,6 +58,10 @@ export const action = async ({
   const formData = await request.formData();
   const content = formData.get("content") as string;
   const noteID = params.id;
+
+  if (!noteID) {
+    return { error: "Note ID is required" };
+  }
 
   const basePath = (context.cloudflare.env as Env).API_BASE_URL;
   const res = await fetch(new URL(`/v0/notes/${noteID}/renote`, basePath), {
