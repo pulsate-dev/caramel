@@ -34,11 +34,9 @@ export const action = async ({
 
     if (!res.ok) {
       const errorRes = (await res.json()) as { error: string };
-      console.log("[api.renote] error:", errorRes.error);
       return { error: errorRes.error };
     }
 
-    console.log("[api.renote] success");
     return { status: "ok" };
   } catch (e) {
     if (e instanceof Error) {

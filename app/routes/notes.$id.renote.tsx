@@ -72,7 +72,6 @@ export const action = async ({
 
   if (!res.ok) {
     const errorRes = (await res.json()) as { error: string };
-    console.log("[notes.renote] error:", errorRes.error);
     return { error: errorRes.error };
   }
 
