@@ -3,13 +3,16 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { Form, redirect, useActionData, useLoaderData } from "react-router";
 import { Note } from "~/components/note";
 import { getToken } from "~/lib/api/getToken";
+import { loggedInAccount } from "~/lib/api/loggedInAccount";
 import styles from "~/styles/renote.module.css";
 
 export const loader = async ({
   params,
   request,
   context,
-}: LoaderFunctionArgs): Promise<Response | { note: GetV0NotesIdResponse }> => {
+}: LoaderFunctionArgs): Promise<
+  Response | { note: GetV0NotesIdResponse; loggedInAccountID: string }
+> => {
   const isLoggedIn = await getToken(request);
   if (!isLoggedIn.isLoggedIn) {
     return redirect("/login");
@@ -29,7 +32,13 @@ export const loader = async ({
   }
 
   const note = (await res.json()) as GetV0NotesIdResponse;
-  return { note };
+
+  const loggedInAccountDatum = await loggedInAccount(request, basePath);
+  if (!loggedInAccountDatum.isSuccess) {
+    return redirect("/login");
+  }
+
+  return { note, loggedInAccountID: loggedInAccountDatum.response.id };
 };
 
 export const action = async ({
@@ -71,7 +80,7 @@ export const action = async ({
 };
 
 export default function RenotePage() {
-  const { note } = useLoaderData<typeof loader>();
+  const { note, loggedInAccountID } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
 
   return (
@@ -102,7 +111,7 @@ export default function RenotePage() {
           nickname: note.author.display_name,
         }}
         reactions={note.reactions}
-        loggedInAccountID=""
+        loggedInAccountID={loggedInAccountID}
       />
     </div>
   );

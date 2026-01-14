@@ -18,9 +18,7 @@ export interface TimelineResponse {
     emoji: string;
     reacted_by: string;
   }[];
-  // リノート関連フィールド
   original_note_id?: string;
-  // 元ノート情報（サーバーサイドで取得して追加）
   originalNote?: {
     id: string;
     content: string;
