@@ -144,7 +144,7 @@ export default function Account() {
 
     if (isRenote) {
       return {
-        id: note.originalNote.id,
+        id: note.id,
         content: note.originalNote.content,
         contentsWarningComment: note.originalNote.contents_warning_comment,
         author: {

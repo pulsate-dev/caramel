@@ -144,7 +144,7 @@ function TimelineNotes({
             }}
             content={note.originalNote.content}
             contentsWarningComment={note.originalNote.contents_warning_comment}
-            reactions={note.reactions.map((reaction) => ({
+            reactions={note.originalNote.reactions.map((reaction) => ({
               emoji: reaction.emoji,
               reactedBy: reaction.reacted_by,
             }))}
