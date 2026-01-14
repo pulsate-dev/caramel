@@ -28,12 +28,12 @@ export const RenoteMenu = ({ noteID }: RenoteMenuProps) => {
   // エラーハンドリング
   useEffect(() => {
     if (!fetcher.data) return;
-    if (fetcher.state === "loading") {
+    if (fetcher.state === "idle") {
       if ("error" in fetcher.data) {
         setIsRenoted(false);
       }
     }
-  }, [fetcher.state]);
+  }, [fetcher.data, fetcher.state]);
 
   const handleRenote = () => {
     setIsRenoted(true);
