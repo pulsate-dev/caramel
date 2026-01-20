@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test("has account info", async ({ page }) => {
   await page.goto("/login");
-  await page.locator("#name").fill("@john@example.com");
+  await page.locator("#email").fill("testuser101@example.com");
   await page.locator("#password").fill("じゃすた・いぐざんぽぅ");
   await page.locator("#password + [type='submit']").click();
   await page.waitForURL("/");

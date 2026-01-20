@@ -1,7 +1,9 @@
-import { Link, LoaderFunctionArgs, useLoaderData } from "react-router";
+import type { LoaderFunctionArgs } from "react-router";
+import { Link, useLoaderData } from "react-router";
 
 export const loader = async ({
   request,
+  context,
 }: LoaderFunctionArgs): Promise<{ error: string } | { status: "ok" }> => {
   const query = new URL(request.url).searchParams;
 
@@ -13,8 +15,9 @@ export const loader = async ({
     };
   }
   try {
+    const basePath = (context.cloudflare.env as Env).API_BASE_URL;
     const res = await fetch(
-      `http://localhost:3000/v0/accounts/${accountName}/verify_email`,
+      new URL(`/v0/accounts/${accountName}/verify_email`, basePath),
       {
         method: "POST",
         headers: {

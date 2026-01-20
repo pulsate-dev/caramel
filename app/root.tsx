@@ -1,22 +1,24 @@
 import {
   Links,
-  LoaderFunctionArgs,
+  type LoaderFunctionArgs,
   Meta,
   Outlet,
   Scripts,
   useLoaderData,
 } from "react-router";
 import { SideBar } from "~/components/sideBar";
-import styles from "~/root.module.css";
 import {
   loggedInAccount,
-  LoggedInAccountResponse,
-} from "./lib/loggedInAccount";
+  type LoggedInAccountResponse,
+} from "~/lib/api/loggedInAccount";
+import styles from "~/root.module.css";
 
 export async function loader({
   request,
+  context,
 }: LoaderFunctionArgs): Promise<LoggedInAccountResponse> {
-  return loggedInAccount(request);
+  const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+  return loggedInAccount(request, basePath);
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {

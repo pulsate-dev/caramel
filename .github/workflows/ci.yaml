@@ -5,6 +5,9 @@ on:
     branches:
       - main
   pull_request:
+  merge_group:
+    branches:
+      - main
 
 jobs:
   build:
@@ -13,15 +16,15 @@ jobs:
       CI: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
 
-      - name: Setup Node.js 22
-        uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
           cache: "pnpm"
 
       - name: Install dependencies
@@ -34,7 +37,7 @@ jobs:
         run: pnpm run lint && pnpm run format:check
 
       - name: Clone backend
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: "pulsate-dev/pulsate"
           path: "backend/"

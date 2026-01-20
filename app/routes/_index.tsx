@@ -1,22 +1,26 @@
-import { Link, LoaderFunctionArgs, useLoaderData } from "react-router";
+import type { LoaderFunctionArgs } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import { account } from "~/lib/account";
-import { accountCookie } from "~/lib/login";
+import { getToken } from "~/lib/api/getToken";
 import { parseToken } from "~/lib/parseToken";
 
 export const loader = async ({
   request,
+  context,
 }: LoaderFunctionArgs): Promise<{ isLoggedIn: boolean }> => {
-  const token = await accountCookie.parse(request.headers.get("Cookie"));
-  if (!token) {
+  const isLoggedIn = await getToken(request);
+  if (!isLoggedIn.isLoggedIn) {
     return { isLoggedIn: false };
   }
+  const token = isLoggedIn.token;
 
   const parsedToken = parseToken(token);
   if (parsedToken instanceof Error) {
     return { isLoggedIn: false };
   }
 
-  const accountDatum = await account(parsedToken.id, token);
+  const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+  const accountDatum = await account(parsedToken.id, token, basePath);
   return { isLoggedIn: !("error" in accountDatum) };
 };
 

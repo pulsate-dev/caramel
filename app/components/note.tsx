@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useFetcher } from "react-router";
 import styles from "~/components/note.module.css";
-import { action } from "~/routes/api.reaction";
+import { defaultAccountAvatar } from "~/lib/defaultAccountImage";
+import type { action } from "~/routes/api.reaction";
 
 export interface NoteProps {
   id: string;
@@ -72,7 +73,7 @@ export const Note = ({
         <div className={styles.accountNameContainer}>
           <div className={styles.avatarImageContainer}>
             <img
-              src={author.avatar}
+              src={defaultAccountAvatar(author.avatar)}
               alt={`${author.nickname}'s avatar`}
               loading="lazy"
             />

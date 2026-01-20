@@ -1,4 +1,4 @@
-import { TimelineResponse } from "~/lib/timeline";
+import type { TimelineResponse } from "~/lib/api/timeline";
 
 export interface AccountResponse {
   id: string;
@@ -14,10 +14,11 @@ export interface AccountResponse {
 
 export const account = async (
   identifier: string,
-  token: string | undefined
+  token: string | undefined,
+  basePath: string
 ): Promise<AccountResponse | { error: string }> => {
   try {
-    const res = await fetch(`http://localhost:3000/v0/accounts/${identifier}`, {
+    const res = await fetch(new URL(`/v0/accounts/${identifier}`, basePath), {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -34,10 +35,11 @@ export const account = async (
 export const accountTimeline = async (
   id: string,
   token: string | undefined,
+  basePath: string,
   beforeID?: string
 ): Promise<TimelineResponse[] | { error: string }> => {
   try {
-    const url = new URL(`http://localhost:3000/v0/timeline/accounts/${id}`);
+    const url = new URL(`/v0/timeline/accounts/${id}`, basePath);
     if (beforeID) {
       url.searchParams.append("before_id", beforeID);
     }
