@@ -8,7 +8,7 @@ test("has account info", async ({ page }) => {
   await page.waitForURL("/");
 
   await page.goto("/timeline");
-  await page.locator("#content").fill("test-post");
+  await page.locator("#content").fill("test post");
   await page.getByRole("button", { name: "Submit" }).click();
   await expect(page.getByText("test post")).toBeVisible();
 
