@@ -9,6 +9,7 @@ import type { AccountResponse } from "~/lib/account";
 import { account, accountTimeline } from "~/lib/account";
 import { getToken } from "~/lib/api/getToken";
 import { loggedInAccount } from "~/lib/api/loggedInAccount";
+import { fetchNoteById } from "~/lib/api/note";
 import {
   accountRelationship,
   type AccountRelationshipResponse,
@@ -77,10 +78,42 @@ export const loader = async ({
     return { error: "failed to fetch relationship" };
   }
 
+  // リノートの元ノート情報を取得
+  const timelineWithOriginal = await Promise.all(
+    timelineRes.map(async (note) => {
+      if (note.original_note_id) {
+        const originalNote = await fetchNoteById(
+          note.original_note_id,
+          token,
+          basePath
+        );
+        if ("error" in originalNote) {
+          return note;
+        }
+        return {
+          ...note,
+          originalNote: {
+            id: originalNote.id,
+            content: originalNote.content,
+            contents_warning_comment: originalNote.contents_warning_comment,
+            author: {
+              id: originalNote.author.id,
+              name: originalNote.author.name,
+              display_name: originalNote.author.display_name,
+              avatar: originalNote.author.avatar,
+            },
+            reactions: originalNote.reactions,
+          },
+        };
+      }
+      return note;
+    })
+  );
+
   return {
     error: undefined,
     account: accountRes,
-    timeline: timelineRes,
+    timeline: timelineWithOriginal,
     loggedInAccountID: loggedInAccountDatum.response.id,
     relationships: relationshipRes.response,
   };
@@ -106,8 +139,36 @@ export default function Account() {
     return <div>{data.error}</div>;
   }
 
-  const timelineNotes = data.timeline.map(
-    (note): NoteProps => ({
+  const timelineNotes = data.timeline.map((note): NoteProps => {
+    const isRenote = !!note.original_note_id && !!note.originalNote;
+
+    if (isRenote) {
+      return {
+        id: note.originalNote.id,
+        content: note.originalNote.content,
+        contentsWarningComment: note.originalNote.contents_warning_comment,
+        author: {
+          avatar: note.originalNote.author.avatar,
+          name: note.originalNote.author.name,
+          nickname: note.originalNote.author.display_name,
+        },
+        reactions: note.originalNote.reactions.map((reaction) => ({
+          emoji: reaction.emoji,
+          reactedBy: reaction.reacted_by,
+        })),
+        loggedInAccountID: data.loggedInAccountID ?? "",
+        renoteInfo: {
+          renoteBy: {
+            avatar: note.author.avatar,
+            name: note.author.name,
+            nickname: note.author.display_name,
+          },
+          quoteComment: note.content,
+        },
+      };
+    }
+
+    return {
       id: note.id,
       content: note.content,
       contentsWarningComment: note.contents_warning_comment,
@@ -121,8 +182,8 @@ export default function Account() {
         reactedBy: reaction.reacted_by,
       })),
       loggedInAccountID: data.loggedInAccountID ?? "",
-    })
-  );
+    };
+  });
 
   const isThisAccountSelf = data.account.id === data.loggedInAccountID;
   return (
