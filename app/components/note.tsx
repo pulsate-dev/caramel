@@ -120,7 +120,7 @@ function NoteActionButton(props: {
   const isReacted = props.reactions.reactions.length;
 
   const handleRenote = async () => {
-    const res = await renoteFetcher.submit(
+    await renoteFetcher.submit(
       { noteID: props.noteId },
       { method: "post", action: "/api/renote" }
     );
