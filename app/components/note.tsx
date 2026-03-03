@@ -18,6 +18,14 @@ export interface NoteProps {
     reactedBy: string;
   }[];
   loggedInAccountID: string;
+  renoteInfo?: {
+    renoteBy: {
+      avatar: string;
+      name: string;
+      nickname: string;
+    };
+    quote?: string;
+  };
 }
 
 export const Note = ({
@@ -84,26 +92,65 @@ export const Note = ({
           </h2>
         </div>
       </Link>
-      {contentsWarningComment.length !== 0 ? (
-        <details>
-          <summary>{contentsWarningComment}</summary>
-          <p>{content}</p>
-        </details>
-      ) : (
-        <p>{content}</p>
-      )}
-      <button
-        onClick={async () => {
+      <NoteContent
+        contentsWarningComment={contentsWarningComment}
+        content={content}
+      />
+      <NoteActionButton
+        noteId={id}
+        reactions={{ reactions: reactions }}
+        onReaction={async (emoji: string) => {
           if (isReacted) {
             handleUndoReaction();
           } else {
-            handleReaction("👍");
+            handleReaction(emoji);
           }
         }}
-      >
-        👍 {reactions.length}{" "}
+      />
+    </div>
+  );
+};
+
+function NoteActionButton(props: {
+  noteId: string;
+  reactions: Pick<NoteProps, "reactions">;
+  onReaction: (emoji: string) => Promise<void>;
+}) {
+  const renoteFetcher = useFetcher();
+  const isReacted = props.reactions.reactions.length;
+
+  const handleRenote = async () => {
+    const res = await renoteFetcher.submit(
+      { noteID: props.noteId },
+      { method: "post", action: "/api/renote" }
+    );
+  };
+
+  return (
+    <div>
+      <button onClick={async () => await handleRenote()}>Renote</button>
+      <button onClick={async () => props.onReaction("👍")}>
+        👍 {props.reactions.reactions.length}{" "}
         {isReacted ? <span>(reacted)</span> : <span></span>}
       </button>
     </div>
   );
-};
+}
+
+function NoteContent(props: {
+  contentsWarningComment: string;
+  content: string;
+}) {
+  return (
+    <>
+      {props.contentsWarningComment.length !== 0 ? (
+        <details>
+          <summary>{props.contentsWarningComment}</summary>
+          <p>{props.content}</p>
+        </details>
+      ) : (
+        <p>{props.content}</p>
+      )}
+    </>
+  );
+}

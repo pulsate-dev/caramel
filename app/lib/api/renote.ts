@@ -2,7 +2,7 @@ export interface RenoteArgs {
   content: string;
   visibility: "PUBLIC" | "HOME" | "FOLLOWERS";
   attachment_file_ids: string[];
-  contents_waring_comment: string;
+  contents_warning_comment: string;
 }
 
 export async function renote(
