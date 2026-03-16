@@ -18,6 +18,7 @@ export interface TimelineResponse {
     emoji: string;
     reacted_by: string;
   }[];
+  original_note_id?: string;
 }
 
 export const fetchHomeTimeline = async (

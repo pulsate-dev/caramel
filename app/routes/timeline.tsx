@@ -6,6 +6,7 @@ import { Note } from "~/components/note";
 import { PostForm } from "~/components/postForm";
 import { loggedInAccount } from "~/lib/api/loggedInAccount";
 import { accountCookie } from "~/lib/api/login";
+import { fetchNote } from "~/lib/api/note";
 import type { TimelineResponse } from "~/lib/api/timeline";
 import { fetchHomeTimeline } from "~/lib/api/timeline";
 import styles from "~/styles/timeline.module.css";
@@ -22,6 +23,7 @@ export const loader = async ({
   | {
       notes: TimelineResponse[];
       loggedInAccountID: string;
+      originalNotes: TimelineResponse[];
     }
   | Response
 > => {
@@ -44,9 +46,23 @@ export const loader = async ({
     return { error: "not logged in" };
   }
 
+  const renoteNotes = res.notes.filter((n) => n.original_note_id);
+  const originalNotes: TimelineResponse[] = [];
+  if (renoteNotes.length > 0) {
+    const results = await Promise.all(
+      renoteNotes.map((n) => fetchNote(cookie, basePath, n.original_note_id!))
+    );
+    for (const result of results) {
+      if (!("error" in result)) {
+        originalNotes.push(result);
+      }
+    }
+  }
+
   return {
     notes: res.notes,
     loggedInAccountID: loggedInAccountDatum.response.id,
+    originalNotes,
   };
 };
 
@@ -77,6 +93,7 @@ export default function Timeline() {
             <TimelineNotes
               notes={loaderData.notes}
               loggedInAccountID={loaderData.loggedInAccountID}
+              originalNotes={loaderData.originalNotes}
             />
           )}
         </>
@@ -92,9 +109,11 @@ export default function Timeline() {
 function TimelineNotes({
   notes,
   loggedInAccountID,
+  originalNotes,
 }: {
   notes: TimelineResponse[];
   loggedInAccountID: string;
+  originalNotes: TimelineResponse[];
 }) {
   return notes.map((note) => {
     const author = {
@@ -106,6 +125,23 @@ function TimelineNotes({
       emoji: reaction.emoji,
       reactedBy: reaction.reacted_by,
     }));
+
+    const originalNote =
+      note.original_note_id &&
+      originalNotes.find((n) => n.id === note.original_note_id);
+    const renoteInfo = originalNote
+      ? {
+          renoteBy: author,
+          originalAuthor: {
+            avatar: originalNote.author.avatar,
+            name: originalNote.author.name,
+            nickname: originalNote.author.display_name,
+          },
+          originalContent: originalNote.content,
+          originalCWComment: originalNote.contents_warning_comment,
+        }
+      : undefined;
+
     return (
       <div key={note.id}>
         <Note
@@ -115,6 +151,7 @@ function TimelineNotes({
           contentsWarningComment={note.contents_warning_comment}
           reactions={reactions}
           loggedInAccountID={loggedInAccountID}
+          renoteInfo={renoteInfo}
         />
       </div>
     );

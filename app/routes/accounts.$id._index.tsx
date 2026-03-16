@@ -9,6 +9,7 @@ import type { AccountResponse } from "~/lib/account";
 import { account, accountTimeline } from "~/lib/account";
 import { getToken } from "~/lib/api/getToken";
 import { loggedInAccount } from "~/lib/api/loggedInAccount";
+import { fetchNote } from "~/lib/api/note";
 import {
   accountRelationship,
   type AccountRelationshipResponse,
@@ -29,6 +30,7 @@ export const loader = async ({
       timeline: TimelineResponse[];
       loggedInAccountID: string;
       relationships: AccountRelationshipResponse;
+      originalNotes: TimelineResponse[];
     }
 > => {
   const basePath = (context.cloudflare.env as Env).API_BASE_URL;
@@ -77,12 +79,26 @@ export const loader = async ({
     return { error: "failed to fetch relationship" };
   }
 
+  const renoteNotes = timelineRes.filter((n) => n.original_note_id);
+  const originalNotes: TimelineResponse[] = [];
+  if (renoteNotes.length > 0) {
+    const results = await Promise.all(
+      renoteNotes.map((n) => fetchNote(token, basePath, n.original_note_id!))
+    );
+    for (const result of results) {
+      if (!("error" in result)) {
+        originalNotes.push(result);
+      }
+    }
+  }
+
   return {
     error: undefined,
     account: accountRes,
     timeline: timelineRes,
     loggedInAccountID: loggedInAccountDatum.response.id,
     relationships: relationshipRes.response,
+    originalNotes,
   };
 };
 
@@ -106,23 +122,42 @@ export default function Account() {
     return <div>{data.error}</div>;
   }
 
-  const timelineNotes = data.timeline.map(
-    (note): NoteProps => ({
+  const timelineNotes = data.timeline.map((note): NoteProps => {
+    const author = {
+      avatar: note.author.avatar,
+      name: note.author.name,
+      nickname: note.author.display_name,
+    };
+
+    const originalNote =
+      note.original_note_id &&
+      data.originalNotes.find((n) => n.id === note.original_note_id);
+    const renoteInfo = originalNote
+      ? {
+          renoteBy: author,
+          originalAuthor: {
+            avatar: originalNote.author.avatar,
+            name: originalNote.author.name,
+            nickname: originalNote.author.display_name,
+          },
+          originalContent: originalNote.content,
+          originalCWComment: originalNote.contents_warning_comment,
+        }
+      : undefined;
+
+    return {
       id: note.id,
       content: note.content,
       contentsWarningComment: note.contents_warning_comment,
-      author: {
-        avatar: note.author.avatar,
-        name: note.author.name,
-        nickname: note.author.display_name,
-      },
+      author,
       reactions: note.reactions.map((reaction) => ({
         emoji: reaction.emoji,
         reactedBy: reaction.reacted_by,
       })),
       loggedInAccountID: data.loggedInAccountID ?? "",
-    })
-  );
+      renoteInfo,
+    };
+  });
 
   const isThisAccountSelf = data.account.id === data.loggedInAccountID;
   return (
