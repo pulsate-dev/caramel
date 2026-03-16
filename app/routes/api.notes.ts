@@ -1,10 +1,10 @@
 import type { ActionFunctionArgs } from "react-router";
 import { getToken } from "~/lib/api/getToken";
 
-export const action = async ({ request, context }: ActionFunctionArgs) => {
+export const action = async ({ request, context }: ActionFunctionArgs): Promise<{status: "error"; message: string} | {status: "ok"}> => {
   const isLoggedIn = await getToken(request);
   if (!isLoggedIn.isLoggedIn) {
-    return { error: "unauthorized" };
+    return { status: "error", message: "unauthorized" };
   }
   const token = isLoggedIn.token;
 
@@ -27,14 +27,14 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
 
     if (!res.ok) {
       const errorRes = (await res.json()) as { error: string };
-      return { error: errorRes.error };
+      return { status: "error", message: errorRes.error };
     }
 
     return { status: "ok" };
   } catch (e) {
     if (e instanceof Error) {
-      return { error: e.message };
+      return { status: "error",message: e.message };
     }
-    return { error: "unknown error" };
+    return { status: "error",message: "unknown error" };
   }
 };
