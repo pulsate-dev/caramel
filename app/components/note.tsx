@@ -24,7 +24,13 @@ export interface NoteProps {
       name: string;
       nickname: string;
     };
-    quote?: string;
+    originalAuthor: {
+      avatar: string;
+      name: string;
+      nickname: string;
+    };
+    originalContent: string;
+    originalCWComment: string;
   };
 }
 
@@ -35,6 +41,7 @@ export const Note = ({
   author,
   reactions,
   loggedInAccountID,
+  renoteInfo,
 }: NoteProps) => {
   const fetcher = useFetcher<typeof action>();
   const [isReacted, setIsReacted] = useState(
@@ -75,26 +82,39 @@ export const Note = ({
     );
   };
 
+  const displayAuthor = renoteInfo ? renoteInfo.originalAuthor : author;
+  const displayContent = renoteInfo ? renoteInfo.originalContent : content;
+  const displayCWComment = renoteInfo
+    ? renoteInfo.originalCWComment
+    : contentsWarningComment;
+
   return (
     <div className={styles.note}>
-      <Link to={`/accounts/${author.name}`}>
+      {renoteInfo && (
+        <div className={styles.renoteHeader}>
+          <span>
+            <bdi>{renoteInfo.renoteBy.nickname}</bdi> がリノートしました
+          </span>
+        </div>
+      )}
+      <Link to={`/accounts/${displayAuthor.name}`}>
         <div className={styles.accountNameContainer}>
           <div className={styles.avatarImageContainer}>
             <img
-              src={defaultAccountAvatar(author.avatar)}
-              alt={`${author.nickname}'s avatar`}
+              src={defaultAccountAvatar(displayAuthor.avatar)}
+              alt={`${displayAuthor.nickname}'s avatar`}
               loading="lazy"
             />
           </div>
           <h2>
-            <bdi>{author.nickname}</bdi>
-            <span>@{author.name.split("@")[1]}</span>
+            <bdi>{displayAuthor.nickname}</bdi>
+            <span>@{displayAuthor.name.split("@")[1]}</span>
           </h2>
         </div>
       </Link>
       <NoteContent
-        contentsWarningComment={contentsWarningComment}
-        content={content}
+        contentsWarningComment={displayCWComment}
+        content={displayContent}
       />
       <NoteActionButton
         noteId={id}
