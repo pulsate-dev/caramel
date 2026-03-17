@@ -10,7 +10,7 @@ export async function renote(
   token: string,
   originalNoteID: string,
   args: RenoteArgs
-): Promise<{isSuccess: boolean}> {
+): Promise<{ isSuccess: boolean }> {
   try {
     const res = await fetch(
       new URL(`/v0/notes/${originalNoteID}/renote`, basePath),

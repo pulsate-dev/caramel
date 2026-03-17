@@ -1,7 +1,12 @@
 import type { ActionFunctionArgs } from "react-router";
 import { getToken } from "~/lib/api/getToken";
 
-export const action = async ({ request, context }: ActionFunctionArgs): Promise<{status: "error"; message: string} | {status: "ok"}> => {
+export const action = async ({
+  request,
+  context,
+}: ActionFunctionArgs): Promise<
+  { status: "error"; message: string } | { status: "ok" }
+> => {
   const isLoggedIn = await getToken(request);
   if (!isLoggedIn.isLoggedIn) {
     return { status: "error", message: "unauthorized" };
@@ -33,8 +38,8 @@ export const action = async ({ request, context }: ActionFunctionArgs): Promise<
     return { status: "ok" };
   } catch (e) {
     if (e instanceof Error) {
-      return { status: "error",message: e.message };
+      return { status: "error", message: e.message };
     }
-    return { status: "error",message: "unknown error" };
+    return { status: "error", message: "unknown error" };
   }
 };
