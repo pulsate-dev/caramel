@@ -5,7 +5,12 @@
 }
 
 .accountData {
-  height: 15rem;
+  min-height: 15rem;
+}
+
+.accountName {
+  overflow-x: auto;
+  text-overflow: ellipsis;
 }
 
 .emptyState {
