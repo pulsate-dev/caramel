@@ -171,7 +171,7 @@ export default function Account() {
             loading={"lazy"}
           />
         </div>
-        <h1>
+        <h1 className={styles.accountName}>
           {data.account.nickname} <span>{data.account.name}</span>
         </h1>
 
@@ -194,6 +194,7 @@ export default function Account() {
             <a href={`/accounts/${data.account.name}/following`}>
               {data.account.following_count} following
             </a>
+            {" | "}
             <a href={`/accounts/${data.account.name}/follower`}>
               {data.account.followed_count} followers
             </a>
