@@ -33,6 +33,7 @@ export const login = async (
       if (response.status === 400) {
         return { error: "INVALID_CREDENTIALS" };
       }
+      console.error("Unexpected Error:", await response.text());
       return { error: "CONNECTION_FAILED" };
     }
 
