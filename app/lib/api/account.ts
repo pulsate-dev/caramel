@@ -5,6 +5,7 @@ import type {
   UpdateAccountResponse,
 } from "@pulsate-dev/exp-api-types";
 import type { TimelineResponse } from "~/lib/api/timeline";
+import { logger } from "../logger";
 
 export interface AccountResponse {
   id: string;
@@ -148,7 +149,8 @@ export const updateAccount = async (
     }
 
     return (await res.json()) as UpdateAccountResponse;
-  } catch {
+  } catch (e) {
+    logger.error("Unexpected Error:", e);
     return { error: "unknown error" };
   }
 };

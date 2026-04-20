@@ -1,3 +1,5 @@
+import { logger } from "./logger";
+
 export type TokenPayload = {
   /**
    * User Name
@@ -26,7 +28,7 @@ export const parseToken = (token: string): TokenPayload | Error => {
       id: payload.sub,
     };
   } catch (e) {
-    console.log(e);
+    logger.error(e);
     return new Error("failed to parse", { cause: e });
   }
 };

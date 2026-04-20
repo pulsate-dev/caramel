@@ -1,3 +1,5 @@
+import { logger } from "../logger";
+
 export interface RenoteArgs {
   content: string;
   visibility: "PUBLIC" | "HOME" | "FOLLOWERS";
@@ -25,10 +27,11 @@ export async function renote(
     );
 
     if (!res.ok) {
+      logger.error("failed to renote", { args, response: await res.text() });
       return { isSuccess: false };
     }
   } catch (e) {
-    console.error("Unexpected Error:", e);
+    logger.error("Unexpected Error:", e);
     return { isSuccess: false };
   }
 

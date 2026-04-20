@@ -3,6 +3,7 @@ import type {
   PostV0LoginResponse,
 } from "@pulsate-dev/exp-api-types";
 import { createCookie } from "react-router";
+import { logger } from "../logger";
 
 export type LoginArgs = {
   email: string;
@@ -33,7 +34,7 @@ export const login = async (
       if (response.status === 400) {
         return { error: "INVALID_CREDENTIALS" };
       }
-      console.error("Unexpected Error:", await response.text());
+      logger.error("Unexpected Error:", await response.text());
       return { error: "CONNECTION_FAILED" };
     }
 
@@ -42,7 +43,7 @@ export const login = async (
       | PostV0LoginResponse;
 
     if (!("authorization_token" in res)) {
-      console.error(
+      logger.error(
         "Unexpected response: response does not contains authorization_token.",
         res
       );
@@ -50,7 +51,7 @@ export const login = async (
     }
     return { authorization_token: res.authorization_token };
   } catch (e) {
-    console.error("Unexpected Error:", e);
+    logger.error("Unexpected Error:", e);
     return { error: "CONNECTION_FAILED" };
   }
 };

@@ -32,8 +32,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
         return { error: "method not allowed" };
       }
     }
-  } catch (e) {
-    console.error(e);
+  } catch {
     return { error: "something went wrong" };
   }
 };
