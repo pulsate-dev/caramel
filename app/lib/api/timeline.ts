@@ -1,3 +1,5 @@
+import { logger } from "../logger";
+
 export interface TimelineResponse {
   id: string;
   content: string;
@@ -38,11 +40,14 @@ export const fetchHomeTimeline = async (
       },
     });
     if (!timelineRes.ok) {
-      return (await timelineRes.json()) as { error: string };
+      const json = await timelineRes.json();
+      logger.error("Fetch home timeline error:", json);
+      return json as { error: string };
     }
     const notes = (await timelineRes.json()) as TimelineResponse[];
     return { notes };
-  } catch {
+  } catch (e) {
+    logger.error("Unexpected Error:", e);
     return { error: "unknown error" };
   }
 };

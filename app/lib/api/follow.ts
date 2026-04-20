@@ -1,3 +1,5 @@
+import { logger } from "../logger";
+
 export async function followAccount(
   basePath: string,
   token: string,
@@ -17,7 +19,7 @@ export async function followAccount(
       return { isSuccess: false };
     }
   } catch (e) {
-    console.error("Unexpected Error:", e);
+    logger.error("Unexpected Error:", e);
     return { isSuccess: false };
   }
 
@@ -40,10 +42,12 @@ export async function unfollowAccount(
       }
     );
     if (followRes.status !== 204) {
+      logger.error("Unexpected Error:", { response: await followRes.text() });
       return { isSuccess: false };
     }
+    logger.error("Succeed to follow:", accountName);
   } catch (e) {
-    console.error("Unexpected Error:", e);
+    logger.error("Unexpected Error:", e);
     return { isSuccess: false };
   }
 

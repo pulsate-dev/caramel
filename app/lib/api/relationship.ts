@@ -1,3 +1,5 @@
+import { logger } from "../logger";
+
 export interface AccountRelationshipResponse {
   id: string;
   isFollowed: boolean;
@@ -43,7 +45,8 @@ export async function accountRelationship(
         isFollowRequesting: relationship.is_follow_requesting,
       },
     };
-  } catch {
+  } catch (e) {
+    logger.error("Unexpected Error:", e);
     return { isSuccess: false };
   }
 }

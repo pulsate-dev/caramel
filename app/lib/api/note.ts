@@ -1,4 +1,5 @@
 import type { TimelineResponse } from "~/lib/api/timeline";
+import { logger } from "../logger";
 
 export const fetchNote = async (
   token: string,
@@ -12,10 +13,13 @@ export const fetchNote = async (
       },
     });
     if (!res.ok) {
-      return (await res.json()) as { error: string };
+      const json = await res.json();
+      logger.error("Fetch notes error:", json);
+      return json as { error: string };
     }
     return (await res.json()) as TimelineResponse;
-  } catch {
+  } catch (e) {
+    logger.error("Unexpected Error:", e);
     return { error: "unknown error" };
   }
 };
