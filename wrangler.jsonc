@@ -8,8 +8,8 @@
     "compatibility_date": "2025-04-04",
     "main": "./workers/app.ts",
     "vars": {
-        "API_BASE_URL": "http://localhost:3000",
-        "INSTANCE_FQDN": "example.com"
+        "API_BASE_URL": "https://demo.pulsate.dev",
+        "INSTANCE_FQDN": "demo.pulsate.dev"
     },
     "observability": {
         "enabled": true
