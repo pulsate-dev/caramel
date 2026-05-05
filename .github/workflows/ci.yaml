@@ -49,12 +49,6 @@ jobs:
           pnpm run build
           touch .env
 
-      - name: Create .dev.vars
-        run: |
-          echo 'API_BASE_URL="http://localhost:3000"' >> .dev.vars
-          echo 'INSTANCE_FQDN="example.com"' >> .dev.vars
-          echo 'TURNSTILE_KEY="1x00000000000000000000AA"' >> .dev.vars
-
       - name: Run E2E test
         run: |
           set -e

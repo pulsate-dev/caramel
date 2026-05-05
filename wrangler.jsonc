@@ -9,6 +9,20 @@
     "main": "./workers/app.ts",
     "observability": {
         "enabled": true
+    },
+    "env": {
+        "demo": {
+            "vars": {
+                "API_BASE_URL": "https://demo.pulsate.dev",
+                "INSTANCE_FQDN": "demo.pulsate.dev"
+            }
+        },
+        "ci": {
+            "vars": {
+                "API_BASE_URL": "http://localhost:3000",
+                "INSTANCE_FQDN": "example.com"
+            }
+        }
     }
     /**
 	 * Smart Placement

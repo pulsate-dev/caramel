@@ -19,7 +19,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "pnpm dev",
+    command: isCI ? "pnpm dev --env ci" : "pnpm dev",
     port: 5173,
   },
 });
