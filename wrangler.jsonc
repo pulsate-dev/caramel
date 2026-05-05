@@ -20,7 +20,8 @@
         "ci": {
             "vars": {
                 "API_BASE_URL": "http://localhost:3000",
-                "INSTANCE_FQDN": "example.com"
+                "INSTANCE_FQDN": "example.com",
+                "TURNSTILE_KEY": "1x00000000000000000000AA"
             }
         }
     }
