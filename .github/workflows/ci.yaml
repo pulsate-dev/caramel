@@ -51,7 +51,7 @@ jobs:
 
       - name: Run E2E test
         env:
-          WRANGLER_ENV: ci
+          CLOUDFLARE_ENV: ci
         run: |
           set -e
           pnpm playwright install chromium --only-shell
