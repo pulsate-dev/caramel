@@ -7,12 +7,23 @@
     "name": "caramel",
     "compatibility_date": "2025-04-04",
     "main": "./workers/app.ts",
-    "vars": {
-        "API_BASE_URL": "http://localhost:3000",
-        "INSTANCE_FQDN": "example.com"
-    },
     "observability": {
         "enabled": true
+    },
+    "env": {
+        "demo": {
+            "vars": {
+                "API_BASE_URL": "https://demo.pulsate.dev",
+                "INSTANCE_FQDN": "demo.pulsate.dev"
+            }
+        },
+        "ci": {
+            "vars": {
+                "API_BASE_URL": "http://localhost:3000",
+                "INSTANCE_FQDN": "example.com",
+                "TURNSTILE_KEY": "1x00000000000000000000AA"
+            }
+        }
     }
     /**
 	 * Smart Placement
