@@ -36,12 +36,12 @@ export function FollowButton({
         if (relationship.isFollowing) {
           await fetcher.submit(
             { accountName: accountName },
-            { method: "post", action: "/api/follow" },
+            { method: "post", action: "/api/follow" }
           );
         } else {
           await fetcher.submit(
             { accountName: accountName },
-            { method: "delete", action: "/api/follow" },
+            { method: "delete", action: "/api/follow" }
           );
         }
       }}
