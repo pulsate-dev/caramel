@@ -18,7 +18,7 @@ export const PostForm = () => {
       }
       setContent("");
     }
-  }, [fetcher.state]);
+  }, [fetcher.state, fetcher.data]);
 
   return (
     <fetcher.Form method="post" action="/api/notes">
