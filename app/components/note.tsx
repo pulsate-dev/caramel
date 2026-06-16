@@ -60,14 +60,14 @@ export const Note = ({
         if (fetcher.formMethod === "DELETE") setIsReacted(true);
       }
     }
-  }, [fetcher.state]);
+  }, [fetcher.state, fetcher.data, fetcher.formMethod]);
 
   /**
    * Handle reaction
    */
-  const handleReaction = (emoji: string) => {
+  const handleReaction = async (emoji: string) => {
     setIsReacted(true);
-    fetcher.submit(
+    await fetcher.submit(
       { emoji, noteID: id },
       { method: "post", action: "/api/reaction" }
     );
@@ -76,9 +76,9 @@ export const Note = ({
   /**
    * Handle undo reaction
    */
-  const handleUndoReaction = () => {
+  const handleUndoReaction = async () => {
     setIsReacted(false);
-    fetcher.submit(
+    await fetcher.submit(
       { noteID: id },
       { method: "delete", action: "/api/reaction" }
     );
@@ -123,9 +123,9 @@ export const Note = ({
         reactions={{ reactions: reactions }}
         onReaction={async (emoji: string) => {
           if (isReacted) {
-            handleUndoReaction();
+            await handleUndoReaction();
           } else {
-            handleReaction(emoji);
+            await handleReaction(emoji);
           }
         }}
       />

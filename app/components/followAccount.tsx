@@ -1,11 +1,11 @@
 import { Link } from "react-router";
 
-import type { FollowerResponse, FollowingResponse } from "~/lib/api/followlist";
+import type { FollowerResponse } from "~/lib/api/followlist";
 import { defaultAccountAvatar } from "~/lib/defaultAccountImage";
 
 import styles from "~/components/followAccount.module.css";
 
-export function FollowAccount(data: FollowerResponse | FollowingResponse) {
+export function FollowAccount(data: FollowerResponse) {
   return (
     <div className={styles.followAccount}>
       <Link to={`/accounts/${data.name}`}>

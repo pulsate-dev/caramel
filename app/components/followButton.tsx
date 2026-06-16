@@ -32,16 +32,16 @@ export function FollowButton({
 
   return (
     <button
-      onClick={() => {
+      onClick={async () => {
         if (relationship.isFollowing) {
-          fetcher.submit(
+          await fetcher.submit(
             { accountName: accountName },
-            { method: "post", action: "/api/follow" }
+            { method: "post", action: "/api/follow" },
           );
         } else {
-          fetcher.submit(
+          await fetcher.submit(
             { accountName: accountName },
-            { method: "delete", action: "/api/follow" }
+            { method: "delete", action: "/api/follow" },
           );
         }
       }}
