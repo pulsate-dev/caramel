@@ -1,7 +1,9 @@
 import { Link } from "react-router";
-import style from "~/components/sideBar.module.css";
+
 import type { LoggedInAccountDatum } from "~/lib/api/loggedInAccount";
 import { defaultAccountAvatar } from "~/lib/defaultAccountImage";
+
+import style from "~/components/sideBar.module.css";
 
 interface SideBarLink {
   name: string;

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useFetcher } from "react-router";
-import styles from "~/components/note.module.css";
+
 import { defaultAccountAvatar } from "~/lib/defaultAccountImage";
 import type { action } from "~/routes/api.reaction";
+
+import styles from "~/components/note.module.css";
 
 export interface NoteProps {
   id: string;

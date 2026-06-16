@@ -1,5 +1,6 @@
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { redirect, useLoaderData } from "react-router";
+
 import { EmptyState } from "~/components/emptyState";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import { Note } from "~/components/note";
@@ -9,6 +10,7 @@ import { accountCookie } from "~/lib/api/login";
 import { fetchNote } from "~/lib/api/note";
 import type { TimelineResponse } from "~/lib/api/timeline";
 import { fetchHomeTimeline } from "~/lib/api/timeline";
+
 import styles from "~/styles/timeline.module.css";
 
 export const meta: MetaFunction = () => {

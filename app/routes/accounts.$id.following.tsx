@@ -1,4 +1,5 @@
 import { useLoaderData, type LoaderFunctionArgs } from "react-router";
+
 import { FollowAccount } from "~/components/followAccount";
 import { account } from "~/lib/account";
 import { getFollowingList, type FollowingResponse } from "~/lib/api/followlist";

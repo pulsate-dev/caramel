@@ -1,5 +1,6 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { Link, useLoaderData } from "react-router";
+
 import { account } from "~/lib/account";
 import { getToken } from "~/lib/api/getToken";
 import { parseToken } from "~/lib/parseToken";

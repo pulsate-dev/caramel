@@ -1,4 +1,5 @@
 import type { ActionFunctionArgs } from "react-router";
+
 import { followAccount, unfollowAccount } from "~/lib/api/follow";
 import { getToken } from "~/lib/api/getToken";
 
