@@ -1,4 +1,5 @@
 import type { TimelineResponse } from "~/lib/api/timeline";
+
 import { logger } from "../logger";
 
 export const fetchNote = async (

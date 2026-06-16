@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useFetcher } from "react-router";
+
 import type { action } from "~/routes/api.notes";
 
 export const PostForm = () => {

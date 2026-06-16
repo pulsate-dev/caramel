@@ -6,11 +6,13 @@ import {
   Scripts,
   useLoaderData,
 } from "react-router";
+
 import { SideBar } from "~/components/sideBar";
 import {
   loggedInAccount,
   type LoggedInAccountResponse,
 } from "~/lib/api/loggedInAccount";
+
 import styles from "~/root.module.css";
 
 export async function loader({

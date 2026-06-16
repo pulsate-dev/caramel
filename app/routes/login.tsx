@@ -1,8 +1,9 @@
 import type { ActionFunctionArgs, MetaFunction } from "react-router";
 import { Form, Link, redirect, useActionData } from "react-router";
 
-import styles from "~/components/login.module.css";
 import { accountCookie, login } from "~/lib/api/login";
+
+import styles from "~/components/login.module.css";
 
 const ERROR_MESSAGES = {
   invalidCredentials: "Invalid credentials. Please try again.",

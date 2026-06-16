@@ -2,6 +2,7 @@ import type {
   GetV0AccountsIdFollowerResponse,
   GetV0AccountsIdFollowingResponse,
 } from "@pulsate-dev/exp-api-types";
+
 import { logger } from "../logger";
 
 interface FollowResponseBase {

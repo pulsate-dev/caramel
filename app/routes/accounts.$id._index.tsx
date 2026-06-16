@@ -1,5 +1,6 @@
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { useLoaderData } from "react-router";
+
 import { EmptyState } from "~/components/emptyState";
 import { FollowButton } from "~/components/followButton";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
@@ -16,6 +17,7 @@ import {
 } from "~/lib/api/relationship";
 import type { TimelineResponse } from "~/lib/api/timeline";
 import { defaultAccountAvatar } from "~/lib/defaultAccountImage";
+
 import styles from "~/styles/account.module.css";
 
 export const loader = async ({

@@ -1,4 +1,5 @@
 import { useFetcher } from "react-router";
+
 import type { AccountRelationshipResponse } from "~/lib/api/relationship";
 import type { action } from "~/routes/api.follow";
 

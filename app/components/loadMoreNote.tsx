@@ -1,4 +1,5 @@
 import { TimelineButton } from "~/components/timelineButton";
+
 import style from "./loadMoreNote.module.css";
 
 export interface LoadMoreNoteButtonProps {
