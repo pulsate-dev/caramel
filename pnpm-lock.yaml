@@ -32,7 +32,7 @@ importers:
         version: 7.18.1(@cloudflare/workers-types@4.20260317.1)(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)
       '@react-router/fs-routes':
         specifier: ^7.9.1
-        version: 7.18.1(@react-router/dev@7.18.1(@voidzero-dev/vite-plus-core@0.2.1(esbuild@0.28.1)(typescript@6.0.3)(yaml@2.8.1))(esbuild@0.28.1)(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)(wrangler@4.107.1(@cloudflare/workers-types@4.20260317.1))(yaml@2.8.1))(typescript@6.0.3)
+        version: 7.18.1(@react-router/dev@8.2.0(@voidzero-dev/vite-plus-core@0.2.1(esbuild@0.28.1)(typescript@6.0.3)(yaml@2.8.1))(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)(wrangler@4.107.1(@cloudflare/workers-types@4.20260317.1)))(typescript@6.0.3)
       isbot:
         specifier: ^5.1.30
         version: 5.2.0
@@ -53,8 +53,8 @@ importers:
         specifier: ^1.55.0
         version: 1.61.1
       '@react-router/dev':
-        specifier: ^7.9.1
-        version: 7.18.1(@voidzero-dev/vite-plus-core@0.2.1(esbuild@0.28.1)(typescript@6.0.3)(yaml@2.8.1))(esbuild@0.28.1)(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)(wrangler@4.107.1(@cloudflare/workers-types@4.20260317.1))(yaml@2.8.1)
+        specifier: ^8.0.0
+        version: 8.2.0(@voidzero-dev/vite-plus-core@0.2.1(esbuild@0.28.1)(typescript@6.0.3)(yaml@2.8.1))(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)(wrangler@4.107.1(@cloudflare/workers-types@4.20260317.1))
       '@types/react':
         specifier: ^19.1.13
         version: 19.2.17
@@ -620,9 +620,6 @@ packages:
       react: ^17.0.2 || ^18.0.0 || ^19.0
       react-dom: ^17.0.2 || ^18.0.0 || ^19.0
 
-  '@mjackson/node-fetch-server@0.2.0':
-    resolution: {integrity: sha512-EMlH1e30yzmTpGLQjlFmaDAjyOeZhng1/XCd7DExR8PNAnG/G1tyruZxEoUe11ClnwGhGrtsdnyyUx1frSzjng==}
-
   '@oxc-project/runtime@0.133.0':
     resolution: {integrity: sha512-PkvjA1Lq5++V5S1E6Patr92ZVcieE6EalDr1VJTqv4BnjZdOUC4W3p8k1wMXSd5/2aFP4b/A6N5sg2Bkzcr9vQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -631,18 +628,11 @@ packages:
     resolution: {integrity: sha512-u0EutjK5y6NHJkl5jNJCs8zbup1z6A/UEWgajrYzqcEU3UX05HjqybhMQOLhSM0eKGISyM6WfSMMuklYSmH2wA==}
     engines: {node: ^20.19.0 || >=22.12.0}
 
-  '@oxc-project/runtime@0.138.0':
-    resolution: {integrity: sha512-yHhoXsN8tYxgdJCdD91PbySNjEEaBX/tH2OQRDXJpsQv5b184oC4/qVbU7qlblvfil/JP15Lh2HW7+HN5DS90Q==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-
   '@oxc-project/types@0.133.0':
     resolution: {integrity: sha512-KzkdCd6Uxqnf6l3HOw1xfatAlUURA0g14cvBYFyJ5SaNOQbOUvBr9PKArcPcrNIeRsBdgcUzOGrhKveVpvOIGA==}
 
   '@oxc-project/types@0.136.0':
     resolution: {integrity: sha512-39Al/B3v9esnHCX7S8l9Se2+s2tb9b2jcMd+bZ2L659VG73kNyGPpPrL5Zi/p0ty7p4pTTU2/Dd+g27hv94XCg==}
-
-  '@oxc-project/types@0.138.0':
-    resolution: {integrity: sha512-1a7ZKmrRTCoN1XMZ4L0PyyqrMnrNlLyPuOkdSX2MZg7IiIGRUyurNhAm73ptDOraoBcIordsIGKNPKUzy3ZmfA==}
 
   '@oxfmt/binding-android-arm-eabi@0.55.0':
     resolution: {integrity: sha512-+rFDOqQe5LOWgxrAJaZgLRudr6GQm0wGI6gtu7vVkrdLGjNMUSGbAlaCr8j7F2H2Er97vYQCU8WDb30onqMM1g==}
@@ -953,18 +943,18 @@ packages:
       typescript:
         optional: true
 
-  '@react-router/dev@7.18.1':
-    resolution: {integrity: sha512-1Yu5272BI8g5sl1jwmhM3aFeajXQwNbWP4qrdMYfC+ayT2khxV6KPCitLNJl+jT6DMGEKb/hmwcmKd0lFIBjxQ==}
-    engines: {node: '>=20.0.0'}
+  '@react-router/dev@8.2.0':
+    resolution: {integrity: sha512-NSWDdCQm7enrjBNlUVZK1nUMGHcARIF7hvXHlIhhFXd3zZA073+z2A6nzzUtSN+CEcdH66se5uoMuot3l69eQw==}
+    engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
-      '@react-router/serve': ^7.18.1
-      '@vitejs/plugin-rsc': ~0.5.21
-      react-router: ^7.18.1
-      react-server-dom-webpack: ^19.2.3
+      '@react-router/serve': ^8.2.0
+      '@vitejs/plugin-rsc': ~0.5.26
+      react-router: ^8.2.0
+      react-server-dom-webpack: ^19.2.7
       typescript: ^5.1.0 || ^6.0.0
-      vite: ^5.1.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
-      wrangler: ^3.28.2 || ^4.0.0
+      vite: ^7.0.0 || ^8.0.0
+      wrangler: ^4.0.0
     peerDependenciesMeta:
       '@react-router/serve':
         optional: true
@@ -987,11 +977,11 @@ packages:
       typescript:
         optional: true
 
-  '@react-router/node@7.18.1':
-    resolution: {integrity: sha512-2GhAwa90z/+GMFM8Q5HsgwzakYogbQcZpqpNonhN4YWDRjWkSz+t5jgwNAFvG8ENR8fKGEVEsOHIaNVDfW9Ouw==}
-    engines: {node: '>=20.0.0'}
+  '@react-router/node@8.2.0':
+    resolution: {integrity: sha512-Zs4j+OEUeMWqhyHK1Grx9x9u+TKvyYoPk8lDoYhFf52kmleEPDo84dJaXfxwUDd0HFtjL5cYm9v3KyMFZG7ciw==}
+    engines: {node: '>=22.22.0'}
     peerDependencies:
-      react-router: 7.18.1
+      react-router: 8.2.0
       typescript: ^5.1.0 || ^6.0.0
     peerDependenciesMeta:
       typescript:
@@ -1205,63 +1195,6 @@ packages:
       yaml:
         optional: true
 
-  '@voidzero-dev/vite-plus-core@0.2.3':
-    resolution: {integrity: sha512-ObavWwyDQOy7/P0vwCPo6HNg0Wfi9e/Y+D9q6iqrEoxBU7WfMrwuiiExVwJpJsTALRXR3U31etlHbOQXt+otSg==}
-    engines: {node: ^20.19.0 || ^22.18.0 || >=24.11.0}
-    peerDependencies:
-      '@arethetypeswrong/core': ^0.18.1
-      '@types/node': ^20.19.0 || >=22.12.0
-      '@vitejs/devtools': ^0.3.0
-      esbuild: ^0.27.0 || ^0.28.0
-      jiti: '>=1.21.0'
-      less: ^4.0.0
-      publint: ^0.3.8
-      sass: ^1.70.0
-      sass-embedded: ^1.70.0
-      stylus: '>=0.54.8'
-      sugarss: ^5.0.0
-      terser: ^5.16.0
-      tsx: ^4.8.1
-      typescript: ^5.0.0 || ^6.0.0
-      unplugin-unused: ^0.5.0
-      unrun: '*'
-      yaml: ^2.4.2
-    peerDependenciesMeta:
-      '@arethetypeswrong/core':
-        optional: true
-      '@types/node':
-        optional: true
-      '@vitejs/devtools':
-        optional: true
-      esbuild:
-        optional: true
-      jiti:
-        optional: true
-      less:
-        optional: true
-      publint:
-        optional: true
-      sass:
-        optional: true
-      sass-embedded:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-      tsx:
-        optional: true
-      typescript:
-        optional: true
-      unplugin-unused:
-        optional: true
-      unrun:
-        optional: true
-      yaml:
-        optional: true
-
   '@voidzero-dev/vite-plus-darwin-arm64@0.2.1':
     resolution: {integrity: sha512-9AfN/5LKRks8gbTaHPiQHT0L4yboy2xB6x6vvCRWxQMWxPS6/ZJLf5kUIZeE7I1z33AEyLKKkDscsZZVMgMLgg==}
     engines: {node: ^20.19.0 || ^22.18.0 || >=24.11.0}
@@ -1353,9 +1286,6 @@ packages:
     resolution: {integrity: sha512-Cxwpt2SfTzTtXcfOlzGEee8O+c+MmUgGrNiBcXnuWxuFJHe6a5Hz7qwhwe5OgaSYI0IJvkLqWX1ASG+cJOkEiA==}
     engines: {node: '>=10'}
 
-  arg@5.0.2:
-    resolution: {integrity: sha512-PYjyFOLKQ9y57JvQ6QLo8dAgNqswh8M1RMJYdQduT6xbWSgK36P/Z/v+p888pM69jMMfS8Xd8F6I1kQ/I9HUGg==}
-
   aria-query@5.3.0:
     resolution: {integrity: sha512-b0P0sZPKtyu8HkeRAfCq0IfURZK+SuwMjY1UXGBU27wpAiTwQAIlq56IbIO+ytk/JjS1fMR14ee5WBBfKi5J6A==}
 
@@ -1385,10 +1315,6 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
 
-  cac@6.7.14:
-    resolution: {integrity: sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==}
-    engines: {node: '>=8'}
-
   camelcase@9.0.0:
     resolution: {integrity: sha512-TO9xmyXTZ9HUHI8M1OnvExxYB0eYVS/1e5s7IDMTAoIcwUd+aNcFODs6Xk83mobk0velyHFQgA1yIrvYc6wclw==}
     engines: {node: '>=20'}
@@ -1399,10 +1325,6 @@ packages:
   chai@6.2.2:
     resolution: {integrity: sha512-NUPRluOfOiTKBKvWPtSD4PhFvWCqOi0BGStNWs57X9js7XGTprSmFoz5F0tWhR4WPjNeR9jXqdC7/UpSJTnlRg==}
     engines: {node: '>=18'}
-
-  chokidar@4.0.3:
-    resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
-    engines: {node: '>= 14.16.0'}
 
   chokidar@5.0.0:
     resolution: {integrity: sha512-TQMmc3w+5AxjpL8iIiwebF73dRDF4fBIieAqGn9RGCWaEVwQ6Fb2cGe31Yns0RRIzii5goJ1Y7xbMwo1TxMplw==}
@@ -1474,6 +1396,9 @@ packages:
   es-module-lexer@1.7.0:
     resolution: {integrity: sha512-jEQoCwk8hyb2AZziIOLhDqpm5+2ww5uIE6lkO/6jcOCusfk6LhMHpXXfBLXTZ7Ydyt0j4VoUQv6uGNYbdW+kBA==}
 
+  es-module-lexer@2.3.0:
+    resolution: {integrity: sha512-KLdwQm2NvGLDkQDCGvmiQrhkd0JbMzXthwQAUgWjQuQdBLFa3eiBP5arXZyA+f8x+x7OXgud6bq2rxjGtHV2tw==}
+
   esbuild@0.28.1:
     resolution: {integrity: sha512-HrJrvZv5ayxBzPfwphOoNzkzOIIlifzk0KJrGK2c8R4+LKpMtpYLQeUdjnwjWv/LZlkH2laZk+4w78pi99D4Vw==}
     engines: {node: '>=18'}
@@ -1486,9 +1411,9 @@ packages:
   estree-walker@3.0.3:
     resolution: {integrity: sha512-7RUKfXgSMMkzt6ZuXmqapOurLGPPfgj6l9uRZ7lRGolvk0y2yocc35LdcxKC5PQZdn2DMqioAQ2NoWcrTKmm6g==}
 
-  exit-hook@2.2.1:
-    resolution: {integrity: sha512-eNTPlAD67BmP31LDINZ3U7HSF8l57TxOY2PmBJ1shpCvpnxBF93mWCE8YHBnXs8qiUZJc9WDcWIeC3a2HIAMfw==}
-    engines: {node: '>=6'}
+  exit-hook@5.1.0:
+    resolution: {integrity: sha512-INjr2xyxHo7bhAqf5ong++GZPPnpcuBcaXUKt03yf7Fie9yWD7FapL4teOU0+awQazGs5ucBh7xWs/AD+6nhog==}
+    engines: {node: '>=20'}
 
   exsolve@1.1.0:
     resolution: {integrity: sha512-D+42+T12DdIlJM3uepa55qGiL3sYdLBOxIl2ifQCzCHz4c7eiolaHsi3BIqEr7JxBzxv2pYZQX9kw16ziMcEmw==}
@@ -1570,11 +1495,6 @@ packages:
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
-
-  jsesc@3.0.2:
-    resolution: {integrity: sha512-xKqzzWXDttJuOcawBt4KnKHHIf5oQ/Cxax+0PWFG+DFDgHNAdi+TXECADI+RYiFUMmx8792xsMbbgXj4CwnP4g==}
-    engines: {node: '>=6'}
-    hasBin: true
 
   jsesc@3.1.0:
     resolution: {integrity: sha512-/sM3dO2FOzXjKQhJuo0Q173wf2KOo8t4I8vHy6lF9poUp7bKT0/NHE8fPX23PwfhnykfqnC2xRxOnVw5XuGIaA==}
@@ -1773,9 +1693,6 @@ packages:
   path-to-regexp@6.3.0:
     resolution: {integrity: sha512-Yhpw4T9C6hPpgPeA28us07OJeqZ5EzQTkbfwuhsUg0c237RomFoETJgmp2sa3F/41gfLE6G5cqcYwznmeEeOlQ==}
 
-  pathe@1.1.2:
-    resolution: {integrity: sha512-whLdWMYL2TwI08hn8/ZqAbrVemu0LNaNNJZX73O6qaIdCTfXutsLhMkjdENX0qhsQ9uIimo4/aQOmXkoon2nDQ==}
-
   pathe@2.0.3:
     resolution: {integrity: sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w==}
 
@@ -1886,8 +1803,8 @@ packages:
   react-is@17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
 
-  react-refresh@0.14.2:
-    resolution: {integrity: sha512-jCvmsr+1IUSMUyzOkRcvnVbX3ZYC6g9TDrDbFuFmRDq7PD4yaGbLKNQL6k2jnArV8hjYxh7hVhAZB6s9HDGpZA==}
+  react-refresh@0.18.0:
+    resolution: {integrity: sha512-QgT5//D3jfjJb6Gsjxv0Slpj23ip+HtOpnNgnb2S5zU3CB26G/IDPGoy4RJB42wzFE46DRsstbW6tKHoKbhAxw==}
     engines: {node: '>=0.10.0'}
 
   react-router@7.18.1:
@@ -1903,10 +1820,6 @@ packages:
   react@19.2.7:
     resolution: {integrity: sha512-HNe9WslTbXmFK8o8cmwgAeJFSBvt1bPdHCVKtaaV+WlAN36mpT4hcRpwbf3fY56ar2oIXzsBpOAiIRHAdY0OlQ==}
     engines: {node: '>=0.10.0'}
-
-  readdirp@4.1.2:
-    resolution: {integrity: sha512-GDhwkLfywWL2s6vEjyhri+eXmfH6j1L7JE27WhqLeYzoh/A3DBaYGEj2H/HFZCn/kMfim73FXxEJTw06WtxQwg==}
-    engines: {node: '>= 14.18.0'}
 
   readdirp@5.0.0:
     resolution: {integrity: sha512-9u/XQ1pvrQtYyMpZe7DXKv2p5CNvyVwzUB6uhLAnQwHMSgKMBR62lc7AHljaeteeHXn11XTAaLLUVZYVZyuRBQ==}
@@ -2024,11 +1937,6 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
-
-  vite-node@3.2.4:
-    resolution: {integrity: sha512-EbKSKh+bh1E1IFxeO0pg1n4dvoOTt0UDiXMd/qn++r98+jPO1xtJilvXldeuQ8giIB5IkpjCgMleHMNEsGH6pg==}
-    engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
-    hasBin: true
 
   vite-plus@0.2.1:
     resolution: {integrity: sha512-q5q/Y38UkWFsNg1JO+RyRdPUqoewaSqIlMyK2p83GKNUvf4D38Ntb3PToRTDZbTRh7mWt+B+d0DQBv4nCDpMcQ==}
@@ -2538,19 +2446,13 @@ snapshots:
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
 
-  '@mjackson/node-fetch-server@0.2.0': {}
-
   '@oxc-project/runtime@0.133.0': {}
 
   '@oxc-project/runtime@0.136.0': {}
 
-  '@oxc-project/runtime@0.138.0': {}
-
   '@oxc-project/types@0.133.0': {}
 
   '@oxc-project/types@0.136.0': {}
-
-  '@oxc-project/types@0.138.0': {}
 
   '@oxfmt/binding-android-arm-eabi@0.55.0':
     optional: true
@@ -2713,7 +2615,7 @@ snapshots:
     optionalDependencies:
       typescript: 6.0.3
 
-  '@react-router/dev@7.18.1(@voidzero-dev/vite-plus-core@0.2.1(esbuild@0.28.1)(typescript@6.0.3)(yaml@2.8.1))(esbuild@0.28.1)(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)(wrangler@4.107.1(@cloudflare/workers-types@4.20260317.1))(yaml@2.8.1)':
+  '@react-router/dev@8.2.0(@voidzero-dev/vite-plus-core@0.2.1(esbuild@0.28.1)(typescript@6.0.3)(yaml@2.8.1))(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)(wrangler@4.107.1(@cloudflare/workers-types@4.20260317.1))':
     dependencies:
       '@babel/core': 7.29.7
       '@babel/generator': 7.29.7
@@ -2722,62 +2624,44 @@ snapshots:
       '@babel/preset-typescript': 7.29.7(@babel/core@7.29.7)
       '@babel/traverse': 7.29.7
       '@babel/types': 7.29.7
-      '@react-router/node': 7.18.1(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)
+      '@react-router/node': 8.2.0(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)
       '@remix-run/node-fetch-server': 0.13.3
-      arg: 5.0.2
       babel-dead-code-elimination: 1.0.12
-      chokidar: 4.0.3
+      chokidar: 5.0.0
       dedent: 1.7.2
-      es-module-lexer: 1.7.0
-      exit-hook: 2.2.1
+      es-module-lexer: 2.3.0
+      exit-hook: 5.1.0
       isbot: 5.2.0
-      jsesc: 3.0.2
+      jsesc: 3.1.0
       lodash: 4.18.1
       p-map: 7.0.5
-      pathe: 1.1.2
+      pathe: 2.0.3
       picocolors: 1.1.1
       pkg-types: 2.3.1
       prettier: 3.9.4
-      react-refresh: 0.14.2
+      react-refresh: 0.18.0
       react-router: 7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       semver: 7.8.5
       tinyglobby: 0.2.17
       valibot: 1.4.2(typescript@6.0.3)
       vite: '@voidzero-dev/vite-plus-core@0.2.1(esbuild@0.28.1)(typescript@6.0.3)(yaml@2.8.1)'
-      vite-node: 3.2.4(esbuild@0.28.1)(typescript@6.0.3)(yaml@2.8.1)
     optionalDependencies:
       typescript: 6.0.3
       wrangler: 4.107.1(@cloudflare/workers-types@4.20260317.1)
     transitivePeerDependencies:
-      - '@arethetypeswrong/core'
-      - '@types/node'
-      - '@vitejs/devtools'
       - babel-plugin-macros
-      - esbuild
-      - jiti
-      - less
-      - publint
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
       - supports-color
-      - terser
-      - tsx
-      - unplugin-unused
-      - unrun
-      - yaml
 
-  '@react-router/fs-routes@7.18.1(@react-router/dev@7.18.1(@voidzero-dev/vite-plus-core@0.2.1(esbuild@0.28.1)(typescript@6.0.3)(yaml@2.8.1))(esbuild@0.28.1)(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)(wrangler@4.107.1(@cloudflare/workers-types@4.20260317.1))(yaml@2.8.1))(typescript@6.0.3)':
+  '@react-router/fs-routes@7.18.1(@react-router/dev@8.2.0(@voidzero-dev/vite-plus-core@0.2.1(esbuild@0.28.1)(typescript@6.0.3)(yaml@2.8.1))(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)(wrangler@4.107.1(@cloudflare/workers-types@4.20260317.1)))(typescript@6.0.3)':
     dependencies:
-      '@react-router/dev': 7.18.1(@voidzero-dev/vite-plus-core@0.2.1(esbuild@0.28.1)(typescript@6.0.3)(yaml@2.8.1))(esbuild@0.28.1)(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)(wrangler@4.107.1(@cloudflare/workers-types@4.20260317.1))(yaml@2.8.1)
+      '@react-router/dev': 8.2.0(@voidzero-dev/vite-plus-core@0.2.1(esbuild@0.28.1)(typescript@6.0.3)(yaml@2.8.1))(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)(wrangler@4.107.1(@cloudflare/workers-types@4.20260317.1))
       minimatch: 9.0.9
     optionalDependencies:
       typescript: 6.0.3
 
-  '@react-router/node@7.18.1(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)':
+  '@react-router/node@8.2.0(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)':
     dependencies:
-      '@mjackson/node-fetch-server': 0.2.0
+      '@remix-run/node-fetch-server': 0.13.3
       react-router: 7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
     optionalDependencies:
       typescript: 6.0.3
@@ -2918,18 +2802,6 @@ snapshots:
       typescript: 6.0.3
       yaml: 2.8.1
 
-  '@voidzero-dev/vite-plus-core@0.2.3(esbuild@0.28.1)(typescript@6.0.3)(yaml@2.8.1)':
-    dependencies:
-      '@oxc-project/runtime': 0.138.0
-      '@oxc-project/types': 0.138.0
-      lightningcss: 1.32.0
-      postcss: 8.5.16
-    optionalDependencies:
-      esbuild: 0.28.1
-      fsevents: 2.3.3
-      typescript: 6.0.3
-      yaml: 2.8.1
-
   '@voidzero-dev/vite-plus-darwin-arm64@0.2.1':
     optional: true
 
@@ -2996,8 +2868,6 @@ snapshots:
 
   ansi-styles@5.2.0: {}
 
-  arg@5.0.2: {}
-
   aria-query@5.3.0:
     dependencies:
       dequal: 2.0.3
@@ -3031,17 +2901,11 @@ snapshots:
       node-releases: 2.0.50
       update-browserslist-db: 1.2.3(browserslist@4.28.5)
 
-  cac@6.7.14: {}
-
   camelcase@9.0.0: {}
 
   caniuse-lite@1.0.30001803: {}
 
   chai@6.2.2: {}
-
-  chokidar@4.0.3:
-    dependencies:
-      readdirp: 4.1.2
 
   chokidar@5.0.0:
     dependencies:
@@ -3084,6 +2948,8 @@ snapshots:
 
   es-module-lexer@1.7.0: {}
 
+  es-module-lexer@2.3.0: {}
+
   esbuild@0.28.1:
     optionalDependencies:
       '@esbuild/aix-ppc64': 0.28.1
@@ -3119,7 +2985,7 @@ snapshots:
     dependencies:
       '@types/estree': 1.0.9
 
-  exit-hook@2.2.1: {}
+  exit-hook@5.1.0: {}
 
   exsolve@1.1.0: {}
 
@@ -3189,8 +3055,6 @@ snapshots:
   isbot@5.2.0: {}
 
   js-tokens@4.0.0: {}
-
-  jsesc@3.0.2: {}
 
   jsesc@3.1.0: {}
 
@@ -3369,8 +3233,6 @@ snapshots:
 
   path-to-regexp@6.3.0: {}
 
-  pathe@1.1.2: {}
-
   pathe@2.0.3: {}
 
   picocolors@1.1.1: {}
@@ -3469,7 +3331,7 @@ snapshots:
 
   react-is@17.0.2: {}
 
-  react-refresh@0.14.2: {}
+  react-refresh@0.18.0: {}
 
   react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
     dependencies:
@@ -3480,8 +3342,6 @@ snapshots:
       react-dom: 19.2.7(react@19.2.7)
 
   react@19.2.7: {}
-
-  readdirp@4.1.2: {}
 
   readdirp@5.0.0: {}
 
@@ -3590,33 +3450,6 @@ snapshots:
   valibot@1.4.2(typescript@6.0.3):
     optionalDependencies:
       typescript: 6.0.3
-
-  vite-node@3.2.4(esbuild@0.28.1)(typescript@6.0.3)(yaml@2.8.1):
-    dependencies:
-      cac: 6.7.14
-      debug: 4.4.3
-      es-module-lexer: 1.7.0
-      pathe: 2.0.3
-      vite: '@voidzero-dev/vite-plus-core@0.2.3(esbuild@0.28.1)(typescript@6.0.3)(yaml@2.8.1)'
-    transitivePeerDependencies:
-      - '@arethetypeswrong/core'
-      - '@types/node'
-      - '@vitejs/devtools'
-      - esbuild
-      - jiti
-      - less
-      - publint
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - tsx
-      - typescript
-      - unplugin-unused
-      - unrun
-      - yaml
 
   vite-plus@0.2.1(@voidzero-dev/vite-plus-core@0.2.1(esbuild@0.28.1)(typescript@6.0.3)(yaml@2.8.1))(esbuild@0.28.1)(typescript@6.0.3)(yaml@2.8.1):
     dependencies:
