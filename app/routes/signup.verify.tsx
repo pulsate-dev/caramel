@@ -14,10 +14,17 @@ export const loader = async ({
       error: "Token or Account name not set",
     };
   }
+  if (accountName.length > 64) {
+    throw new Response("Invalid account name", { status: 400 });
+  }
+
   try {
     const basePath = (context.cloudflare.env as Env).API_BASE_URL;
     const res = await fetch(
-      new URL(`/v0/accounts/${accountName}/verify_email`, basePath),
+      new URL(
+        `/v0/accounts/${encodeURIComponent(accountName)}/verify_email`,
+        basePath
+      ),
       {
         method: "POST",
         headers: {
