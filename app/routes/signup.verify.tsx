@@ -1,6 +1,9 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { Link, useLoaderData } from "react-router";
 
+const ACCOUNT_NAME_PATTERN =
+  /^@[A-Za-z0-9][A-Za-z0-9_.-]*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)*[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/;
+
 export const loader = async ({
   request,
   context,
@@ -14,6 +17,14 @@ export const loader = async ({
       error: "Token or Account name not set",
     };
   }
+  if (
+    accountName.length < 8 ||
+    accountName.length > 512 ||
+    !ACCOUNT_NAME_PATTERN.test(accountName)
+  ) {
+    throw new Response("Invalid account name", { status: 400 });
+  }
+
   try {
     const basePath = (context.cloudflare.env as Env).API_BASE_URL;
     const res = await fetch(
