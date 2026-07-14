@@ -2,11 +2,18 @@ import type { ActionFunctionArgs } from "react-router";
 
 import { getToken } from "~/lib/api/getToken";
 import { renote } from "~/lib/api/renote";
+import { checkOrigin, forbiddenResponse } from "~/lib/checkOrigin";
 
 export const action = async ({
   request,
   context,
-}: ActionFunctionArgs): Promise<{ error: string } | { status: string }> => {
+}: ActionFunctionArgs): Promise<
+  { error: string } | { status: string } | Response
+> => {
+  if (!checkOrigin(request)) {
+    return forbiddenResponse();
+  }
+
   const isLoggedIn = await getToken(request);
   if (!isLoggedIn.isLoggedIn) {
     return { error: "unauthorized" };

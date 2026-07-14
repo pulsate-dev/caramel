@@ -2,8 +2,13 @@ import type { ActionFunctionArgs } from "react-router";
 
 import { followAccount, unfollowAccount } from "~/lib/api/follow";
 import { getToken } from "~/lib/api/getToken";
+import { checkOrigin, forbiddenResponse } from "~/lib/checkOrigin";
 
 export const action = async ({ request, context }: ActionFunctionArgs) => {
+  if (!checkOrigin(request)) {
+    return forbiddenResponse();
+  }
+
   const auth = await getToken(request);
   if (!auth.isLoggedIn) {
     return { error: "unauthorized" };
