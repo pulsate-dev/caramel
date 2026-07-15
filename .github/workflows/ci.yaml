@@ -31,7 +31,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Generate Cloudflare Worker types
-        run: pnpm run cf-typegen
+        run: pnpm run cf-typegen:ci
 
       - name: Build
         run: pnpm run build
