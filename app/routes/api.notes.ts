@@ -1,16 +1,16 @@
 import type { ActionFunctionArgs } from "react-router";
 
 import { getToken } from "~/lib/api/getToken";
-import { checkOrigin, forbiddenResponse } from "~/lib/checkOrigin";
+import { checkOrigin, throwForbiddenResponse } from "~/lib/checkOrigin";
 
 export const action = async ({
   request,
   context,
 }: ActionFunctionArgs): Promise<
-  { status: "error"; message: string } | { status: "ok" } | Response
+  { status: "error"; message: string } | { status: "ok" }
 > => {
   if (!checkOrigin(request)) {
-    return forbiddenResponse();
+    throwForbiddenResponse();
   }
 
   const isLoggedIn = await getToken(request);

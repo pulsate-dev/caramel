@@ -22,8 +22,9 @@ export const checkOrigin = (request: Request): boolean => {
   }
 };
 
-export const forbiddenResponse = (): Response =>
-  new Response(FORBIDDEN_RESPONSE, {
+export const throwForbiddenResponse = (): never => {
+  throw new Response(FORBIDDEN_RESPONSE, {
     status: 403,
     headers: { "Content-Type": "application/json" },
   });
+};
