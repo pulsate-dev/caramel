@@ -1,6 +1,7 @@
 import type { ActionFunctionArgs } from "react-router";
 
 import { getToken } from "~/lib/api/getToken";
+import { checkOrigin, throwForbiddenResponse } from "~/lib/checkOrigin";
 
 export const action = async ({
   request,
@@ -8,6 +9,10 @@ export const action = async ({
 }: ActionFunctionArgs): Promise<
   { status: "error"; message: string } | { status: "ok" }
 > => {
+  if (!checkOrigin(request)) {
+    throwForbiddenResponse();
+  }
+
   const isLoggedIn = await getToken(request);
   if (!isLoggedIn.isLoggedIn) {
     return { status: "error", message: "unauthorized" };
