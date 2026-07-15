@@ -28,8 +28,8 @@ importers:
         specifier: ^0.0.1
         version: 0.0.1
       '@react-router/cloudflare':
-        specifier: ^7.9.1
-        version: 7.18.1(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)
+        specifier: ^8.0.0
+        version: 8.2.0(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)
       '@react-router/fs-routes':
         specifier: ^7.9.1
         version: 7.18.1(@react-router/dev@8.2.0(@voidzero-dev/vite-plus-core@0.2.4(esbuild@0.28.1)(typescript@6.0.3)(yaml@2.8.1))(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)(wrangler@4.110.0))(typescript@6.0.3)
@@ -929,12 +929,12 @@ packages:
   '@pulsate-dev/exp-api-types@0.0.1':
     resolution: {integrity: sha512-i4vlPyfKOXvKqrZnmVvPPrl3Bos2FlIEPaPInFCOPu7qQsc9fS9pCy3WPJiKr/s/KpIDfqT92Rchpe+g/gfRXQ==}
 
-  '@react-router/cloudflare@7.18.1':
-    resolution: {integrity: sha512-fQpWtCQ2wvV7mSfM/YC3dGWyMZtGlRI6JpkB07MF38ZTcqQf5wmyfP2u7iO3+YdalOKW+3fVnCFS84QkPAKwlg==}
-    engines: {node: '>=20.0.0'}
+  '@react-router/cloudflare@8.2.0':
+    resolution: {integrity: sha512-jcVrAUys7IUaPRHheIa6usqBqTwfj/MwBLoLhPvaa91rX5K1yT+h21CP3uGW7oehFDXWH2JXNXPh5TuEBNcbRw==}
+    engines: {node: '>=22.22.0'}
     peerDependencies:
       '@cloudflare/workers-types': ^4.0.0
-      react-router: ^7.18.1
+      react-router: ^8.2.0
       typescript: ^5.1.0 || ^6.0.0
     peerDependenciesMeta:
       typescript:
@@ -2597,7 +2597,7 @@ snapshots:
 
   '@pulsate-dev/exp-api-types@0.0.1': {}
 
-  '@react-router/cloudflare@7.18.1(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)':
+  '@react-router/cloudflare@8.2.0(react-router@7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)':
     dependencies:
       react-router: 7.18.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
     optionalDependencies:
