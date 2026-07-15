@@ -24,6 +24,7 @@
     "format:check": "vp fmt --check ./app/**",
     "preview": "pnpm run build && vp preview",
     "cf-typegen": "wrangler types",
+    "cf-typegen:ci": "wrangler types --env ci",
     "css-types-gen": "hcm 'app/**/*.module.css'",
     "e2e": "playwright test",
     "prepare": "vp config"

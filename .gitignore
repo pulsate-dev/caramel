@@ -14,7 +14,7 @@ test-results/
 .mf
 .wrangler
 .dev.vars*
+worker-configuration.d.ts
 
 # Vite+
 .vite-hooks
-
