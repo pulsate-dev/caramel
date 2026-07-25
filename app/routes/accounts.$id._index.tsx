@@ -16,6 +16,7 @@ import {
   type AccountRelationshipResponse,
 } from "~/lib/api/relationship";
 import type { TimelineResponse } from "~/lib/api/timeline";
+import { cloudflareContext } from "~/lib/cloudflareContext";
 import { defaultAccountAvatar } from "~/lib/defaultAccountImage";
 
 import styles from "~/styles/account.module.css";
@@ -35,7 +36,7 @@ export const loader = async ({
       originalNotes: TimelineResponse[];
     }
 > => {
-  const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+  const basePath = context.get(cloudflareContext).env.API_BASE_URL;
 
   const isLoggedIn = await getToken(request);
   if (!isLoggedIn.isLoggedIn) {
@@ -104,17 +105,19 @@ export const loader = async ({
   };
 };
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  if (!data) {
+export const meta: MetaFunction<typeof loader> = ({ loaderData }) => {
+  if (!loaderData) {
     return [{ title: "Account | Caramel" }, { content: "noindex" }];
   }
-  if (data.error !== undefined) {
+  if (loaderData.error !== undefined) {
     return [{ title: "Account | Caramel" }, { content: "noindex" }];
   }
 
   // ToDo: アカウントが外部アカウントである場合はnoindexを設定する (v0.1.0以降に対応する)
   return [
-    { title: `${data.account.nickname} (${data.account.name}) | Caramel` },
+    {
+      title: `${loaderData.account.nickname} (${loaderData.account.name}) | Caramel`,
+    },
   ];
 };
 

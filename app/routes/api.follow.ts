@@ -3,6 +3,7 @@ import type { ActionFunctionArgs } from "react-router";
 import { followAccount, unfollowAccount } from "~/lib/api/follow";
 import { getToken } from "~/lib/api/getToken";
 import { checkOrigin, throwForbiddenResponse } from "~/lib/checkOrigin";
+import { cloudflareContext } from "~/lib/cloudflareContext";
 
 export const action = async ({ request, context }: ActionFunctionArgs) => {
   if (!checkOrigin(request)) {
@@ -17,7 +18,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
 
   try {
     const formData = await request.formData();
-    const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+    const basePath = context.get(cloudflareContext).env.API_BASE_URL;
 
     switch (request.method) {
       case "POST": {

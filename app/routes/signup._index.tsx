@@ -2,6 +2,8 @@ import { Turnstile } from "@marsidev/react-turnstile";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { Form, Link, redirect, useLoaderData } from "react-router";
 
+import { cloudflareContext } from "~/lib/cloudflareContext";
+
 import styles from "~/components/signup.module.css";
 
 export const action = async ({
@@ -15,21 +17,19 @@ export const action = async ({
   const turnstileToken = formData.get("cf-turnstile-response");
 
   try {
-    const response = await fetch(
-      new URL("/v0/accounts", context.cloudflare.env.API_BASE_URL),
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: `@${name}@${context.cloudflare.env.INSTANCE_FQDN}`,
-          email,
-          passphrase,
-          captcha_token: turnstileToken,
-        }),
-      }
-    );
+    const env = context.get(cloudflareContext).env;
+    const response = await fetch(new URL("/v0/accounts", env.API_BASE_URL), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: `@${name}@${env.INSTANCE_FQDN}`,
+        email,
+        passphrase,
+        captcha_token: turnstileToken,
+      }),
+    });
     if (!response.ok) {
       return { error: "Failed to create account" };
     }
@@ -46,7 +46,7 @@ export const loader = async ({
 }: LoaderFunctionArgs): Promise<
   { turnstileKey: string } | { error: string }
 > => {
-  const env = context.cloudflare.env as Env;
+  const env = context.get(cloudflareContext).env;
 
   if (!env.TURNSTILE_KEY) {
     return { error: "TURNSTILE_TOKEN is not set" };

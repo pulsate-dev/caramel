@@ -3,6 +3,7 @@ import { Link, useLoaderData } from "react-router";
 
 import { account } from "~/lib/account";
 import { getToken } from "~/lib/api/getToken";
+import { cloudflareContext } from "~/lib/cloudflareContext";
 import { parseToken } from "~/lib/parseToken";
 
 export const loader = async ({
@@ -20,7 +21,7 @@ export const loader = async ({
     return { isLoggedIn: false };
   }
 
-  const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+  const basePath = context.get(cloudflareContext).env.API_BASE_URL;
   const accountDatum = await account(parsedToken.id, token, basePath);
   return { isLoggedIn: !("error" in accountDatum) };
 };
