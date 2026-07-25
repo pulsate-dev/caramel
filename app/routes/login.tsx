@@ -2,6 +2,7 @@ import type { ActionFunctionArgs, MetaFunction } from "react-router";
 import { Form, Link, redirect, useActionData } from "react-router";
 
 import { accountCookie, login } from "~/lib/api/login";
+import { cloudflareContext } from "~/lib/cloudflareContext";
 
 import styles from "~/components/login.module.css";
 
@@ -30,7 +31,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
   const email = formData.get("email") as string;
   const passphrase = formData.get("passphrase") as string;
 
-  const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+  const basePath = context.get(cloudflareContext).env.API_BASE_URL;
   const res = await login({ email, passphrase }, basePath);
   if ("error" in res) {
     const errorMessage =

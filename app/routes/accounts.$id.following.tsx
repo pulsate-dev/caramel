@@ -4,6 +4,7 @@ import { FollowAccount } from "~/components/followAccount";
 import { account } from "~/lib/account";
 import { getFollowingList, type FollowingResponse } from "~/lib/api/followlist";
 import { getToken } from "~/lib/api/getToken";
+import { cloudflareContext } from "~/lib/cloudflareContext";
 
 export async function loader({
   params,
@@ -12,7 +13,7 @@ export async function loader({
 }: LoaderFunctionArgs): Promise<
   { isSuccess: false } | { isSuccess: true; response: FollowingResponse[] }
 > {
-  const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+  const basePath = context.get(cloudflareContext).env.API_BASE_URL;
   const isLoggedIn = await getToken(request);
 
   if (!isLoggedIn.isLoggedIn) {

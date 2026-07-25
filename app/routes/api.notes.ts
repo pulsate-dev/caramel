@@ -2,6 +2,7 @@ import type { ActionFunctionArgs } from "react-router";
 
 import { getToken } from "~/lib/api/getToken";
 import { checkOrigin, throwForbiddenResponse } from "~/lib/checkOrigin";
+import { cloudflareContext } from "~/lib/cloudflareContext";
 
 export const action = async ({
   request,
@@ -21,7 +22,7 @@ export const action = async ({
 
   try {
     const formData = await request.formData();
-    const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+    const basePath = context.get(cloudflareContext).env.API_BASE_URL;
     const res = await fetch(new URL("/v0/notes", basePath), {
       method: "POST",
       headers: {

@@ -3,6 +3,7 @@ import type { ActionFunctionArgs } from "react-router";
 import { getToken } from "~/lib/api/getToken";
 import { renote } from "~/lib/api/renote";
 import { checkOrigin, throwForbiddenResponse } from "~/lib/checkOrigin";
+import { cloudflareContext } from "~/lib/cloudflareContext";
 
 export const action = async ({
   request,
@@ -25,7 +26,7 @@ export const action = async ({
   const formData = await request.formData();
   const noteID = formData.get("noteID") as string;
 
-  const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+  const basePath = context.get(cloudflareContext).env.API_BASE_URL;
 
   const result = await renote(basePath, token, noteID, {
     content: "",

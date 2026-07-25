@@ -1,6 +1,8 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { Link, useLoaderData } from "react-router";
 
+import { cloudflareContext } from "~/lib/cloudflareContext";
+
 export const loader = async ({
   request,
   context,
@@ -19,7 +21,7 @@ export const loader = async ({
   }
 
   try {
-    const basePath = (context.cloudflare.env as Env).API_BASE_URL;
+    const basePath = context.get(cloudflareContext).env.API_BASE_URL;
     const res = await fetch(
       new URL(
         `/v0/accounts/${encodeURIComponent(accountName)}/verify_email`,
