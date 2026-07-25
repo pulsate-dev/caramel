@@ -63,10 +63,10 @@ importers:
         version: 19.2.3(@types/react@19.2.17)
       happy-css-modules:
         specifier: ^5.0.0
-        version: 5.0.2(postcss@8.5.19)(yaml@2.8.1)
+        version: 5.0.2(postcss@8.5.22)(yaml@2.8.1)
       postcss:
         specifier: ^8.5.6
-        version: 8.5.19
+        version: 8.5.22
       typescript:
         specifier: ^7.0.0
         version: 7.0.2
@@ -2091,6 +2091,10 @@ packages:
     resolution: {integrity: sha512-Mz8SaolMd8nB+G13WkORcxQKHZ/NE4xXevtkJHVuG+guo9/wYKlIMTKAqGdEmYOXR2ijPjTYNHssizdaVSUNdQ==}
     engines: {node: ^10 || ^12 || >=14}
 
+  postcss@8.5.22:
+    resolution: {integrity: sha512-KBDEIpLrvpv16pp3K0Fw+UCoZfopFjjgeB+0tA/aaThfEE74kKDLrgg603YvOWJyg3+WYtyq3xYsQWsIyZlPqQ==}
+    engines: {node: ^10 || ^12 || >=14}
+
   prettier@3.9.4:
     resolution: {integrity: sha512-yWG/o/4oJfo036EKAfK6ACAoDOfHeRHx4tuxkfBZiauURiaSmYwlpOr5LQqKtIkRD2z1PLteme2WoxEnj4tHTg==}
     engines: {node: '>=14'}
@@ -3164,7 +3168,7 @@ snapshots:
       '@oxc-project/runtime': 0.138.0
       '@oxc-project/types': 0.138.0
       lightningcss: 1.32.0
-      postcss: 8.5.19
+      postcss: 8.5.22
     optionalDependencies:
       esbuild: 0.28.1
       fsevents: 2.3.3
@@ -3176,7 +3180,7 @@ snapshots:
       '@oxc-project/runtime': 0.139.0
       '@oxc-project/types': 0.139.0
       lightningcss: 1.32.0
-      postcss: 8.5.19
+      postcss: 8.5.22
       yuku-codegen: 0.5.48
       yuku-parser: 0.5.48
     optionalDependencies:
@@ -3472,7 +3476,7 @@ snapshots:
 
   graceful-fs@4.2.11: {}
 
-  happy-css-modules@5.0.2(postcss@8.5.19)(yaml@2.8.1):
+  happy-css-modules@5.0.2(postcss@8.5.22)(yaml@2.8.1):
     dependencies:
       '@file-cache/core': 2.0.0
       '@file-cache/npm': 2.0.0
@@ -3480,9 +3484,9 @@ snapshots:
       chokidar: 5.0.0
       enhanced-resolve: 5.24.1
       import-meta-resolve: 4.2.0
-      postcss: 8.5.19
-      postcss-load-config: 6.0.1(postcss@8.5.19)(yaml@2.8.1)
-      postcss-modules: 6.0.1(postcss@8.5.19)
+      postcss: 8.5.22
+      postcss-load-config: 6.0.1(postcss@8.5.22)(yaml@2.8.1)
+      postcss-modules: 6.0.1(postcss@8.5.22)
       postcss-selector-parser: 7.1.4
       postcss-value-parser: 4.2.0
       source-map: 0.7.6
@@ -3495,9 +3499,9 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  icss-utils@5.1.0(postcss@8.5.19):
+  icss-utils@5.1.0(postcss@8.5.22):
     dependencies:
-      postcss: 8.5.19
+      postcss: 8.5.22
 
   import-meta-resolve@4.2.0: {}
 
@@ -3716,44 +3720,44 @@ snapshots:
 
   pngjs@7.0.0: {}
 
-  postcss-load-config@6.0.1(postcss@8.5.19)(yaml@2.8.1):
+  postcss-load-config@6.0.1(postcss@8.5.22)(yaml@2.8.1):
     dependencies:
       lilconfig: 3.1.3
     optionalDependencies:
-      postcss: 8.5.19
+      postcss: 8.5.22
       yaml: 2.8.1
 
-  postcss-modules-extract-imports@3.1.0(postcss@8.5.19):
+  postcss-modules-extract-imports@3.1.0(postcss@8.5.22):
     dependencies:
-      postcss: 8.5.19
+      postcss: 8.5.22
 
-  postcss-modules-local-by-default@4.2.0(postcss@8.5.19):
+  postcss-modules-local-by-default@4.2.0(postcss@8.5.22):
     dependencies:
-      icss-utils: 5.1.0(postcss@8.5.19)
-      postcss: 8.5.19
+      icss-utils: 5.1.0(postcss@8.5.22)
+      postcss: 8.5.22
       postcss-selector-parser: 7.1.4
       postcss-value-parser: 4.2.0
 
-  postcss-modules-scope@3.2.1(postcss@8.5.19):
+  postcss-modules-scope@3.2.1(postcss@8.5.22):
     dependencies:
-      postcss: 8.5.19
+      postcss: 8.5.22
       postcss-selector-parser: 7.1.4
 
-  postcss-modules-values@4.0.0(postcss@8.5.19):
+  postcss-modules-values@4.0.0(postcss@8.5.22):
     dependencies:
-      icss-utils: 5.1.0(postcss@8.5.19)
-      postcss: 8.5.19
+      icss-utils: 5.1.0(postcss@8.5.22)
+      postcss: 8.5.22
 
-  postcss-modules@6.0.1(postcss@8.5.19):
+  postcss-modules@6.0.1(postcss@8.5.22):
     dependencies:
       generic-names: 4.0.0
-      icss-utils: 5.1.0(postcss@8.5.19)
+      icss-utils: 5.1.0(postcss@8.5.22)
       lodash.camelcase: 4.3.0
-      postcss: 8.5.19
-      postcss-modules-extract-imports: 3.1.0(postcss@8.5.19)
-      postcss-modules-local-by-default: 4.2.0(postcss@8.5.19)
-      postcss-modules-scope: 3.2.1(postcss@8.5.19)
-      postcss-modules-values: 4.0.0(postcss@8.5.19)
+      postcss: 8.5.22
+      postcss-modules-extract-imports: 3.1.0(postcss@8.5.22)
+      postcss-modules-local-by-default: 4.2.0(postcss@8.5.22)
+      postcss-modules-scope: 3.2.1(postcss@8.5.22)
+      postcss-modules-values: 4.0.0(postcss@8.5.22)
       string-hash: 1.1.3
 
   postcss-selector-parser@7.1.4:
@@ -3764,6 +3768,12 @@ snapshots:
   postcss-value-parser@4.2.0: {}
 
   postcss@8.5.19:
+    dependencies:
+      nanoid: 3.3.16
+      picocolors: 1.1.1
+      source-map-js: 1.2.1
+
+  postcss@8.5.22:
     dependencies:
       nanoid: 3.3.16
       picocolors: 1.1.1
