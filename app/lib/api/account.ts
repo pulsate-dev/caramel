@@ -82,7 +82,10 @@ export const accountTimeline = async (
       return (await res.json()) as { error: string };
     }
 
-    const response = (await res.json()) as GetV0TimelineAccountsIdResponse;
+    const response =
+      (await res.json()) as (GetV0TimelineAccountsIdResponse[number] & {
+        original_note_id?: string;
+      })[];
 
     return response.map(
       (item) =>
@@ -92,6 +95,7 @@ export const accountTimeline = async (
           contents_warning_comment: item.contents_warning_comment,
           visibility: item.visibility as "PUBLIC" | "HOME" | "FOLLOWERS",
           created_at: new Date(item.created_at),
+          original_note_id: item.original_note_id,
           author: {
             id: item.author.id,
             name: item.author.name,
