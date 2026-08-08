@@ -1,4 +1,5 @@
 import type { ActionFunctionArgs } from "react-router";
+import { data } from "react-router";
 
 import { getToken } from "~/lib/api/getToken";
 import { renote } from "~/lib/api/renote";
@@ -8,14 +9,16 @@ import { cloudflareContext } from "~/lib/cloudflareContext";
 export const action = async ({
   request,
   context,
-}: ActionFunctionArgs): Promise<{ error: string } | { status: string }> => {
+}: ActionFunctionArgs): Promise<
+  Response | { error: string } | { status: string }
+> => {
   if (!checkOrigin(request)) {
     throwForbiddenResponse();
   }
 
   const isLoggedIn = await getToken(request);
   if (!isLoggedIn.isLoggedIn) {
-    return { error: "unauthorized" };
+    return data({ error: "unauthorized" }, { status: 401 });
   }
   const token = isLoggedIn.token;
 
