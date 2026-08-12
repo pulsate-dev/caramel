@@ -1,4 +1,10 @@
+import {
+  deleteV0AccountsNameFollow,
+  postV0AccountsNameFollow,
+} from "@pulsate-dev/exp-api-types";
+
 import { logger } from "../logger";
+import { apiOptions } from "./client";
 
 export async function followAccount(
   basePath: string,
@@ -6,16 +12,11 @@ export async function followAccount(
   accountName: string
 ): Promise<{ isSuccess: boolean }> {
   try {
-    const followRes = await fetch(
-      new URL(`/v0/accounts/${accountName}/follow`, basePath),
-      {
-        method: "POST",
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (!followRes.ok) {
+    const { error } = await postV0AccountsNameFollow({
+      ...apiOptions(basePath, token),
+      path: { name: accountName },
+    });
+    if (error) {
       return { isSuccess: false };
     }
   } catch (e) {
@@ -32,20 +33,14 @@ export async function unfollowAccount(
   accountName: string
 ): Promise<{ isSuccess: boolean }> {
   try {
-    const followRes = await fetch(
-      new URL(`/v0/accounts/${accountName}/follow`, basePath),
-      {
-        method: "DELETE",
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (followRes.status !== 204) {
-      logger.error("Unexpected Error:", { response: await followRes.text() });
+    const { error } = await deleteV0AccountsNameFollow({
+      ...apiOptions(basePath, token),
+      path: { name: accountName },
+    });
+    if (error) {
+      logger.error("Unexpected Error:", error);
       return { isSuccess: false };
     }
-    logger.error("Succeed to follow:", accountName);
   } catch (e) {
     logger.error("Unexpected Error:", e);
     return { isSuccess: false };

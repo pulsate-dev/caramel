@@ -1,13 +1,17 @@
 import type {
-  GetV0AccountsIdentifierResponse,
-  GetV0TimelineAccountsIdResponse,
   UpdateAccountRequest,
   UpdateAccountResponse,
+} from "@pulsate-dev/exp-api-types";
+import {
+  getV0AccountsIdentifier,
+  getV0TimelineAccountsId,
+  patchV0AccountsName,
 } from "@pulsate-dev/exp-api-types";
 
 import type { TimelineResponse } from "~/lib/api/timeline";
 
 import { logger } from "../logger";
+import { apiOptions, parseApiErrorMessage } from "./client";
 
 export interface AccountResponse {
   id: string;
@@ -27,13 +31,16 @@ export const account = async (
   basePath: string
 ): Promise<AccountResponse | { error: string }> => {
   try {
-    const res = await fetch(new URL(`/v0/accounts/${identifier}`, basePath), {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const {
+      data: response,
+      error,
+      response: rawResponse,
+    } = await getV0AccountsIdentifier({
+      ...apiOptions(basePath, token),
+      path: { identifier },
     });
-    if (!res.ok) {
-      switch (res.status) {
+    if (error || !response) {
+      switch (rawResponse?.status) {
         case 500:
           return { error: "internal server error" };
         case 404:
@@ -43,18 +50,16 @@ export const account = async (
       }
     }
 
-    const repsonse = (await res.json()) as GetV0AccountsIdentifierResponse;
-
     return {
-      id: repsonse.id,
-      name: repsonse.name,
-      nickname: repsonse.nickname,
-      bio: repsonse.bio,
-      avatar: repsonse.avatar,
-      header: repsonse.header,
-      followed_count: repsonse.followed_count,
-      following_count: repsonse.following_count,
-      note_count: repsonse.note_count,
+      id: response.id,
+      name: response.name,
+      nickname: response.nickname,
+      bio: response.bio,
+      avatar: response.avatar,
+      header: response.header,
+      followed_count: response.followed_count,
+      following_count: response.following_count,
+      note_count: response.note_count,
     } satisfies AccountResponse;
   } catch {
     return { error: "unknown error" };
@@ -68,21 +73,14 @@ export const accountTimeline = async (
   beforeID?: string
 ): Promise<TimelineResponse[] | { error: string }> => {
   try {
-    const url = new URL(`/v0/timeline/accounts/${id}`, basePath);
-    if (beforeID) {
-      url.searchParams.append("before_id", beforeID);
-    }
-
-    const res = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const { data: response, error } = await getV0TimelineAccountsId({
+      ...apiOptions(basePath, token),
+      path: { id },
+      query: beforeID ? { before_id: beforeID } : undefined,
     });
-    if (!res.ok) {
-      return (await res.json()) as { error: string };
+    if (error || !response) {
+      return { error: parseApiErrorMessage(error) };
     }
-
-    const response = (await res.json()) as GetV0TimelineAccountsIdResponse;
 
     return response.map(
       (item) =>
@@ -128,17 +126,13 @@ export const updateAccount = async (
       nickname,
     };
 
-    const res = await fetch(new URL(`/v0/accounts/${name}`, basePath), {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
+    const { data, error, response } = await patchV0AccountsName({
+      ...apiOptions(basePath, token),
+      body,
+      path: { name },
     });
-
-    if (!res.ok) {
-      switch (res.status) {
+    if (error || !data) {
+      switch (response?.status) {
         case 400:
           return { error: "invalid request" };
         case 404:
@@ -150,7 +144,7 @@ export const updateAccount = async (
       }
     }
 
-    return (await res.json()) as UpdateAccountResponse;
+    return data;
   } catch (e) {
     logger.error("Unexpected Error:", e);
     return { error: "unknown error" };

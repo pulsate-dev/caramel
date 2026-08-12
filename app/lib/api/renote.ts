@@ -1,8 +1,11 @@
+import { postV0NotesIdRenote } from "@pulsate-dev/exp-api-types";
+
 import { logger } from "../logger";
+import { apiOptions } from "./client";
 
 export interface RenoteArgs {
   content: string;
-  visibility: "PUBLIC" | "HOME" | "FOLLOWERS";
+  visibility: "PUBLIC" | "HOME";
   attachment_file_ids: string[];
   contents_warning_comment: string;
 }
@@ -14,20 +17,13 @@ export async function renote(
   args: RenoteArgs
 ): Promise<{ isSuccess: boolean }> {
   try {
-    const res = await fetch(
-      new URL(`/v0/notes/${originalNoteID}/renote`, basePath),
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(args),
-      }
-    );
-
-    if (!res.ok) {
-      logger.error("failed to renote", { args, response: await res.text() });
+    const { error } = await postV0NotesIdRenote({
+      ...apiOptions(basePath, token),
+      body: args,
+      path: { id: originalNoteID },
+    });
+    if (error) {
+      logger.error("failed to renote", { args, error });
       return { isSuccess: false };
     }
   } catch (e) {

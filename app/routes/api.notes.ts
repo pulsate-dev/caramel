@@ -1,6 +1,8 @@
+import { postV0Notes } from "@pulsate-dev/exp-api-types";
 import type { ActionFunctionArgs } from "react-router";
 import { redirect } from "react-router";
 
+import { apiOptions, parseApiErrorMessage } from "~/lib/api/client";
 import { getToken } from "~/lib/api/getToken";
 import { checkOrigin, throwForbiddenResponse } from "~/lib/checkOrigin";
 import { cloudflareContext } from "~/lib/cloudflareContext";
@@ -19,23 +21,18 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
   try {
     const formData = await request.formData();
     const basePath = context.get(cloudflareContext).env.API_BASE_URL;
-    const res = await fetch(new URL("/v0/notes", basePath), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        content: formData.get("content"),
-        visibility: formData.get("visibility"),
+    const { error } = await postV0Notes({
+      ...apiOptions(basePath, token),
+      body: {
+        content: formData.get("content") as string,
+        visibility: formData.get("visibility") as string,
         attachment_file_ids: [],
         contents_warning_comment: "",
-      }),
+      },
     });
 
-    if (!res.ok) {
-      const errorRes = (await res.json()) as { error: string };
-      return { status: "error", message: errorRes.error };
+    if (error) {
+      return { status: "error", message: parseApiErrorMessage(error) };
     }
 
     return { status: "ok" };

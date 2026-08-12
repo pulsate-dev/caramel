@@ -1,7 +1,9 @@
 import { Turnstile } from "@marsidev/react-turnstile";
+import { postV0Accounts } from "@pulsate-dev/exp-api-types";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { Form, Link, redirect, useLoaderData } from "react-router";
 
+import { apiOptions } from "~/lib/api/client";
 import { cloudflareContext } from "~/lib/cloudflareContext";
 
 import styles from "~/components/signup.module.css";
@@ -18,19 +20,16 @@ export const action = async ({
 
   try {
     const env = context.get(cloudflareContext).env;
-    const response = await fetch(new URL("/v0/accounts", env.API_BASE_URL), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    const { error } = await postV0Accounts({
+      ...apiOptions(env.API_BASE_URL),
+      body: {
         name: `@${name}@${env.INSTANCE_FQDN}`,
         email,
         passphrase,
-        captcha_token: turnstileToken,
-      }),
+        captcha_token: turnstileToken as string,
+      },
     });
-    if (!response.ok) {
+    if (error) {
       return { error: "Failed to create account" };
     }
 

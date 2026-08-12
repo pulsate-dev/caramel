@@ -1,6 +1,8 @@
+import { postV0AccountsNameVerifyEmail } from "@pulsate-dev/exp-api-types";
 import type { LoaderFunctionArgs } from "react-router";
 import { Link, useLoaderData } from "react-router";
 
+import { apiOptions } from "~/lib/api/client";
 import { cloudflareContext } from "~/lib/cloudflareContext";
 
 export const loader = async ({
@@ -22,24 +24,14 @@ export const loader = async ({
 
   try {
     const basePath = context.get(cloudflareContext).env.API_BASE_URL;
-    const res = await fetch(
-      new URL(
-        `/v0/accounts/${encodeURIComponent(accountName)}/verify_email`,
-        basePath
-      ),
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token,
-        }),
-      }
-    );
+    const { error, response } = await postV0AccountsNameVerifyEmail({
+      ...apiOptions(basePath),
+      body: { token },
+      path: { name: accountName },
+    });
 
-    if (!res.ok) {
-      switch (res.status) {
+    if (error) {
+      switch (response?.status) {
         case 400:
           return { error: "Verification token is invalid." };
         case 404:

@@ -1,4 +1,7 @@
+import { getV0TimelineHome } from "@pulsate-dev/exp-api-types";
+
 import { logger } from "../logger";
+import { apiOptions, parseApiErrorMessage } from "./client";
 
 export interface TimelineResponse {
   id: string;
@@ -29,23 +32,24 @@ export const fetchHomeTimeline = async (
   beforeID?: string
 ): Promise<{ notes: TimelineResponse[] } | { error: string }> => {
   try {
-    const url = new URL("/v0/timeline/home", basePath);
-    if (beforeID) {
-      url.searchParams.append("before_id", beforeID);
-    }
-
-    const timelineRes = await fetch(url, {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
+    const { data: notes, error } = await getV0TimelineHome({
+      ...apiOptions(basePath, token),
+      query: beforeID ? { before_id: beforeID } : undefined,
     });
-    if (!timelineRes.ok) {
-      const json = await timelineRes.json();
-      logger.error("Fetch home timeline error:", json);
-      return json as { error: string };
+    if (error || !notes) {
+      logger.error("Fetch home timeline error:", error);
+      return { error: parseApiErrorMessage(error) };
     }
-    const notes = (await timelineRes.json()) as TimelineResponse[];
-    return { notes };
+    return {
+      notes: notes.map(
+        (note) =>
+          ({
+            ...note,
+            created_at: new Date(note.created_at),
+            visibility: note.visibility as TimelineResponse["visibility"],
+          }) satisfies TimelineResponse
+      ),
+    };
   } catch (e) {
     logger.error("Unexpected Error:", e);
     return { error: "unknown error" };

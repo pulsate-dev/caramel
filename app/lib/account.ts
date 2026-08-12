@@ -1,4 +1,11 @@
+import {
+  getV0AccountsIdentifier,
+  getV0TimelineAccountsId,
+} from "@pulsate-dev/exp-api-types";
+
 import type { TimelineResponse } from "~/lib/api/timeline";
+
+import { apiOptions, parseApiErrorMessage } from "./api/client";
 
 export interface AccountResponse {
   id: string;
@@ -18,15 +25,24 @@ export const account = async (
   basePath: string
 ): Promise<AccountResponse | { error: string }> => {
   try {
-    const res = await fetch(new URL(`/v0/accounts/${identifier}`, basePath), {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const { data, error } = await getV0AccountsIdentifier({
+      ...apiOptions(basePath, token),
+      path: { identifier },
     });
-    if (!res.ok) {
-      return { error: "failed to fetch" };
+    if (error || !data) {
+      return { error: error ? parseApiErrorMessage(error) : "failed to fetch" };
     }
-    return (await res.json()) as AccountResponse;
+    return {
+      id: data.id,
+      name: data.name,
+      nickname: data.nickname,
+      bio: data.bio,
+      avatar: data.avatar,
+      header: data.header,
+      followed_count: data.followed_count,
+      following_count: data.following_count,
+      note_count: data.note_count,
+    };
   } catch {
     return { error: "unknown error" };
   }
@@ -39,20 +55,22 @@ export const accountTimeline = async (
   beforeID?: string
 ): Promise<TimelineResponse[] | { error: string }> => {
   try {
-    const url = new URL(`/v0/timeline/accounts/${id}`, basePath);
-    if (beforeID) {
-      url.searchParams.append("before_id", beforeID);
-    }
-
-    const res = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const { data, error } = await getV0TimelineAccountsId({
+      ...apiOptions(basePath, token),
+      path: { id },
+      query: beforeID ? { before_id: beforeID } : undefined,
     });
-    if (!res.ok) {
-      return (await res.json()) as { error: string };
+    if (error || !data) {
+      return { error: parseApiErrorMessage(error) };
     }
-    return (await res.json()) as TimelineResponse[];
+    return data.map(
+      (note) =>
+        ({
+          ...note,
+          created_at: new Date(note.created_at),
+          visibility: note.visibility as TimelineResponse["visibility"],
+        }) satisfies TimelineResponse
+    );
   } catch {
     return { error: "unknown error" };
   }
