@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
-import { data, useLoaderData } from "react-router";
+import { data, redirect, useLoaderData } from "react-router";
 
 import { EmptyState } from "~/components/emptyState";
 import { FollowButton } from "~/components/followButton";
@@ -40,7 +40,7 @@ export const loader = async ({
 
   const isLoggedIn = await getToken(request);
   if (!isLoggedIn.isLoggedIn) {
-    return { error: "not logged in" };
+    throw redirect("/login");
   }
   const token = isLoggedIn.token;
 
@@ -72,7 +72,7 @@ export const loader = async ({
 
   const loggedInAccountDatum = await loggedInAccount(request, basePath);
   if (!loggedInAccountDatum.isSuccess) {
-    return { error: "not logged in" };
+    throw redirect("/login");
   }
 
   const relationshipRes = await accountRelationship(

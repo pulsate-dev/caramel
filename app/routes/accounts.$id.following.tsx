@@ -1,4 +1,4 @@
-import { useLoaderData, type LoaderFunctionArgs } from "react-router";
+import { redirect, useLoaderData, type LoaderFunctionArgs } from "react-router";
 
 import { FollowAccount } from "~/components/followAccount";
 import { account } from "~/lib/account";
@@ -17,7 +17,7 @@ export async function loader({
   const isLoggedIn = await getToken(request);
 
   if (!isLoggedIn.isLoggedIn) {
-    return { isSuccess: false };
+    throw redirect("/login");
   }
   const token = isLoggedIn.token;
 
