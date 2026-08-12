@@ -1,5 +1,5 @@
 import type { ActionFunctionArgs } from "react-router";
-import { data } from "react-router";
+import { redirect } from "react-router";
 
 import { followAccount, unfollowAccount } from "~/lib/api/follow";
 import { getToken } from "~/lib/api/getToken";
@@ -13,7 +13,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
 
   const auth = await getToken(request);
   if (!auth.isLoggedIn) {
-    throw data({ error: "unauthorized" }, { status: 401 });
+    throw redirect("/login");
   }
   const token = auth.token;
 

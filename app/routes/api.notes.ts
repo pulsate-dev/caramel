@@ -1,5 +1,5 @@
 import type { ActionFunctionArgs } from "react-router";
-import { data } from "react-router";
+import { redirect } from "react-router";
 
 import { getToken } from "~/lib/api/getToken";
 import { checkOrigin, throwForbiddenResponse } from "~/lib/checkOrigin";
@@ -12,7 +12,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
 
   const isLoggedIn = await getToken(request);
   if (!isLoggedIn.isLoggedIn) {
-    throw data({ status: "error", message: "unauthorized" }, { status: 401 });
+    throw redirect("/login");
   }
   const token = isLoggedIn.token;
 
