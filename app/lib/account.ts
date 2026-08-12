@@ -26,7 +26,11 @@ export const account = async (
 ): Promise<AccountResponse | { error: string }> => {
   try {
     const { data, error } = await getV0AccountsIdentifier({
-      ...apiOptions(basePath, token),
+      ...apiOptions(
+        basePath,
+        token,
+        `/v0/accounts/${encodeURIComponent(identifier)}`
+      ),
       path: { identifier },
     });
     if (error || !data) {
@@ -56,7 +60,11 @@ export const accountTimeline = async (
 ): Promise<TimelineResponse[] | { error: string }> => {
   try {
     const { data, error } = await getV0TimelineAccountsId({
-      ...apiOptions(basePath, token),
+      ...apiOptions(
+        basePath,
+        token,
+        `/v0/timeline/accounts/${encodeURIComponent(id)}`
+      ),
       path: { id },
       query: beforeID ? { before_id: beforeID } : undefined,
     });

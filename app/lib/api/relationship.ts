@@ -20,7 +20,11 @@ export async function accountRelationship(
 > {
   try {
     const { data: relationship, error } = await getV0AccountsIdRelationships({
-      ...apiOptions(basePath, token),
+      ...apiOptions(
+        basePath,
+        token,
+        `/v0/accounts/${encodeURIComponent(accountID)}/relationships`
+      ),
       path: { id: accountID },
     });
     if (error || !relationship) {

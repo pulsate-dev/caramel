@@ -25,7 +25,11 @@ export const loader = async ({
   try {
     const basePath = context.get(cloudflareContext).env.API_BASE_URL;
     const { error, response } = await postV0AccountsNameVerifyEmail({
-      ...apiOptions(basePath),
+      ...apiOptions(
+        basePath,
+        undefined,
+        `/v0/accounts/${encodeURIComponent(accountName)}/verify_email`
+      ),
       body: { token },
       path: { name: accountName },
     });

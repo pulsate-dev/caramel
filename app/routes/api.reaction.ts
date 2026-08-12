@@ -51,7 +51,11 @@ const reaction = async (
 ): Promise<{ status: string } | { error: string }> => {
   try {
     const { error } = await postV0NotesIdReaction({
-      ...apiOptions(basePath, token),
+      ...apiOptions(
+        basePath,
+        token,
+        `/v0/notes/${encodeURIComponent(noteID)}/reaction`
+      ),
       body: { emoji },
       path: { id: noteID },
     });
@@ -76,7 +80,11 @@ const undoReaction = async (
 ): Promise<{ status: string } | { error: string }> => {
   try {
     const { error } = await deleteV0NotesIdReaction({
-      ...apiOptions(basePath, token),
+      ...apiOptions(
+        basePath,
+        token,
+        `/v0/notes/${encodeURIComponent(noteID)}/reaction`
+      ),
       path: { id: noteID },
     });
 

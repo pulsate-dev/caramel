@@ -18,7 +18,11 @@ export async function renote(
 ): Promise<{ isSuccess: boolean }> {
   try {
     const { error } = await postV0NotesIdRenote({
-      ...apiOptions(basePath, token),
+      ...apiOptions(
+        basePath,
+        token,
+        `/v0/notes/${encodeURIComponent(originalNoteID)}/renote`
+      ),
       body: args,
       path: { id: originalNoteID },
     });

@@ -1,7 +1,8 @@
-export const apiOptions = (baseUrl: string, token?: string) => ({
+export const apiOptions = (baseUrl: string, token?: string, url?: string) => ({
   baseUrl,
   headers: token ? { Authorization: `Bearer ${token}` } : undefined,
   signal: AbortSignal.timeout(10_000),
+  ...(url ? { url } : {}),
 });
 
 export const parseApiErrorMessage = (error: unknown): string => {

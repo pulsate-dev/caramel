@@ -13,7 +13,11 @@ export async function followAccount(
 ): Promise<{ isSuccess: boolean }> {
   try {
     const { error } = await postV0AccountsNameFollow({
-      ...apiOptions(basePath, token),
+      ...apiOptions(
+        basePath,
+        token,
+        `/v0/accounts/${encodeURIComponent(accountName)}/follow`
+      ),
       path: { name: accountName },
     });
     if (error) {
@@ -34,7 +38,11 @@ export async function unfollowAccount(
 ): Promise<{ isSuccess: boolean }> {
   try {
     const { error } = await deleteV0AccountsNameFollow({
-      ...apiOptions(basePath, token),
+      ...apiOptions(
+        basePath,
+        token,
+        `/v0/accounts/${encodeURIComponent(accountName)}/follow`
+      ),
       path: { name: accountName },
     });
     if (error) {

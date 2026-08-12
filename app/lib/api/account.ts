@@ -36,7 +36,11 @@ export const account = async (
       error,
       response: rawResponse,
     } = await getV0AccountsIdentifier({
-      ...apiOptions(basePath, token),
+      ...apiOptions(
+        basePath,
+        token,
+        `/v0/accounts/${encodeURIComponent(identifier)}`
+      ),
       path: { identifier },
     });
     if (error || !response) {
@@ -74,7 +78,11 @@ export const accountTimeline = async (
 ): Promise<TimelineResponse[] | { error: string }> => {
   try {
     const { data: response, error } = await getV0TimelineAccountsId({
-      ...apiOptions(basePath, token),
+      ...apiOptions(
+        basePath,
+        token,
+        `/v0/timeline/accounts/${encodeURIComponent(id)}`
+      ),
       path: { id },
       query: beforeID ? { before_id: beforeID } : undefined,
     });
@@ -127,7 +135,11 @@ export const updateAccount = async (
     };
 
     const { data, error, response } = await patchV0AccountsName({
-      ...apiOptions(basePath, token),
+      ...apiOptions(
+        basePath,
+        token,
+        `/v0/accounts/${encodeURIComponent(name)}`
+      ),
       body,
       path: { name },
     });

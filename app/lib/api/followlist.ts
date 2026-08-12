@@ -25,7 +25,11 @@ export async function getFollowingList(
 > {
   try {
     const { data: accounts, error } = await getV0AccountsIdFollowing({
-      ...apiOptions(basePath, token),
+      ...apiOptions(
+        basePath,
+        token,
+        `/v0/accounts/${encodeURIComponent(accountID)}/following`
+      ),
       path: { id: accountID },
     });
     if (error || !accounts) {
@@ -55,7 +59,11 @@ export async function getFollowersList(
 > {
   try {
     const { data: accounts, error } = await getV0AccountsIdFollower({
-      ...apiOptions(basePath, token),
+      ...apiOptions(
+        basePath,
+        token,
+        `/v0/accounts/${encodeURIComponent(accountID)}/follower`
+      ),
       path: { id: accountID },
     });
     if (error || !accounts) {

@@ -12,7 +12,7 @@ export const fetchNote = async (
 ): Promise<TimelineResponse | { error: string }> => {
   try {
     const { data: note, error } = await getV0NotesId({
-      ...apiOptions(basePath, token),
+      ...apiOptions(basePath, token, `/v0/notes/${encodeURIComponent(noteID)}`),
       path: { id: noteID },
     });
     if (error || !note) {
