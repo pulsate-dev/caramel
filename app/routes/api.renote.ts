@@ -1,21 +1,19 @@
 import type { ActionFunctionArgs } from "react-router";
+import { redirect } from "react-router";
 
 import { getToken } from "~/lib/api/getToken";
 import { renote } from "~/lib/api/renote";
 import { checkOrigin, throwForbiddenResponse } from "~/lib/checkOrigin";
 import { cloudflareContext } from "~/lib/cloudflareContext";
 
-export const action = async ({
-  request,
-  context,
-}: ActionFunctionArgs): Promise<{ error: string } | { status: string }> => {
+export const action = async ({ request, context }: ActionFunctionArgs) => {
   if (!checkOrigin(request)) {
     throwForbiddenResponse();
   }
 
   const isLoggedIn = await getToken(request);
   if (!isLoggedIn.isLoggedIn) {
-    return { error: "unauthorized" };
+    throw redirect("/login");
   }
   const token = isLoggedIn.token;
 

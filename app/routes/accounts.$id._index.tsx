@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
-import { useLoaderData } from "react-router";
+import { data, useLoaderData } from "react-router";
 
 import { EmptyState } from "~/components/emptyState";
 import { FollowButton } from "~/components/followButton";
@@ -55,7 +55,9 @@ export const loader = async ({
   const beforeID = query.get("before_id") ?? undefined;
   const afterID = query.get("after_id") ?? undefined;
   if (beforeID && afterID) {
-    throw new Error("before_id and after_id cannot be used together");
+    throw data("before_id and after_id cannot be used together", {
+      status: 400,
+    });
   }
 
   const timelineRes = await accountTimeline(
