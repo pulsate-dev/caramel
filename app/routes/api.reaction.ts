@@ -1,6 +1,11 @@
+import {
+  deleteV0NotesIdReaction,
+  postV0NotesIdReaction,
+} from "@pulsate-dev/exp-api-types";
 import type { ActionFunctionArgs } from "react-router";
 import { redirect } from "react-router";
 
+import { apiOptions } from "~/lib/api/client";
 import { getToken } from "~/lib/api/getToken";
 import { checkOrigin, throwForbiddenResponse } from "~/lib/checkOrigin";
 import { cloudflareContext } from "~/lib/cloudflareContext";
@@ -45,16 +50,17 @@ const reaction = async (
   basePath: string
 ): Promise<{ status: string } | { error: string }> => {
   try {
-    const res = await fetch(new URL(`/v0/notes/${noteID}/reaction`, basePath), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ emoji }),
+    const { error } = await postV0NotesIdReaction({
+      ...apiOptions(
+        basePath,
+        token,
+        `/v0/notes/${encodeURIComponent(noteID)}/reaction`
+      ),
+      body: { emoji },
+      path: { id: noteID },
     });
 
-    if (!res.ok) {
+    if (error) {
       throw new Error("Failed to react");
     }
 
@@ -73,15 +79,16 @@ const undoReaction = async (
   basePath: string
 ): Promise<{ status: string } | { error: string }> => {
   try {
-    const res = await fetch(new URL(`/v0/notes/${noteID}/reaction`, basePath), {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+    const { error } = await deleteV0NotesIdReaction({
+      ...apiOptions(
+        basePath,
+        token,
+        `/v0/notes/${encodeURIComponent(noteID)}/reaction`
+      ),
+      path: { id: noteID },
     });
 
-    if (!res.ok) {
+    if (error) {
       throw new Error("Failed to undo reaction");
     }
 

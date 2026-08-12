@@ -1,10 +1,8 @@
-import type {
-  PostV0LoginError,
-  PostV0LoginResponse,
-} from "@pulsate-dev/exp-api-types";
+import { postV0Login } from "@pulsate-dev/exp-api-types";
 import { createCookie } from "react-router";
 
 import { logger } from "../logger";
+import { apiOptions } from "./client";
 
 export type LoginArgs = {
   email: string;
@@ -23,25 +21,21 @@ export const login = async (
     }
 > => {
   try {
-    const response = await fetch(new URL("/v0/login", basePath), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, passphrase, captcha_token: "" }),
+    const {
+      data: res,
+      error,
+      response,
+    } = await postV0Login({
+      ...apiOptions(basePath),
+      body: { email, passphrase, captcha_token: "" },
     });
-
-    if (!response.ok) {
-      if (response.status === 400) {
+    if (error || !res) {
+      if (response?.status === 400) {
         return { error: "INVALID_CREDENTIALS" };
       }
-      logger.error("Unexpected Error:", await response.text());
+      logger.error("Unexpected Error:", error);
       return { error: "CONNECTION_FAILED" };
     }
-
-    const res = (await response.json()) as
-      | PostV0LoginError
-      | PostV0LoginResponse;
 
     if (!("authorization_token" in res)) {
       logger.error(

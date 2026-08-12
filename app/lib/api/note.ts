@@ -1,6 +1,9 @@
+import { getV0NotesId } from "@pulsate-dev/exp-api-types";
+
 import type { TimelineResponse } from "~/lib/api/timeline";
 
 import { logger } from "../logger";
+import { apiOptions, parseApiErrorMessage } from "./client";
 
 export const fetchNote = async (
   token: string,
@@ -8,17 +11,19 @@ export const fetchNote = async (
   noteID: string
 ): Promise<TimelineResponse | { error: string }> => {
   try {
-    const res = await fetch(new URL(`/v0/notes/${noteID}`, basePath), {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
+    const { data: note, error } = await getV0NotesId({
+      ...apiOptions(basePath, token, `/v0/notes/${encodeURIComponent(noteID)}`),
+      path: { id: noteID },
     });
-    if (!res.ok) {
-      const json = await res.json();
-      logger.error("Fetch notes error:", json);
-      return json as { error: string };
+    if (error || !note) {
+      logger.error("Fetch notes error:", error);
+      return { error: parseApiErrorMessage(error) };
     }
-    return (await res.json()) as TimelineResponse;
+    return {
+      ...note,
+      created_at: new Date(note.created_at),
+      visibility: note.visibility as TimelineResponse["visibility"],
+    };
   } catch (e) {
     logger.error("Unexpected Error:", e);
     return { error: "unknown error" };

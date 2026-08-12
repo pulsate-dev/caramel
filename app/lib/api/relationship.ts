@@ -1,4 +1,7 @@
+import { getV0AccountsIdRelationships } from "@pulsate-dev/exp-api-types";
+
 import { logger } from "../logger";
+import { apiOptions } from "./client";
 
 export interface AccountRelationshipResponse {
   id: string;
@@ -16,25 +19,17 @@ export async function accountRelationship(
   | { isSuccess: false }
 > {
   try {
-    const relationshipRes = await fetch(
-      new URL(`/v0/accounts/${accountID}/relationships`, basePath),
-      {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (!relationshipRes.ok) {
+    const { data: relationship, error } = await getV0AccountsIdRelationships({
+      ...apiOptions(
+        basePath,
+        token,
+        `/v0/accounts/${encodeURIComponent(accountID)}/relationships`
+      ),
+      path: { id: accountID },
+    });
+    if (error || !relationship) {
       return { isSuccess: false };
     }
-
-    // ToDo: exp-api-typesの型を使う
-    const relationship = (await relationshipRes.json()) as {
-      id: string;
-      is_followed: boolean;
-      is_following: boolean;
-      is_follow_requesting: boolean;
-    };
 
     return {
       isSuccess: true,

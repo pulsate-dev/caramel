@@ -1,9 +1,10 @@
-import type {
-  GetV0AccountsIdFollowerResponse,
-  GetV0AccountsIdFollowingResponse,
+import {
+  getV0AccountsIdFollower,
+  getV0AccountsIdFollowing,
 } from "@pulsate-dev/exp-api-types";
 
 import { logger } from "../logger";
+import { apiOptions } from "./client";
 
 interface FollowResponseBase {
   id: string;
@@ -23,20 +24,17 @@ export async function getFollowingList(
   { isSuccess: true; response: FollowingResponse[] } | { isSuccess: false }
 > {
   try {
-    const followingRes = await fetch(
-      new URL(`/v0/accounts/${accountID}/following`, basePath),
-      {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (!followingRes.ok) {
+    const { data: accounts, error } = await getV0AccountsIdFollowing({
+      ...apiOptions(
+        basePath,
+        token,
+        `/v0/accounts/${encodeURIComponent(accountID)}/following`
+      ),
+      path: { id: accountID },
+    });
+    if (error || !accounts) {
       return { isSuccess: false };
     }
-
-    const accounts =
-      (await followingRes.json()) as GetV0AccountsIdFollowingResponse;
 
     return {
       isSuccess: true,
@@ -60,20 +58,17 @@ export async function getFollowersList(
   { isSuccess: true; response: FollowerResponse[] } | { isSuccess: false }
 > {
   try {
-    const followerRes = await fetch(
-      new URL(`/v0/accounts/${accountID}/follower`, basePath),
-      {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (!followerRes.ok) {
+    const { data: accounts, error } = await getV0AccountsIdFollower({
+      ...apiOptions(
+        basePath,
+        token,
+        `/v0/accounts/${encodeURIComponent(accountID)}/follower`
+      ),
+      path: { id: accountID },
+    });
+    if (error || !accounts) {
       return { isSuccess: false };
     }
-
-    const accounts =
-      (await followerRes.json()) as GetV0AccountsIdFollowerResponse;
 
     return {
       isSuccess: true,
