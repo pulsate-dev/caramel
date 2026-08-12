@@ -5,12 +5,7 @@ import { getToken } from "~/lib/api/getToken";
 import { checkOrigin, throwForbiddenResponse } from "~/lib/checkOrigin";
 import { cloudflareContext } from "~/lib/cloudflareContext";
 
-export const action = async ({
-  request,
-  context,
-}: ActionFunctionArgs): Promise<
-  Response | { status: "error"; message: string } | { status: "ok" }
-> => {
+export const action = async ({ request, context }: ActionFunctionArgs) => {
   if (!checkOrigin(request)) {
     throwForbiddenResponse();
   }
