@@ -13,7 +13,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
 
   const auth = await getToken(request);
   if (!auth.isLoggedIn) {
-    return data({ error: "unauthorized" }, { status: 401 });
+    throw data({ error: "unauthorized" }, { status: 401 });
   }
   const token = auth.token;
 
