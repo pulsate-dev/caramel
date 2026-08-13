@@ -1,4 +1,7 @@
-import { getV0TimelineHome } from "@pulsate-dev/exp-api-types";
+import {
+  getV0TimelineHome,
+  getV0TimelinePublic,
+} from "@pulsate-dev/exp-api-types";
 
 import { logger } from "../logger";
 import { apiOptions, parseApiErrorMessage } from "./client";
@@ -26,18 +29,25 @@ export interface TimelineResponse {
   original_note_id?: string;
 }
 
-export const fetchHomeTimeline = async (
+export type TimelineType = "home" | "public";
+
+export const fetchTimeline = async (
   token: string,
   basePath: string,
+  type: TimelineType,
   beforeID?: string
 ): Promise<{ notes: TimelineResponse[] } | { error: string }> => {
   try {
-    const { data: notes, error } = await getV0TimelineHome({
+    const options = {
       ...apiOptions(basePath, token),
       query: beforeID ? { before_id: beforeID } : undefined,
-    });
+    };
+    const { data: notes, error } =
+      type === "home"
+        ? await getV0TimelineHome(options)
+        : await getV0TimelinePublic(options);
     if (error || !notes) {
-      logger.error("Fetch home timeline error:", error);
+      logger.error(`Fetch ${type} timeline error:`, error);
       return { error: parseApiErrorMessage(error) };
     }
     return {
