@@ -28,13 +28,12 @@ export const loader = async ({
       loggedInAccountID: string;
       originalNotes: TimelineResponse[];
     }
-  | Response
 > => {
   const basePath = context.get(cloudflareContext).env.API_BASE_URL;
 
   const cookie = await accountCookie.parse(request.headers.get("Cookie"));
   if (!cookie) {
-    return redirect("/login");
+    throw redirect("/login");
   }
 
   const query = new URL(request.url).searchParams;
@@ -46,7 +45,7 @@ export const loader = async ({
 
   const loggedInAccountDatum = await loggedInAccount(request, basePath);
   if (!loggedInAccountDatum.isSuccess) {
-    return { error: "not logged in" };
+    throw redirect("/login");
   }
 
   const renoteNotes = res.notes.filter((n) => n.original_note_id);
