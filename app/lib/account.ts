@@ -84,7 +84,9 @@ export const accountTimeline = async (
           visibility: note.visibility as TimelineResponse["visibility"],
         }) satisfies TimelineResponse
     );
-    return afterID ? [...timelineNotes].reverse() : timelineNotes;
+    return afterID
+      ? timelineNotes.filter((note) => note.id !== afterID).reverse()
+      : timelineNotes;
   } catch {
     return { error: "unknown error" };
   }

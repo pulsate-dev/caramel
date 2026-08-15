@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
-import { data, useLoaderData } from "react-router";
+import { data, redirect, useLoaderData } from "react-router";
 
 import { EmptyState } from "~/components/emptyState";
 import { FollowButton } from "~/components/followButton";
@@ -35,6 +35,7 @@ export const loader = async ({
       relationships: AccountRelationshipResponse;
       originalNotes: TimelineResponse[];
     }
+  | Response
 > => {
   const basePath = context.get(cloudflareContext).env.API_BASE_URL;
 
@@ -69,6 +70,9 @@ export const loader = async ({
   );
   if ("error" in timelineRes) {
     return { error: timelineRes.error };
+  }
+  if (afterID && timelineRes.length === 0) {
+    return redirect(`/accounts/${accountRes.name}`);
   }
 
   const loggedInAccountDatum = await loggedInAccount(request, basePath);

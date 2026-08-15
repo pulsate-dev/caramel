@@ -58,6 +58,9 @@ export const loader = async ({
   if ("error" in res) {
     return res;
   }
+  if (afterID && res.notes.length === 0) {
+    return redirect(`/timeline?timeline=${timeline}`);
+  }
 
   const loggedInAccountDatum = await loggedInAccount(request, basePath);
   if (!loggedInAccountDatum.isSuccess) {

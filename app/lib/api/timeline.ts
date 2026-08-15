@@ -64,7 +64,9 @@ export const fetchTimeline = async (
         }) satisfies TimelineResponse
     );
     return {
-      notes: afterID ? [...timelineNotes].reverse() : timelineNotes,
+      notes: afterID
+        ? timelineNotes.filter((note) => note.id !== afterID).reverse()
+        : timelineNotes,
     };
   } catch (e) {
     logger.error("Unexpected Error:", e);
