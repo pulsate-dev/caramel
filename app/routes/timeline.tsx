@@ -29,13 +29,12 @@ export const loader = async ({
       originalNotes: TimelineResponse[];
       timeline: TimelineType;
     }
-  | Response
 > => {
   const basePath = context.get(cloudflareContext).env.API_BASE_URL;
 
   const cookie = await accountCookie.parse(request.headers.get("Cookie"));
   if (!cookie) {
-    return redirect("/login");
+    throw redirect("/login");
   }
 
   const query = new URL(request.url).searchParams;
@@ -59,12 +58,12 @@ export const loader = async ({
     return res;
   }
   if (afterID && res.notes.length === 0) {
-    return redirect(`/timeline?timeline=${timeline}`);
+    throw redirect(`/timeline?timeline=${timeline}`);
   }
 
   const loggedInAccountDatum = await loggedInAccount(request, basePath);
   if (!loggedInAccountDatum.isSuccess) {
-    return { error: "not logged in" };
+    throw redirect("/login");
   }
 
   const renoteNotes = res.notes.filter((n) => n.original_note_id);

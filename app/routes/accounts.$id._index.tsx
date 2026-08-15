@@ -35,13 +35,12 @@ export const loader = async ({
       relationships: AccountRelationshipResponse;
       originalNotes: TimelineResponse[];
     }
-  | Response
 > => {
   const basePath = context.get(cloudflareContext).env.API_BASE_URL;
 
   const isLoggedIn = await getToken(request);
   if (!isLoggedIn.isLoggedIn) {
-    return { error: "not logged in" };
+    throw redirect("/login");
   }
   const token = isLoggedIn.token;
 
@@ -72,12 +71,12 @@ export const loader = async ({
     return { error: timelineRes.error };
   }
   if (afterID && timelineRes.length === 0) {
-    return redirect(`/accounts/${accountRes.name}`);
+    throw redirect(`/accounts/${accountRes.name}`);
   }
 
   const loggedInAccountDatum = await loggedInAccount(request, basePath);
   if (!loggedInAccountDatum.isSuccess) {
-    return { error: "not logged in" };
+    throw redirect("/login");
   }
 
   const relationshipRes = await accountRelationship(
