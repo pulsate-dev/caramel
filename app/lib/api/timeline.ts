@@ -35,12 +35,17 @@ export const fetchTimeline = async (
   token: string,
   basePath: string,
   type: TimelineType,
-  beforeID?: string
+  beforeID?: string,
+  afterID?: string
 ): Promise<{ notes: TimelineResponse[] } | { error: string }> => {
   try {
     const options = {
       ...apiOptions(basePath, token),
-      query: beforeID ? { before_id: beforeID } : undefined,
+      query: beforeID
+        ? { before_id: beforeID }
+        : afterID
+          ? { after_id: afterID }
+          : undefined,
     };
     const { data: notes, error } =
       type === "home"
@@ -50,15 +55,16 @@ export const fetchTimeline = async (
       logger.error(`Fetch ${type} timeline error:`, error);
       return { error: parseApiErrorMessage(error) };
     }
+    const timelineNotes = notes.map(
+      (note) =>
+        ({
+          ...note,
+          created_at: new Date(note.created_at),
+          visibility: note.visibility as TimelineResponse["visibility"],
+        }) satisfies TimelineResponse
+    );
     return {
-      notes: notes.map(
-        (note) =>
-          ({
-            ...note,
-            created_at: new Date(note.created_at),
-            visibility: note.visibility as TimelineResponse["visibility"],
-          }) satisfies TimelineResponse
-      ),
+      notes: afterID ? [...timelineNotes].reverse() : timelineNotes,
     };
   } catch (e) {
     logger.error("Unexpected Error:", e);

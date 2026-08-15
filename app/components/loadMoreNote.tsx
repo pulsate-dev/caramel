@@ -6,7 +6,6 @@ export interface LoadMoreNoteButtonProps {
   type: "newer" | "older";
   noteID: string;
   timeline?: "home" | "public";
-  beforeIDs?: string[];
 }
 
 export const LoadMoreNoteButton = (props: LoadMoreNoteButtonProps) => {
@@ -15,9 +14,6 @@ export const LoadMoreNoteButton = (props: LoadMoreNoteButtonProps) => {
 
     if (props.timeline) {
       query.set("timeline", props.timeline);
-      if (props.beforeIDs?.length) {
-        query.set("before_ids", props.beforeIDs.join(","));
-      }
     }
     for (const [name, value] of Object.entries(params)) {
       if (value) query.set(name, value);
@@ -28,20 +24,6 @@ export const LoadMoreNoteButton = (props: LoadMoreNoteButtonProps) => {
   };
 
   if (props.type === "newer") {
-    if (props.timeline) {
-      const beforeIDs = props.beforeIDs ?? [];
-      const previousBeforeID = beforeIDs.at(-1);
-
-      return (
-        <div className={style.loadMoreNote}>
-          <TimelineButton
-            link={createLink({ before_id: previousBeforeID })}
-            linkText="Load newer notes"
-          />
-        </div>
-      );
-    }
-
     return (
       <div className={style.loadMoreNote}>
         <TimelineButton

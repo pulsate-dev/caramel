@@ -64,7 +64,8 @@ export const loader = async ({
     accountRes.id,
     token,
     basePath,
-    beforeID
+    beforeID,
+    afterID
   );
   if ("error" in timelineRes) {
     return { error: timelineRes.error };

@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
-import { Form, redirect, useLoaderData, useSubmit } from "react-router";
+import { data, Form, redirect, useLoaderData, useSubmit } from "react-router";
 
 import { EmptyState } from "~/components/emptyState";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
@@ -28,8 +28,6 @@ export const loader = async ({
       loggedInAccountID: string;
       originalNotes: TimelineResponse[];
       timeline: TimelineType;
-      beforeID?: string;
-      beforeIDs: string[];
     }
   | Response
 > => {
@@ -44,8 +42,19 @@ export const loader = async ({
   const timeline: TimelineType =
     query.get("timeline") === "public" ? "public" : "home";
   const beforeID = query.get("before_id") ?? undefined;
-  const beforeIDs = (query.get("before_ids") ?? "").split(",").filter(Boolean);
-  const res = await fetchTimeline(cookie, basePath, timeline, beforeID);
+  const afterID = query.get("after_id") ?? undefined;
+  if (beforeID && afterID) {
+    throw data("before_id and after_id cannot be used together", {
+      status: 400,
+    });
+  }
+  const res = await fetchTimeline(
+    cookie,
+    basePath,
+    timeline,
+    beforeID,
+    afterID
+  );
   if ("error" in res) {
     return res;
   }
@@ -73,8 +82,6 @@ export const loader = async ({
     loggedInAccountID: loggedInAccountDatum.response.id,
     originalNotes,
     timeline,
-    beforeID,
-    beforeIDs,
   };
 };
 
@@ -120,7 +127,6 @@ export default function Timeline() {
             type="newer"
             noteID={loaderData.notes[0].id}
             timeline={loaderData.timeline}
-            beforeIDs={loaderData.beforeIDs.slice(0, -1)}
           />
 
           {loaderData && (
@@ -138,11 +144,6 @@ export default function Timeline() {
           type="older"
           noteID={loaderData.notes.at(-1)!.id}
           timeline={loaderData.timeline}
-          beforeIDs={
-            loaderData.beforeID
-              ? [...loaderData.beforeIDs, loaderData.beforeID]
-              : loaderData.beforeIDs
-          }
         />
       )}
     </div>
