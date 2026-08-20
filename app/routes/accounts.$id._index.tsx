@@ -64,10 +64,14 @@ export const loader = async ({
     accountRes.id,
     token,
     basePath,
-    beforeID
+    beforeID,
+    afterID
   );
   if ("error" in timelineRes) {
     return { error: timelineRes.error };
+  }
+  if (afterID && timelineRes.length === 0) {
+    throw redirect(`/accounts/${accountRes.name}`);
   }
 
   const loggedInAccountDatum = await loggedInAccount(request, basePath);

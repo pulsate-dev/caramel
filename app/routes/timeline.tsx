@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
-import { redirect, useLoaderData } from "react-router";
+import { data, Form, redirect, useLoaderData, useSubmit } from "react-router";
 
 import { EmptyState } from "~/components/emptyState";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
@@ -8,8 +8,8 @@ import { PostForm } from "~/components/postForm";
 import { loggedInAccount } from "~/lib/api/loggedInAccount";
 import { accountCookie } from "~/lib/api/login";
 import { fetchNote } from "~/lib/api/note";
-import type { TimelineResponse } from "~/lib/api/timeline";
-import { fetchHomeTimeline } from "~/lib/api/timeline";
+import type { TimelineResponse, TimelineType } from "~/lib/api/timeline";
+import { fetchTimeline } from "~/lib/api/timeline";
 import { cloudflareContext } from "~/lib/cloudflareContext";
 
 import styles from "~/styles/timeline.module.css";
@@ -27,6 +27,7 @@ export const loader = async ({
       notes: TimelineResponse[];
       loggedInAccountID: string;
       originalNotes: TimelineResponse[];
+      timeline: TimelineType;
     }
 > => {
   const basePath = context.get(cloudflareContext).env.API_BASE_URL;
@@ -37,10 +38,27 @@ export const loader = async ({
   }
 
   const query = new URL(request.url).searchParams;
+  const timeline: TimelineType =
+    query.get("timeline") === "public" ? "public" : "home";
   const beforeID = query.get("before_id") ?? undefined;
-  const res = await fetchHomeTimeline(cookie, basePath, beforeID);
+  const afterID = query.get("after_id") ?? undefined;
+  if (beforeID && afterID) {
+    throw data("before_id and after_id cannot be used together", {
+      status: 400,
+    });
+  }
+  const res = await fetchTimeline(
+    cookie,
+    basePath,
+    timeline,
+    beforeID,
+    afterID
+  );
   if ("error" in res) {
     return res;
+  }
+  if (afterID && res.notes.length === 0) {
+    throw redirect(`/timeline?timeline=${timeline}`);
   }
 
   const loggedInAccountDatum = await loggedInAccount(request, basePath);
@@ -65,31 +83,53 @@ export const loader = async ({
     notes: res.notes,
     loggedInAccountID: loggedInAccountDatum.response.id,
     originalNotes,
+    timeline,
   };
 };
 
 export default function Timeline() {
   const loaderData = useLoaderData<typeof loader>();
+  const submit = useSubmit();
   if ("error" in loaderData) {
     return <div>{loaderData.error}</div>;
   }
 
+  const emptyStateDescription =
+    loaderData.timeline === "public"
+      ? "Public notes will appear here."
+      : "Notes from accounts you follow will appear here. Your notes will also appear here.";
+
   return (
     <div className={styles.noteContainer}>
-      <PostForm />
+      <div>
+        <Form method="get">
+          <label htmlFor="timeline">
+            <select
+              id="timeline"
+              name="timeline"
+              value={loaderData.timeline}
+              onChange={(event) => submit(event.currentTarget.form)}
+            >
+              <option value="home">Home</option>
+              <option value="public">Public</option>
+            </select>
+          </label>
+        </Form>
+        <PostForm />
+      </div>
 
       {loaderData.notes.length === 0 ? (
         <EmptyState emoji="💭">
           <h3>No notes here</h3>
-          <p>
-            Notes from accounts you follow will appear here.
-            <wbr />
-            Your notes will also appear here.
-          </p>
+          <p>{emptyStateDescription}</p>
         </EmptyState>
       ) : (
         <>
-          <LoadMoreNoteButton type="newer" noteID={loaderData.notes[0].id} />
+          <LoadMoreNoteButton
+            type="newer"
+            noteID={loaderData.notes[0].id}
+            timeline={loaderData.timeline}
+          />
 
           {loaderData && (
             <TimelineNotes
@@ -101,8 +141,12 @@ export default function Timeline() {
         </>
       )}
 
-      {loaderData.notes.length > 20 && (
-        <LoadMoreNoteButton type="older" noteID={loaderData.notes.at(-1)!.id} />
+      {loaderData.notes.length >= 20 && (
+        <LoadMoreNoteButton
+          type="older"
+          noteID={loaderData.notes.at(-1)!.id}
+          timeline={loaderData.timeline}
+        />
       )}
     </div>
   );

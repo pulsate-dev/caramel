@@ -56,7 +56,8 @@ export const accountTimeline = async (
   id: string,
   token: string | undefined,
   basePath: string,
-  beforeID?: string
+  beforeID?: string,
+  afterID?: string
 ): Promise<TimelineResponse[] | { error: string }> => {
   try {
     const { data, error } = await getV0TimelineAccountsId({
@@ -66,12 +67,16 @@ export const accountTimeline = async (
         `/v0/timeline/accounts/${encodeURIComponent(id)}`
       ),
       path: { id },
-      query: beforeID ? { before_id: beforeID } : undefined,
+      query: beforeID
+        ? { before_id: beforeID }
+        : afterID
+          ? { after_id: afterID }
+          : undefined,
     });
     if (error || !data) {
       return { error: parseApiErrorMessage(error) };
     }
-    return data.map(
+    const timelineNotes = data.map(
       (note) =>
         ({
           ...note,
@@ -79,6 +84,9 @@ export const accountTimeline = async (
           visibility: note.visibility as TimelineResponse["visibility"],
         }) satisfies TimelineResponse
     );
+    return afterID
+      ? timelineNotes.filter((note) => note.id !== afterID).reverse()
+      : timelineNotes;
   } catch {
     return { error: "unknown error" };
   }
