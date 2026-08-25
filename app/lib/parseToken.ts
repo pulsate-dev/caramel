@@ -27,8 +27,8 @@ export const parseToken = (token: string): TokenPayload | Error => {
       name: payload.accountName,
       id: payload.sub,
     };
-  } catch (e) {
-    logger.error(e);
+  } catch (e: unknown) {
+    logger.error("failed to parse", e);
     return new Error("failed to parse", { cause: e });
   }
 };
