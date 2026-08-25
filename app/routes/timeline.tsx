@@ -104,6 +104,7 @@ export default function Timeline() {
       <div>
         <Form method="get">
           <label htmlFor="timeline">
+            Timeline:{" "}
             <select
               id="timeline"
               name="timeline"
