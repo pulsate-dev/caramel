@@ -25,7 +25,7 @@ export default async function handleRequest(
         // errors encountered during initial shell rendering since they'll
         // reject and get logged in handleDocumentRequest.
         if (shellRendered) {
-          logger.error(error);
+          logger.error("streaming rendering failed", error);
         }
       },
     }
