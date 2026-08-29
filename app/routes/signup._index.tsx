@@ -5,6 +5,7 @@ import { Form, Link, redirect, useLoaderData } from "react-router";
 
 import { apiOptions } from "~/lib/api/client";
 import { cloudflareContext } from "~/lib/cloudflareContext";
+import { logger } from "~/lib/logger";
 
 import styles from "~/components/signup.module.css";
 
@@ -20,6 +21,11 @@ export const action = async ({
 
   try {
     const env = context.get(cloudflareContext).env;
+    if (env.API_BASE_URL == null) {
+      logger.error("API_BASE_URL env was not configured");
+      return { error: "Something went wrong" };
+    }
+
     const { error } = await postV0Accounts({
       ...apiOptions(env.API_BASE_URL),
       body: {
@@ -35,7 +41,7 @@ export const action = async ({
 
     return redirect("/signup/confirmation");
   } catch (e) {
-    console.error(e);
+    logger.error("failed to sign up", e);
     return { error: "Something went wrong" };
   }
 };
