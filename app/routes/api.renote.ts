@@ -4,7 +4,7 @@ import { redirect } from "react-router";
 import { getToken } from "~/lib/api/getToken";
 import { renote } from "~/lib/api/renote";
 import { checkOrigin, throwForbiddenResponse } from "~/lib/checkOrigin";
-import { cloudflareContext } from "~/lib/cloudflareContext";
+import { cloudflareContext, requireApiBasePath } from "~/lib/cloudflareContext";
 
 export const action = async ({ request, context }: ActionFunctionArgs) => {
   if (!checkOrigin(request)) {
@@ -24,7 +24,9 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const noteID = formData.get("noteID") as string;
 
-  const basePath = context.get(cloudflareContext).env.API_BASE_URL;
+  const basePath = requireApiBasePath(
+    context.get(cloudflareContext).env.API_BASE_URL
+  );
 
   const result = await renote(basePath, token, noteID, {
     content: "",

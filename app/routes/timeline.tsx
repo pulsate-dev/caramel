@@ -10,7 +10,7 @@ import { accountCookie } from "~/lib/api/login";
 import { fetchNote } from "~/lib/api/note";
 import type { TimelineResponse, TimelineType } from "~/lib/api/timeline";
 import { fetchTimeline } from "~/lib/api/timeline";
-import { cloudflareContext } from "~/lib/cloudflareContext";
+import { cloudflareContext, requireApiBasePath } from "~/lib/cloudflareContext";
 
 import styles from "~/styles/timeline.module.css";
 
@@ -30,7 +30,9 @@ export const loader = async ({
       timeline: TimelineType;
     }
 > => {
-  const basePath = context.get(cloudflareContext).env.API_BASE_URL;
+  const basePath = requireApiBasePath(
+    context.get(cloudflareContext).env.API_BASE_URL
+  );
 
   const cookie = await accountCookie.parse(request.headers.get("Cookie"));
   if (!cookie) {

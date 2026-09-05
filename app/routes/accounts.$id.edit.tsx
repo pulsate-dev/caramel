@@ -8,7 +8,7 @@ import { Form, redirect, useActionData, useLoaderData } from "react-router";
 import { account, updateAccount } from "~/lib/api/account";
 import { getToken } from "~/lib/api/getToken";
 import { loggedInAccount } from "~/lib/api/loggedInAccount";
-import { cloudflareContext } from "~/lib/cloudflareContext";
+import { cloudflareContext, requireApiBasePath } from "~/lib/cloudflareContext";
 
 const ERROR_MESSAGES = {
   invalidRequest: "Invalid request. Please try again.",
@@ -45,7 +45,9 @@ export const loader = async ({
   params,
   context,
 }: LoaderFunctionArgs): Promise<LoaderData> => {
-  const basePath = context.get(cloudflareContext).env.API_BASE_URL;
+  const basePath = requireApiBasePath(
+    context.get(cloudflareContext).env.API_BASE_URL
+  );
 
   const tokenData = await getToken(request);
   if (!tokenData.isLoggedIn) {
@@ -85,7 +87,9 @@ export const action = async ({
   params,
   context,
 }: ActionFunctionArgs): Promise<ActionData | Response> => {
-  const basePath = context.get(cloudflareContext).env.API_BASE_URL;
+  const basePath = requireApiBasePath(
+    context.get(cloudflareContext).env.API_BASE_URL
+  );
 
   const tokenData = await getToken(request);
   if (!tokenData.isLoggedIn) {

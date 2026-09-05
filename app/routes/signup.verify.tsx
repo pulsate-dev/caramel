@@ -3,7 +3,7 @@ import type { LoaderFunctionArgs } from "react-router";
 import { Link, useLoaderData } from "react-router";
 
 import { apiOptions } from "~/lib/api/client";
-import { cloudflareContext } from "~/lib/cloudflareContext";
+import { cloudflareContext, requireApiBasePath } from "~/lib/cloudflareContext";
 import { logger } from "~/lib/logger";
 
 export const loader = async ({
@@ -24,7 +24,9 @@ export const loader = async ({
   }
 
   try {
-    const basePath = context.get(cloudflareContext).env.API_BASE_URL;
+    const basePath = requireApiBasePath(
+      context.get(cloudflareContext).env.API_BASE_URL
+    );
     if (basePath == null) {
       logger.error("API_BASE_URL env was not configured");
       return { error: "Something went wrong" };

@@ -4,7 +4,7 @@ import { redirect } from "react-router";
 import { followAccount, unfollowAccount } from "~/lib/api/follow";
 import { getToken } from "~/lib/api/getToken";
 import { checkOrigin, throwForbiddenResponse } from "~/lib/checkOrigin";
-import { cloudflareContext } from "~/lib/cloudflareContext";
+import { cloudflareContext, requireApiBasePath } from "~/lib/cloudflareContext";
 
 export const action = async ({ request, context }: ActionFunctionArgs) => {
   if (!checkOrigin(request)) {
@@ -19,7 +19,9 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
 
   try {
     const formData = await request.formData();
-    const basePath = context.get(cloudflareContext).env.API_BASE_URL;
+    const basePath = requireApiBasePath(
+      context.get(cloudflareContext).env.API_BASE_URL
+    );
 
     switch (request.method) {
       case "POST": {
