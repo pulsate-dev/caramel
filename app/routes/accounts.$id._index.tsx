@@ -4,13 +4,12 @@ import { data, redirect, useLoaderData } from "react-router";
 import { EmptyState } from "~/components/emptyState";
 import { FollowButton } from "~/components/followButton";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
-import type { NoteProps } from "~/components/note";
-import { Note } from "~/components/note";
+import { Note, toNoteProps, type NoteProps } from "~/components/note";
 import type { AccountResponse } from "~/lib/api/account";
 import { account, accountTimeline } from "~/lib/api/account";
 import { getToken } from "~/lib/api/getToken";
 import { loggedInAccount } from "~/lib/api/loggedInAccount";
-import { fetchNote } from "~/lib/api/note";
+import { fetchOriginalNotes } from "~/lib/api/note";
 import {
   accountRelationship,
   type AccountRelationshipResponse,
@@ -88,18 +87,7 @@ export const loader = async ({
     return { error: "failed to fetch relationship" };
   }
 
-  const renoteNotes = timelineRes.filter((n) => n.original_note_id);
-  const originalNotes: TimelineResponse[] = [];
-  if (renoteNotes.length > 0) {
-    const results = await Promise.all(
-      renoteNotes.map((n) => fetchNote(token, basePath, n.original_note_id!))
-    );
-    for (const result of results) {
-      if (!("error" in result)) {
-        originalNotes.push(result);
-      }
-    }
-  }
+  const originalNotes = await fetchOriginalNotes(timelineRes, token, basePath);
 
   return {
     error: undefined,
@@ -133,42 +121,9 @@ export default function Account() {
     return <div>{data.error}</div>;
   }
 
-  const timelineNotes = data.timeline.map((note): NoteProps => {
-    const author = {
-      avatar: note.author.avatar,
-      name: note.author.name,
-      nickname: note.author.display_name,
-    };
-
-    const originalNote =
-      note.original_note_id &&
-      data.originalNotes.find((n) => n.id === note.original_note_id);
-    const renoteInfo = originalNote
-      ? {
-          renoteBy: author,
-          originalAuthor: {
-            avatar: originalNote.author.avatar,
-            name: originalNote.author.name,
-            nickname: originalNote.author.display_name,
-          },
-          originalContent: originalNote.content,
-          originalCWComment: originalNote.contents_warning_comment,
-        }
-      : undefined;
-
-    return {
-      id: note.id,
-      content: note.content,
-      contentsWarningComment: note.contents_warning_comment,
-      author,
-      reactions: note.reactions.map((reaction) => ({
-        emoji: reaction.emoji,
-        reactedBy: reaction.reacted_by,
-      })),
-      loggedInAccountID: data.loggedInAccountID ?? "",
-      renoteInfo,
-    };
-  });
+  const timelineNotes = data.timeline.map((note) =>
+    toNoteProps(note, data.loggedInAccountID, data.originalNotes)
+  );
 
   const isThisAccountSelf = data.account.id === data.loggedInAccountID;
   return (

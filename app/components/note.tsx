@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useFetcher } from "react-router";
 
+import type { TimelineResponse } from "~/lib/api/timeline";
 import { defaultAccountAvatar } from "~/lib/defaultAccountImage";
 import type { action } from "~/routes/api.reaction";
 
@@ -35,6 +36,47 @@ export interface NoteProps {
     originalCWComment: string;
   };
 }
+
+export const toNoteProps = (
+  note: TimelineResponse,
+  loggedInAccountID: string,
+  originalNotes: readonly TimelineResponse[]
+): NoteProps => {
+  const author = {
+    avatar: note.author.avatar,
+    name: note.author.name,
+    nickname: note.author.display_name,
+  };
+
+  const originalNote =
+    note.original_note_id &&
+    originalNotes.find((original) => original.id === note.original_note_id);
+  const renoteInfo = originalNote
+    ? {
+        renoteBy: author,
+        originalAuthor: {
+          avatar: originalNote.author.avatar,
+          name: originalNote.author.name,
+          nickname: originalNote.author.display_name,
+        },
+        originalContent: originalNote.content,
+        originalCWComment: originalNote.contents_warning_comment,
+      }
+    : undefined;
+
+  return {
+    id: note.id,
+    content: note.content,
+    contentsWarningComment: note.contents_warning_comment,
+    author,
+    reactions: note.reactions.map((reaction) => ({
+      emoji: reaction.emoji,
+      reactedBy: reaction.reacted_by,
+    })),
+    loggedInAccountID,
+    renoteInfo,
+  };
+};
 
 export const Note = ({
   id,
