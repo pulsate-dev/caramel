@@ -6,8 +6,8 @@ import { FollowButton } from "~/components/followButton";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import type { NoteProps } from "~/components/note";
 import { Note } from "~/components/note";
-import type { AccountResponse } from "~/lib/account";
-import { account, accountTimeline } from "~/lib/account";
+import type { AccountResponse } from "~/lib/api/account";
+import { account, accountTimeline } from "~/lib/api/account";
 import { getToken } from "~/lib/api/getToken";
 import { loggedInAccount } from "~/lib/api/loggedInAccount";
 import { fetchNote } from "~/lib/api/note";
@@ -16,7 +16,7 @@ import {
   type AccountRelationshipResponse,
 } from "~/lib/api/relationship";
 import type { TimelineResponse } from "~/lib/api/timeline";
-import { cloudflareContext } from "~/lib/cloudflareContext";
+import { cloudflareContext, requireApiBasePath } from "~/lib/cloudflareContext";
 import { defaultAccountAvatar } from "~/lib/defaultAccountImage";
 
 import styles from "~/styles/account.module.css";
@@ -36,7 +36,9 @@ export const loader = async ({
       originalNotes: TimelineResponse[];
     }
 > => {
-  const basePath = context.get(cloudflareContext).env.API_BASE_URL;
+  const basePath = requireApiBasePath(
+    context.get(cloudflareContext).env.API_BASE_URL
+  );
 
   const isLoggedIn = await getToken(request);
   if (!isLoggedIn.isLoggedIn) {

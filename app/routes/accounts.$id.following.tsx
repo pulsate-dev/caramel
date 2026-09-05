@@ -1,10 +1,10 @@
 import { redirect, useLoaderData, type LoaderFunctionArgs } from "react-router";
 
 import { FollowAccount } from "~/components/followAccount";
-import { account } from "~/lib/account";
+import { account } from "~/lib/api/account";
 import { getFollowingList, type FollowingResponse } from "~/lib/api/followlist";
 import { getToken } from "~/lib/api/getToken";
-import { cloudflareContext } from "~/lib/cloudflareContext";
+import { cloudflareContext, requireApiBasePath } from "~/lib/cloudflareContext";
 
 export async function loader({
   params,
@@ -13,7 +13,9 @@ export async function loader({
 }: LoaderFunctionArgs): Promise<
   { isSuccess: false } | { isSuccess: true; response: FollowingResponse[] }
 > {
-  const basePath = context.get(cloudflareContext).env.API_BASE_URL;
+  const basePath = requireApiBasePath(
+    context.get(cloudflareContext).env.API_BASE_URL
+  );
   const isLoggedIn = await getToken(request);
 
   if (!isLoggedIn.isLoggedIn) {
