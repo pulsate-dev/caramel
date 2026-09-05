@@ -5,9 +5,5 @@ export const cloudflareContext = createContext<{
   ctx: ExecutionContext;
 }>();
 
-export const requireApiBasePath = (basePath: string | undefined): string => {
-  if (!basePath) {
-    throw new Error("API_BASE_URL env was not configured");
-  }
-  return basePath;
-};
+export const getApiBasePath = (basePath: string | undefined): string =>
+  basePath ?? "http://localhost:3000";

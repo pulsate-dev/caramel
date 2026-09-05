@@ -16,7 +16,7 @@ import {
   type AccountRelationshipResponse,
 } from "~/lib/api/relationship";
 import type { TimelineResponse } from "~/lib/api/timeline";
-import { cloudflareContext, requireApiBasePath } from "~/lib/cloudflareContext";
+import { cloudflareContext, getApiBasePath } from "~/lib/cloudflareContext";
 import { defaultAccountAvatar } from "~/lib/defaultAccountImage";
 
 import styles from "~/styles/account.module.css";
@@ -36,7 +36,7 @@ export const loader = async ({
       originalNotes: TimelineResponse[];
     }
 > => {
-  const basePath = requireApiBasePath(
+  const basePath = getApiBasePath(
     context.get(cloudflareContext).env.API_BASE_URL
   );
 
