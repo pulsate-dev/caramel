@@ -74,7 +74,8 @@ export const accountTimeline = async (
   id: string,
   token: string | undefined,
   basePath: string,
-  beforeID?: string
+  beforeID?: string,
+  afterID?: string
 ): Promise<TimelineResponse[] | { error: string }> => {
   try {
     const { data: response, error } = await getV0TimelineAccountsId({
@@ -84,38 +85,27 @@ export const accountTimeline = async (
         `/v0/timeline/accounts/${encodeURIComponent(id)}`
       ),
       path: { id },
-      query: beforeID ? { before_id: beforeID } : undefined,
+      query: beforeID
+        ? { before_id: beforeID }
+        : afterID
+          ? { after_id: afterID }
+          : undefined,
     });
     if (error || !response) {
       return { error: parseApiErrorMessage(error) };
     }
 
-    return response.map(
-      (item) =>
+    const timelineNotes = response.map(
+      (note) =>
         ({
-          id: item.id,
-          content: item.content,
-          contents_warning_comment: item.contents_warning_comment,
-          visibility: item.visibility as "PUBLIC" | "HOME" | "FOLLOWERS",
-          created_at: new Date(item.created_at),
-          author: {
-            id: item.author.id,
-            name: item.author.name,
-            display_name: item.author.display_name,
-            bio: item.author.bio,
-            avatar: item.author.avatar,
-            header: item.author.header,
-            followed_count: item.author.followed_count,
-            following_count: item.author.following_count,
-          },
-          reactions: item.reactions.map(
-            (reaction): TimelineResponse["reactions"][number] => ({
-              emoji: reaction.emoji,
-              reacted_by: reaction.reacted_by,
-            })
-          ),
+          ...note,
+          created_at: new Date(note.created_at),
+          visibility: note.visibility as TimelineResponse["visibility"],
         }) satisfies TimelineResponse
     );
+    return afterID
+      ? timelineNotes.filter((note) => note.id !== afterID).reverse()
+      : timelineNotes;
   } catch {
     return { error: "unknown error" };
   }

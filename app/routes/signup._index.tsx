@@ -21,11 +21,6 @@ export const action = async ({
 
   try {
     const env = context.get(cloudflareContext).env;
-    if (env.API_BASE_URL == null) {
-      logger.error("API_BASE_URL env was not configured");
-      return { error: "Something went wrong" };
-    }
-
     const { error } = await postV0Accounts({
       ...apiOptions(env.API_BASE_URL),
       body: {

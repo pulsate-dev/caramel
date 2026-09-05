@@ -1,7 +1,7 @@
 import { redirect, useLoaderData, type LoaderFunctionArgs } from "react-router";
 
 import { FollowAccount } from "~/components/followAccount";
-import { account } from "~/lib/account";
+import { account } from "~/lib/api/account";
 import { getFollowersList, type FollowerResponse } from "~/lib/api/followlist";
 import { getToken } from "~/lib/api/getToken";
 import { cloudflareContext } from "~/lib/cloudflareContext";
