@@ -31,6 +31,24 @@ export interface TimelineResponse {
 
 export type TimelineType = "home" | "public";
 
+type RawTimelineNote = Omit<TimelineResponse, "created_at" | "visibility"> & {
+  created_at: string;
+  visibility: string;
+};
+
+export const normalizeTimelineNotes = (
+  notes: readonly RawTimelineNote[]
+): TimelineResponse[] => {
+  return notes.map(
+    (note) =>
+      ({
+        ...note,
+        created_at: new Date(note.created_at),
+        visibility: note.visibility as TimelineResponse["visibility"],
+      }) satisfies TimelineResponse
+  );
+};
+
 export const fetchTimeline = async (
   token: string,
   basePath: string,
@@ -55,14 +73,7 @@ export const fetchTimeline = async (
       logger.error(`Fetch ${type} timeline error:`, error);
       return { error: parseApiErrorMessage(error) };
     }
-    const timelineNotes = notes.map(
-      (note) =>
-        ({
-          ...note,
-          created_at: new Date(note.created_at),
-          visibility: note.visibility as TimelineResponse["visibility"],
-        }) satisfies TimelineResponse
-    );
+    const timelineNotes = normalizeTimelineNotes(notes);
     return {
       notes: afterID
         ? timelineNotes.filter((note) => note.id !== afterID).reverse()

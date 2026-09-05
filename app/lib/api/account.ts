@@ -8,7 +8,10 @@ import {
   patchV0AccountsName,
 } from "@pulsate-dev/exp-api-types";
 
-import type { TimelineResponse } from "~/lib/api/timeline";
+import {
+  normalizeTimelineNotes,
+  type TimelineResponse,
+} from "~/lib/api/timeline";
 
 import { logger } from "../logger";
 import { apiOptions, parseApiErrorMessage } from "./client";
@@ -95,14 +98,7 @@ export const accountTimeline = async (
       return { error: parseApiErrorMessage(error) };
     }
 
-    const timelineNotes = response.map(
-      (note) =>
-        ({
-          ...note,
-          created_at: new Date(note.created_at),
-          visibility: note.visibility as TimelineResponse["visibility"],
-        }) satisfies TimelineResponse
-    );
+    const timelineNotes = normalizeTimelineNotes(response);
     return afterID
       ? timelineNotes.filter((note) => note.id !== afterID).reverse()
       : timelineNotes;

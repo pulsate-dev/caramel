@@ -1,6 +1,9 @@
 import { getV0NotesId } from "@pulsate-dev/exp-api-types";
 
-import type { TimelineResponse } from "~/lib/api/timeline";
+import {
+  normalizeTimelineNotes,
+  type TimelineResponse,
+} from "~/lib/api/timeline";
 
 import { logger } from "../logger";
 import { apiOptions, parseApiErrorMessage } from "./client";
@@ -19,11 +22,7 @@ export const fetchNote = async (
       logger.error("Fetch notes error:", error);
       return { error: parseApiErrorMessage(error) };
     }
-    return {
-      ...note,
-      created_at: new Date(note.created_at),
-      visibility: note.visibility as TimelineResponse["visibility"],
-    };
+    return normalizeTimelineNotes([note])[0]!;
   } catch (e) {
     logger.error("Unexpected Error:", e);
     return { error: "unknown error" };
