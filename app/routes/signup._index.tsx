@@ -4,7 +4,7 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { Form, Link, redirect, useLoaderData } from "react-router";
 
 import { apiOptions } from "~/lib/api/client";
-import { cloudflareContext, getApiBasePath } from "~/lib/cloudflareContext";
+import { cloudflareContext } from "~/lib/cloudflareContext";
 import { logger } from "~/lib/logger";
 
 import styles from "~/components/signup.module.css";
@@ -22,7 +22,7 @@ export const action = async ({
   try {
     const env = context.get(cloudflareContext).env;
     const { error } = await postV0Accounts({
-      ...apiOptions(getApiBasePath(env.API_BASE_URL)),
+      ...apiOptions(env.API_BASE_URL),
       body: {
         name: `@${name}@${env.INSTANCE_FQDN}`,
         email,

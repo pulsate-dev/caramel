@@ -12,7 +12,7 @@ import {
   loggedInAccount,
   type LoggedInAccountResponse,
 } from "~/lib/api/loggedInAccount";
-import { cloudflareContext, getApiBasePath } from "~/lib/cloudflareContext";
+import { cloudflareContext } from "~/lib/cloudflareContext";
 
 import styles from "~/root.module.css";
 
@@ -20,9 +20,7 @@ export async function loader({
   request,
   context,
 }: LoaderFunctionArgs): Promise<LoggedInAccountResponse> {
-  const basePath = getApiBasePath(
-    context.get(cloudflareContext).env.API_BASE_URL
-  );
+  const basePath = context.get(cloudflareContext).env.API_BASE_URL;
   return loggedInAccount(request, basePath);
 }
 
