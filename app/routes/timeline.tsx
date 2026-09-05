@@ -2,8 +2,7 @@ import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { data, Form, redirect, useLoaderData, useSubmit } from "react-router";
 
 import { EmptyState } from "~/components/emptyState";
-import { LoadMoreNoteButton } from "~/components/loadMoreNote";
-import { Note, toNoteProps } from "~/components/note";
+import { NoteTimeline } from "~/components/noteTimeline";
 import { PostForm } from "~/components/postForm";
 import { loggedInAccount } from "~/lib/api/loggedInAccount";
 import { accountCookie } from "~/lib/api/login";
@@ -114,49 +113,13 @@ export default function Timeline() {
           <p>{emptyStateDescription}</p>
         </EmptyState>
       ) : (
-        <>
-          <LoadMoreNoteButton
-            type="newer"
-            noteID={loaderData.notes[0].id}
-            timeline={loaderData.timeline}
-          />
-
-          {loaderData && (
-            <TimelineNotes
-              notes={loaderData.notes}
-              loggedInAccountID={loaderData.loggedInAccountID}
-              originalNotes={loaderData.originalNotes}
-            />
-          )}
-        </>
-      )}
-
-      {loaderData.notes.length >= 20 && (
-        <LoadMoreNoteButton
-          type="older"
-          noteID={loaderData.notes.at(-1)!.id}
+        <NoteTimeline
+          notes={loaderData.notes}
+          loggedInAccountID={loaderData.loggedInAccountID}
+          originalNotes={loaderData.originalNotes}
           timeline={loaderData.timeline}
         />
       )}
     </div>
   );
-}
-
-function TimelineNotes({
-  notes,
-  loggedInAccountID,
-  originalNotes,
-}: {
-  notes: TimelineResponse[];
-  loggedInAccountID: string;
-  originalNotes: TimelineResponse[];
-}) {
-  return notes.map((note) => {
-    const noteProps = toNoteProps(note, loggedInAccountID, originalNotes);
-    return (
-      <div key={note.id}>
-        <Note {...noteProps} />
-      </div>
-    );
-  });
 }

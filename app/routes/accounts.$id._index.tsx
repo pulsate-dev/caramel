@@ -3,8 +3,7 @@ import { data, redirect, useLoaderData } from "react-router";
 
 import { EmptyState } from "~/components/emptyState";
 import { FollowButton } from "~/components/followButton";
-import { LoadMoreNoteButton } from "~/components/loadMoreNote";
-import { Note, toNoteProps, type NoteProps } from "~/components/note";
+import { NoteTimeline } from "~/components/noteTimeline";
 import type { AccountResponse } from "~/lib/api/account";
 import { account, accountTimeline } from "~/lib/api/account";
 import { getToken } from "~/lib/api/getToken";
@@ -121,10 +120,6 @@ export default function Account() {
     return <div>{data.error}</div>;
   }
 
-  const timelineNotes = data.timeline.map((note) =>
-    toNoteProps(note, data.loggedInAccountID, data.originalNotes)
-  );
-
   const isThisAccountSelf = data.account.id === data.loggedInAccountID;
   return (
     <>
@@ -168,7 +163,7 @@ export default function Account() {
         </div>
       </div>
 
-      {timelineNotes.length === 0 ? (
+      {data.timeline.length === 0 ? (
         // NOTE: paramsで指定されたアカウントが空である場合は404が表示されるので，ここではnon-null assertionを使う
         <EmptyState emoji="💭">
           <h3>No notes yet</h3>
@@ -179,32 +174,12 @@ export default function Account() {
           </p>
         </EmptyState>
       ) : (
-        <AccountTimeline notes={timelineNotes} />
+        <NoteTimeline
+          notes={data.timeline}
+          loggedInAccountID={data.loggedInAccountID}
+          originalNotes={data.originalNotes}
+        />
       )}
     </>
   );
 }
-
-interface AccountTimelineProps {
-  notes: readonly NoteProps[];
-}
-
-const AccountTimeline = ({ notes }: AccountTimelineProps) => {
-  return (
-    <div>
-      <div>
-        <LoadMoreNoteButton type="newer" noteID={notes[0].id} />
-      </div>
-
-      {notes.map((note) => {
-        return <Note key={note.id} {...note} />;
-      })}
-
-      <div>
-        {notes.length >= 20 && (
-          <LoadMoreNoteButton type="older" noteID={notes.at(-1)!.id} />
-        )}
-      </div>
-    </div>
-  );
-};
