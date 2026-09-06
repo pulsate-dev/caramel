@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { useFetcher } from "react-router";
 
 import type { NoteReaction } from "~/components/note.types";
@@ -16,14 +17,23 @@ export function NoteActions({
   loggedInAccountID,
 }: NoteActionsProps) {
   const renoteFetcher = useFetcher<typeof renoteAction>();
+  const isRenotePending = useRef(false);
   const { isReacted, isPending, toggleReaction } = useReaction({
     noteID: noteId,
     reactions,
     loggedInAccountID,
   });
 
+  useEffect(() => {
+    if (renoteFetcher.state === "idle") {
+      isRenotePending.current = false;
+    }
+  }, [renoteFetcher.state]);
+
   const handleRenote = async () => {
-    if (renoteFetcher.state !== "idle") return;
+    if (renoteFetcher.state !== "idle" || isRenotePending.current) return;
+
+    isRenotePending.current = true;
 
     await renoteFetcher.submit(
       { noteID: noteId },
