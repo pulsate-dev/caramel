@@ -1,40 +1,11 @@
-import { useEffect, useState } from "react";
-import { Link, useFetcher } from "react-router";
-
-import { defaultAccountAvatar } from "~/lib/defaultAccountImage";
-import type { action } from "~/routes/api.reaction";
+import type { NoteProps } from "~/components/note.types";
+import { NoteActions } from "~/components/noteActions";
+import { NoteAuthor } from "~/components/noteAuthor";
+import { NoteContent } from "~/components/noteContent";
 
 import styles from "~/components/note.module.css";
 
-export interface NoteProps {
-  id: string;
-  content: string;
-  contentsWarningComment: string;
-  author: {
-    avatar: string;
-    name: string;
-    nickname: string;
-  };
-  reactions: {
-    emoji: string;
-    reactedBy: string;
-  }[];
-  loggedInAccountID: string;
-  renoteInfo?: {
-    renoteBy: {
-      avatar: string;
-      name: string;
-      nickname: string;
-    };
-    originalAuthor: {
-      avatar: string;
-      name: string;
-      nickname: string;
-    };
-    originalContent: string;
-    originalCWComment: string;
-  };
-}
+export type { NoteProps } from "~/components/note.types";
 
 export const Note = ({
   id,
@@ -45,45 +16,6 @@ export const Note = ({
   loggedInAccountID,
   renoteInfo,
 }: NoteProps) => {
-  const fetcher = useFetcher<typeof action>();
-  const [isReacted, setIsReacted] = useState(
-    reactions.some((reaction) => reaction.reactedBy === loggedInAccountID)
-  );
-
-  // NOTE: Reaction fetcher error handing here
-  useEffect(() => {
-    if (!fetcher.data) return;
-
-    if (fetcher.state === "loading") {
-      if ("error" in fetcher.data) {
-        if (fetcher.formMethod === "POST") setIsReacted(false);
-        if (fetcher.formMethod === "DELETE") setIsReacted(true);
-      }
-    }
-  }, [fetcher.state, fetcher.data, fetcher.formMethod]);
-
-  /**
-   * Handle reaction
-   */
-  const handleReaction = async (emoji: string) => {
-    setIsReacted(true);
-    await fetcher.submit(
-      { emoji, noteID: id },
-      { method: "post", action: "/api/reaction" }
-    );
-  };
-
-  /**
-   * Handle undo reaction
-   */
-  const handleUndoReaction = async () => {
-    setIsReacted(false);
-    await fetcher.submit(
-      { noteID: id },
-      { method: "delete", action: "/api/reaction" }
-    );
-  };
-
   const displayAuthor = renoteInfo ? renoteInfo.originalAuthor : author;
   const displayContent = renoteInfo ? renoteInfo.originalContent : content;
   const displayCWComment = renoteInfo
@@ -99,80 +31,16 @@ export const Note = ({
           </span>
         </div>
       )}
-      <Link to={`/accounts/${displayAuthor.name}`}>
-        <div className={styles.accountNameContainer}>
-          <div className={styles.avatarImageContainer}>
-            <img
-              src={defaultAccountAvatar(displayAuthor.avatar)}
-              alt={`${displayAuthor.nickname}'s avatar`}
-              loading="lazy"
-            />
-          </div>
-          <h2>
-            <bdi>{displayAuthor.nickname}</bdi>
-            <span>@{displayAuthor.name.split("@")[1]}</span>
-          </h2>
-        </div>
-      </Link>
+      <NoteAuthor author={displayAuthor} />
       <NoteContent
         contentsWarningComment={displayCWComment}
         content={displayContent}
       />
-      <NoteActionButton
+      <NoteActions
         noteId={id}
-        reactions={{ reactions: reactions }}
-        onReaction={async (emoji: string) => {
-          if (isReacted) {
-            await handleUndoReaction();
-          } else {
-            await handleReaction(emoji);
-          }
-        }}
+        reactions={reactions}
+        loggedInAccountID={loggedInAccountID}
       />
     </div>
   );
 };
-
-function NoteActionButton(props: {
-  noteId: string;
-  reactions: Pick<NoteProps, "reactions">;
-  onReaction: (emoji: string) => Promise<void>;
-}) {
-  const renoteFetcher = useFetcher();
-  const isReacted = props.reactions.reactions.length;
-
-  const handleRenote = async () => {
-    await renoteFetcher.submit(
-      { noteID: props.noteId },
-      { method: "post", action: "/api/renote" }
-    );
-  };
-
-  return (
-    <div>
-      <button onClick={async () => await handleRenote()}>Renote</button>
-      <button onClick={async () => props.onReaction("👍")}>
-        👍 {props.reactions.reactions.length}{" "}
-        {isReacted ? <span>(reacted)</span> : <span></span>}
-      </button>
-    </div>
-  );
-}
-
-function NoteContent(props: {
-  contentsWarningComment: string;
-  content: string;
-}) {
-  return (
-    <>
-      {props.contentsWarningComment.length !== 0 ? (
-        <details>
-          <summary>{props.contentsWarningComment}</summary>
-          <p>{props.content}</p>
-        </details>
-      ) : (
-        <p>{props.content}</p>
-      )}
-    </>
-  );
-}
