@@ -6,6 +6,8 @@ import { apiOptions } from "~/lib/api/client";
 import { cloudflareContext } from "~/lib/cloudflareContext";
 import { logger } from "~/lib/logger";
 
+import styles from "~/styles/emailVerify.module.css";
+
 export const loader = async ({
   request,
   context,
@@ -64,7 +66,7 @@ export default function EmailVerify() {
   if ("error" in loaderData) {
     return (
       <>
-        <h2 color="red">Error: {loaderData.error}</h2>
+        <h2 className={styles.errorMessage}>Error: {loaderData.error}</h2>
         {/*ToDo: Encourage them to contact the administrator*/}
         <Link to="/">back to home</Link>
       </>

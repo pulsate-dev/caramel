@@ -10,6 +10,8 @@ import { getToken } from "~/lib/api/getToken";
 import { loggedInAccount } from "~/lib/api/loggedInAccount";
 import { cloudflareContext } from "~/lib/cloudflareContext";
 
+import styles from "~/styles/accountEdit.module.css";
+
 const ERROR_MESSAGES = {
   invalidRequest: "Invalid request. Please try again.",
   accountNotFound: "Account not found.",
@@ -144,31 +146,21 @@ export default function AccountEdit() {
 
   if (loaderData.error !== undefined) {
     return (
-      <div style={{ padding: "1rem" }}>
+      <div className={styles.page}>
         <p>{loaderData.error}</p>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: "1rem" }}>
+    <div className={styles.page}>
       <h1>Edit Account</h1>
-      <p style={{ marginBottom: "1rem" }}>
+      <p className={styles.accountName}>
         {loaderData.account.nickname} ({loaderData.account.name})
       </p>
 
-      <Form
-        method="post"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "1rem",
-          maxWidth: "600px",
-        }}
-      >
-        <div
-          style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
-        >
+      <Form method="post" className={styles.form}>
+        <div className={styles.field}>
           <label htmlFor="nickname">Nickname</label>
           <input
             type="text"
@@ -179,9 +171,7 @@ export default function AccountEdit() {
           />
         </div>
 
-        <div
-          style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
-        >
+        <div className={styles.field}>
           <label htmlFor="bio">Bio</label>
           <textarea
             id="bio"
@@ -193,12 +183,12 @@ export default function AccountEdit() {
         </div>
 
         {errorMessage ? (
-          <p role="alert" style={{ color: "red" }}>
+          <p role="alert" className={styles.errorMessage}>
             {errorMessage}
           </p>
         ) : null}
 
-        <div style={{ display: "flex", gap: "1rem" }}>
+        <div className={styles.actions}>
           <button type="submit">Update</button>
           <a href={`/accounts/${loaderData.account.name}`}>
             <button type="button">Cancel</button>

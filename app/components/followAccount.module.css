@@ -1,25 +1,25 @@
 .followAccount {
-  border: solid #000;
-  border-width: 0 0 0.5px;
+  border: solid var(--color-border);
+  border-width: 0 0 var(--border-width-thin);
 
   .avatar {
-    width: 3rem;
-    height: 3rem;
+    width: var(--size-avatar);
+    height: var(--size-avatar);
 
-    border: 0.5px solid #666;
+    border: var(--border-width-thin) solid var(--color-muted);
 
-    border-radius: 50%;
+    border-radius: var(--radius-full);
   }
 
   .avatarNameContainer {
     display: flex;
     align-items: center;
 
-    padding: 0.5rem;
+    padding: var(--space-0-5);
   }
 
   div:hover {
-    background-color: #f4f4f6;
+    background-color: var(--color-surface-hover);
   }
 
   a {
@@ -27,6 +27,6 @@
   }
 
   .accountNameContainer {
-    margin-left: 0.5rem;
+    margin-left: var(--space-0-5);
   }
 }

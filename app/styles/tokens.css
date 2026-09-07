@@ -1,0 +1,21 @@
+:root {
+  --color-border: #000;
+  --color-muted: #666;
+  --color-surface-hover: #f4f4f6;
+  --color-danger: #d92d20;
+
+  --space-0: 0; /* 0px */
+  --space-0-25: 0.25rem; /* 4px */
+  --space-0-5: 0.5rem; /* 8px */
+  --space-0-75: 0.75rem; /* 12px */
+  --space-1: 1rem; /* 16px */
+  --space-1-5: 1.5rem; /* 24px */
+  --space-2: 2rem; /* 32px */
+
+  --size-avatar: 3rem;
+
+  --radius-full: 9999px;
+  --border-width-thin: 0.5px;
+
+  --font-size-small: small;
+}

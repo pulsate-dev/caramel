@@ -8,40 +8,34 @@
 .loggedInAccountContainer {
   display: flex;
   align-items: center;
-  margin-top: 0.5rem;
+  margin-top: var(--space-0-5);
 
   span {
-    margin-left: 0.5rem;
+    margin-left: var(--space-0-5);
   }
 
   .avatar {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 9999px;
-
-    img {
-      width: 3rem;
-      height: 3rem;
-      border-radius: 9999px;
-    }
+    width: var(--size-avatar);
+    height: var(--size-avatar);
+    border-radius: var(--radius-full);
   }
 }
 
 .loginButton {
   width: 100%;
-  padding: 10px;
+  padding: var(--space-0-75);
 }
 
 .sideBar {
   display: flex;
   flex-direction: column;
 
-  margin-top: 32px;
-  margin-right: 16px;
-  gap: 8px;
+  margin-top: var(--space-2);
+  margin-right: var(--space-1);
+  gap: var(--space-0-5);
 
   .link {
     font-size: 1.2rem;
-    padding: 10px;
+    padding: var(--space-0-75);
   }
 }

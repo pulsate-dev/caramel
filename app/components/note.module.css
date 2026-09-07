@@ -1,11 +1,11 @@
 .note {
-  border: solid #000;
-  border-width: 0 0 0.5px 0;
-  padding: 0.5rem;
+  border: solid var(--color-border);
+  border-width: 0 0 var(--border-width-thin) 0;
+  padding: var(--space-0-5);
 }
 
 .renoteHeader {
-  font-size: small;
-  color: #666;
-  padding: 0.25rem 0;
+  font-size: var(--font-size-small);
+  color: var(--color-muted);
+  padding: var(--space-0-25) 0;
 }
