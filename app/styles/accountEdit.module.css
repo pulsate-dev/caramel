@@ -20,7 +20,7 @@
 }
 
 .errorMessage {
-  color: var(--color-danger);
+  color: var(--color-error);
 }
 
 .actions {
