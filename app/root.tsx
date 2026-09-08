@@ -14,6 +14,7 @@ import {
 } from "~/lib/api/loggedInAccount";
 import { cloudflareContext } from "~/lib/cloudflareContext";
 
+import "~/styles/tokens.css";
 import styles from "~/root.module.css";
 
 export async function loader({

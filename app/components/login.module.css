@@ -9,7 +9,7 @@
 }
 
 .errorMessage {
-  color: var(--color-destructive-500, #d92d20);
-  margin-bottom: 1rem;
+  color: var(--color-error);
+  margin-bottom: var(--space-1);
   text-align: center;
 }

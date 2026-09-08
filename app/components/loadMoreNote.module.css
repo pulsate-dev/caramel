@@ -2,11 +2,11 @@
   text-align: center;
 
   div {
-    border: solid #000;
-    border-width: 0.5px 0;
+    border: solid var(--color-border);
+    border-width: var(--border-width-thin) 0;
   }
 
   div:hover {
-    background-color: #f4f4f6;
+    background-color: var(--color-surface-hover);
   }
 }

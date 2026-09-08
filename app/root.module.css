@@ -22,7 +22,7 @@ body {
   min-height: 100lvh;
   height: 100%;
   box-sizing: border-box;
-  padding: 0.5rem 0;
-  border: solid;
-  border-width: 0 0.5px;
+  padding: var(--space-0-5) 0;
+  border: solid var(--color-border);
+  border-width: 0 var(--border-width-thin);
 }
