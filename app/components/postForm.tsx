@@ -5,17 +5,16 @@ import type { action } from "~/routes/api.notes";
 
 export const PostForm = () => {
   const [content, setContent] = useState<string>("");
-  const [errorMessage, setErrorMessage] = useState<string>("");
   const fetcher = useFetcher<typeof action>();
+  const errorMessage =
+    fetcher.state === "loading" && fetcher.data && fetcher.data.status !== "ok"
+      ? (fetcher.data.message ?? "uncaught error")
+      : "";
 
   useEffect(() => {
     if (!fetcher.data) return;
 
-    if (fetcher.state === "loading") {
-      if (fetcher.data.status !== "ok") {
-        setErrorMessage(fetcher.data.message ?? "uncaught error");
-        return;
-      }
+    if (fetcher.state === "loading" && fetcher.data.status === "ok") {
       setContent("");
     }
   }, [fetcher.state, fetcher.data]);
