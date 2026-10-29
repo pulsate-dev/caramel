@@ -4,6 +4,7 @@ import { data, Form, redirect, useLoaderData, useSubmit } from "react-router";
 import { EmptyState } from "~/components/emptyState";
 import { LoadMoreNoteButton } from "~/components/loadMoreNote";
 import { Note } from "~/components/note";
+import { toNoteProps } from "~/components/noteMapper";
 import { PostForm } from "~/components/postForm";
 import { loggedInAccount } from "~/lib/api/loggedInAccount";
 import { accountCookie } from "~/lib/api/login";
@@ -162,45 +163,9 @@ function TimelineNotes({
   loggedInAccountID: string;
   originalNotes: TimelineResponse[];
 }) {
-  return notes.map((note) => {
-    const author = {
-      avatar: note.author.avatar,
-      name: note.author.name,
-      nickname: note.author.display_name,
-    };
-    const reactions = note.reactions.map((reaction) => ({
-      emoji: reaction.emoji,
-      reactedBy: reaction.reacted_by,
-    }));
-
-    const originalNote =
-      note.original_note_id &&
-      originalNotes.find((n) => n.id === note.original_note_id);
-    const renoteInfo = originalNote
-      ? {
-          renoteBy: author,
-          originalAuthor: {
-            avatar: originalNote.author.avatar,
-            name: originalNote.author.name,
-            nickname: originalNote.author.display_name,
-          },
-          originalContent: originalNote.content,
-          originalCWComment: originalNote.contents_warning_comment,
-        }
-      : undefined;
-
-    return (
-      <div key={note.id}>
-        <Note
-          id={note.id}
-          author={author}
-          content={note.content}
-          contentsWarningComment={note.contents_warning_comment}
-          reactions={reactions}
-          loggedInAccountID={loggedInAccountID}
-          renoteInfo={renoteInfo}
-        />
-      </div>
-    );
-  });
+  return notes.map((note) => (
+    <div key={note.id}>
+      <Note {...toNoteProps(note, originalNotes, loggedInAccountID)} />
+    </div>
+  ));
 }
