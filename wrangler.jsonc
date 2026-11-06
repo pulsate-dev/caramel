@@ -16,6 +16,12 @@
   },
   "env": {
     "demo": {
+      // Without an explicit name the build emits "caramel-demo", which would
+      // deploy a second Worker next to the live "caramel".
+      "name": "caramel",
+      "routes": [{ "pattern": "caramel.pulsate.dev", "custom_domain": true }],
+      "workers_dev": false,
+      "preview_urls": false,
       "vars": {
         "API_BASE_URL": "https://demo.pulsate.dev",
         "INSTANCE_FQDN": "demo.pulsate.dev",
