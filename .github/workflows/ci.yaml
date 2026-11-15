@@ -43,6 +43,8 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           repository: "pulsate-dev/pulsate"
+          # E2E tests rely on this revision's development accounts.
+          ref: "050be8e3b21a08705bd89e2646e1acb1ade3eeb5" # pulsate-dev/pulsate#1981
           path: "backend/"
 
       - name: Setup Node.js for backend
