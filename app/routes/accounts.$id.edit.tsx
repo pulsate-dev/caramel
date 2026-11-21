@@ -5,6 +5,12 @@ import type {
 } from "react-router";
 import { Form, redirect, useActionData, useLoaderData } from "react-router";
 
+import {
+  FormError,
+  SubmitButton,
+  TextArea,
+  TextField,
+} from "~/components/formControls";
 import { account, updateAccount } from "~/lib/api/account";
 import { getToken } from "~/lib/api/getToken";
 import { loggedInAccount } from "~/lib/api/loggedInAccount";
@@ -161,8 +167,8 @@ export default function AccountEdit() {
 
       <Form method="post" className={styles.form}>
         <div className={styles.field}>
-          <label htmlFor="nickname">Nickname</label>
-          <input
+          <TextField
+            label="Nickname"
             type="text"
             id="nickname"
             name="nickname"
@@ -172,8 +178,8 @@ export default function AccountEdit() {
         </div>
 
         <div className={styles.field}>
-          <label htmlFor="bio">Bio</label>
-          <textarea
+          <TextArea
+            label="Bio"
             id="bio"
             name="bio"
             defaultValue={loaderData.account.bio}
@@ -183,13 +189,11 @@ export default function AccountEdit() {
         </div>
 
         {errorMessage ? (
-          <p role="alert" className={styles.errorMessage}>
-            {errorMessage}
-          </p>
+          <FormError className={styles.errorMessage}>{errorMessage}</FormError>
         ) : null}
 
         <div className={styles.actions}>
-          <button type="submit">Update</button>
+          <SubmitButton>Update</SubmitButton>
           <a href={`/accounts/${loaderData.account.name}`}>
             <button type="button">Cancel</button>
           </a>
