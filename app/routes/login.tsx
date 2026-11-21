@@ -1,6 +1,7 @@
 import type { ActionFunctionArgs, MetaFunction } from "react-router";
 import { Form, Link, redirect, useActionData } from "react-router";
 
+import { FormError, SubmitButton, TextField } from "~/components/formControls";
 import { accountCookie, login } from "~/lib/api/login";
 import { cloudflareContext } from "~/lib/cloudflareContext";
 
@@ -65,8 +66,8 @@ export default function Login() {
       </p>
 
       <Form method="post" className={styles.loginForm}>
-        <label htmlFor="email">Email address [required]</label>
-        <input
+        <TextField
+          label="Email address [required]"
           type="email"
           id="email"
           name="email"
@@ -74,8 +75,8 @@ export default function Login() {
           placeholder="name@example.com"
           autoComplete="username"
         />
-        <label htmlFor="password">Passphrase [required]</label>
-        <input
+        <TextField
+          label="Passphrase [required]"
           type="password"
           id="password"
           name="passphrase"
@@ -84,12 +85,10 @@ export default function Login() {
         />
 
         {errorMessage ? (
-          <p role="alert" className={styles.errorMessage}>
-            {errorMessage}
-          </p>
+          <FormError className={styles.errorMessage}>{errorMessage}</FormError>
         ) : null}
 
-        <button type="submit">Log in</button>
+        <SubmitButton>Log in</SubmitButton>
       </Form>
     </>
   );
