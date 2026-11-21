@@ -20,8 +20,16 @@ Caramel は Pulsate の軽量クライアントで, 最低限の機能のみが�
 ## セットアップ手順:
 
 必要なソフトウェアをインストールしてください:
-- node(miseによるインストールを推奨, 実行/開発に必須)
+- mise(Node.jsとCorepackのインストールに使用)
 - Pulsate(動作に必要)
+
+miseをシェルで有効にしたうえで、以下のコマンドを実行してください。
+Node.jsとCorepackは`mise.toml`、pnpmは`package.json`の`packageManager`に指定されたバージョンを使用します。
+
+```bash
+mise install
+pnpm install --frozen-lockfile
+```
 
 Caramelを動作させるにはpulsate(バックエンド)を起動させておく必要があります。  
 Pulsateの起動手順は[pulsate-dev/pulsate](https://github.com/pulsate-dev/pulsate)をご覧ください。  
