@@ -5,6 +5,22 @@ import type { TimelineResponse } from "~/lib/api/timeline";
 import { logger } from "../logger";
 import { apiOptions, parseApiErrorMessage } from "./client";
 
+export const fetchOriginalNotes = async (
+  notes: TimelineResponse[],
+  token: string,
+  basePath: string
+): Promise<TimelineResponse[]> => {
+  const renoteNotes = notes.filter((note) => note.original_note_id);
+  const results = await Promise.all(
+    renoteNotes.map((note) =>
+      fetchNote(token, basePath, note.original_note_id!)
+    )
+  );
+  return results.filter(
+    (result): result is TimelineResponse => !("error" in result)
+  );
+};
+
 export const fetchNote = async (
   token: string,
   basePath: string,
