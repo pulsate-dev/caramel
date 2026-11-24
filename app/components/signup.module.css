@@ -4,10 +4,8 @@
   align-items: center;
   gap: var(--space-0-5);
 
-  label {
-    input {
-      display: block;
-    }
+  input {
+    display: block;
   }
 
   h1 {

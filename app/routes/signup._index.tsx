@@ -3,6 +3,7 @@ import { postV0Accounts } from "@pulsate-dev/exp-api-types";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { Form, Link, redirect, useLoaderData } from "react-router";
 
+import { SubmitButton, TextField } from "~/components/formControls";
 import { apiOptions } from "~/lib/api/client";
 import { cloudflareContext } from "~/lib/cloudflareContext";
 import { logger } from "~/lib/logger";
@@ -65,40 +66,34 @@ export default function Signup_index() {
       </p>
 
       <Form method="post" className={styles.form}>
-        <label>
-          Account Name [required]
-          <input
-            type="text"
-            id="name"
-            name="name"
-            required
-            placeholder="hello"
-            autoComplete="username"
-          />
-        </label>
+        <TextField
+          label="Account Name [required]"
+          type="text"
+          id="name"
+          name="name"
+          required
+          placeholder="hello"
+          autoComplete="username"
+        />
 
-        <label>
-          Email Address [required]
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            placeholder="johndoe@example.com"
-            autoComplete="email"
-          />
-        </label>
+        <TextField
+          label="Email Address [required]"
+          type="email"
+          id="email"
+          name="email"
+          required
+          placeholder="johndoe@example.com"
+          autoComplete="email"
+        />
 
-        <label>
-          Passphrase [required]
-          <input
-            type="password"
-            id="passphrase"
-            name="passphrase"
-            required
-            autoComplete="new-password"
-          />
-        </label>
+        <TextField
+          label="Passphrase [required]"
+          type="password"
+          id="passphrase"
+          name="passphrase"
+          required
+          autoComplete="new-password"
+        />
 
         {"error" in loaderData ? (
           <div>
@@ -109,7 +104,7 @@ export default function Signup_index() {
           <Turnstile siteKey={loaderData.turnstileKey} />
         )}
 
-        <button type="submit">Sign up</button>
+        <SubmitButton>Sign up</SubmitButton>
       </Form>
     </>
   );
